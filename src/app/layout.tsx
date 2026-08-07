@@ -42,7 +42,11 @@ export const metadata: Metadata = {
   creator: "Muhammad Nur Ashiddiqi",
   publisher: "Muhammad Nur Ashiddiqi",
   icons: {
-    icon: "/favicon.ico",
+    icon: [
+      { url: "/favicon.ico" },
+      { url: "/logo/logo.png", type: "image/png" },
+    ],
+    apple: "/logo/logo.png",
   },
   openGraph: {
     type: "website",
