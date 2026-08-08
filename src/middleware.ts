@@ -36,6 +36,5 @@ export const config = {
     "/admin/:path*",
     "/login",
     "/mna-system-control-secret/:path*",
-    "/:path*",
   ],
 };

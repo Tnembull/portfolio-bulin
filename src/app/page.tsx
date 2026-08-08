@@ -1,21 +1,18 @@
-import dynamic from "next/dynamic";
-
 import SequenceScroll from "@/components/Hero/SequenceScroll";
 import About from "@/components/About";
 import Projects from "@/components/Projects";
-
-const ExperienceTimeline = dynamic(() => import("@/components/ExperienceTimeline"));
-const Education = dynamic(() => import("@/components/Education"));
-const Skills = dynamic(() => import("@/components/Skills"));
-const ToolsSlider = dynamic(() => import("@/components/ToolsSlider"));
-const WorkProcess = dynamic(() => import("@/components/WorkProcess"));
-const GitHubContributions = dynamic(() => import("@/components/GitHubContributions"));
-const MusicPlayer = dynamic(() => import("@/components/MusicPlayer"));
-const Stats = dynamic(() => import("@/components/Stats"));
-const FAQ = dynamic(() => import("@/components/FAQ"));
-const AwardsMarquee = dynamic(() => import("@/components/AwardsMarquee"));
-const Testimonials = dynamic(() => import("@/components/Testimonials"));
-const CTA = dynamic(() => import("@/components/CTA"));
+import ExperienceTimeline from "@/components/ExperienceTimeline";
+import Education from "@/components/Education";
+import Skills from "@/components/Skills";
+import ToolsSlider from "@/components/ToolsSlider";
+import WorkProcess from "@/components/WorkProcess";
+import GitHubContributions from "@/components/GitHubContributions";
+import MusicPlayer from "@/components/MusicPlayer";
+import Stats from "@/components/Stats";
+import FAQ from "@/components/FAQ";
+import AwardsMarquee from "@/components/AwardsMarquee";
+import Testimonials from "@/components/Testimonials";
+import CTA from "@/components/CTA";
 
 export default function Home() {
   return (
