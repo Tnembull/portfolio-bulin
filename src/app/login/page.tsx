@@ -54,28 +54,28 @@ export default function LoginPage() {
       </header>
 
       {/* Main Login Card */}
-      <main className="w-full max-w-md mx-auto my-auto p-6 sm:p-8 rounded-xl border border-border bg-card shadow-2xl space-y-6">
+      <main className="w-full max-w-md mx-auto my-auto p-6 sm:p-8 rounded-xl border border-line bg-[#2f1e2e] shadow-2xl space-y-6 cyber-card">
         <div className="space-y-2 text-center">
-          <div className="size-10 rounded-full border border-border bg-muted flex items-center justify-center mx-auto text-foreground">
-            <Lock size={18} />
+          <div className="size-12 rounded-xl border border-[#48b685]/40 bg-[#48b685]/15 flex items-center justify-center mx-auto text-[#48b685] shadow-[0_0_20px_rgba(72,182,133,0.2)]">
+            <Lock size={20} />
           </div>
-          <h1 className="text-2xl font-bold font-sans tracking-tight text-foreground uppercase">
+          <h1 className="text-2xl font-bold font-sans tracking-tight text-foreground uppercase pt-1">
             Admin Authentication
           </h1>
-          <p className="text-xs font-mono text-muted-foreground">
+          <p className="text-xs font-mono text-[#a392a3]">
             Muhammad Nur Ashiddiqi — DevOps Portfolio Control
           </p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-4 font-mono text-xs">
           {error && (
-            <div className="p-3 bg-destructive/10 border border-destructive/30 rounded-lg text-destructive text-center">
+            <div className="p-3 bg-rose-500/10 border border-rose-500/30 rounded-lg text-rose-400 text-center font-bold">
               {error}
             </div>
           )}
 
           <div className="space-y-1.5">
-            <label className="text-muted-foreground block font-semibold">
+            <label className="text-[#48b685] block font-semibold text-[11px] tracking-wider">
               ADMIN EMAIL
             </label>
             <input
@@ -84,12 +84,12 @@ export default function LoginPage() {
               onChange={(e) => setEmail(e.target.value)}
               placeholder="ashiddiqi.devops@gmail.com"
               required
-              className="w-full px-3.5 py-2.5 bg-background border border-border rounded-lg text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-foreground transition-colors"
+              className="w-full px-3.5 py-2.5 bg-[#19131a] border border-[#483145] rounded-lg text-foreground placeholder:text-[#a392a3] focus:outline-none focus:border-[#48b685] focus:shadow-[0_0_15px_rgba(72,182,133,0.2)] transition-all font-mono"
             />
           </div>
 
           <div className="space-y-1.5">
-            <label className="text-muted-foreground block font-semibold">
+            <label className="text-[#48b685] block font-semibold text-[11px] tracking-wider">
               PASSWORD
             </label>
             <div className="relative">
@@ -99,12 +99,12 @@ export default function LoginPage() {
                 onChange={(e) => setPassword(e.target.value)}
                 placeholder="••••••••"
                 required
-                className="w-full pl-3.5 pr-10 py-2.5 bg-background border border-border rounded-lg text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-foreground transition-colors"
+                className="w-full pl-3.5 pr-10 py-2.5 bg-[#19131a] border border-[#483145] rounded-lg text-foreground placeholder:text-[#a392a3] focus:outline-none focus:border-[#48b685] focus:shadow-[0_0_15px_rgba(72,182,133,0.2)] transition-all font-mono"
               />
               <button
                 type="button"
                 onClick={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground transition-colors cursor-pointer"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-[#a392a3] hover:text-[#48b685] transition-colors cursor-pointer"
               >
                 {showPassword ? <EyeOff size={15} /> : <Eye size={15} />}
               </button>
@@ -114,9 +114,9 @@ export default function LoginPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full py-3 mt-2 bg-foreground text-background rounded-lg font-mono text-xs font-bold uppercase tracking-wider hover:opacity-90 active:scale-[0.98] transition-all cursor-pointer disabled:opacity-50 shadow-md"
+            className="w-full py-3 mt-2 bg-[#48b685] text-[#19131a] rounded-xl font-mono text-xs font-extrabold uppercase tracking-wider hover:bg-[#48b685]/90 hover:scale-[1.01] active:scale-[0.98] transition-all cursor-pointer disabled:opacity-50 shadow-lg"
           >
-            {loading ? "Authenticating..." : "Sign In to Admin"}
+            {loading ? "Authenticating System..." : "Sign In to Admin Terminal"}
           </button>
         </form>
       </main>

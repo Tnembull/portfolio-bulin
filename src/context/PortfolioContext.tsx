@@ -120,6 +120,13 @@ export interface ProjectsData {
   items: Project[];
 }
 
+export interface TrackItem {
+  id: string;
+  title: string;
+  artist: string;
+  audioUrl: string;
+}
+
 export interface MusicData {
   sectionBadge: string;
   title: string;
@@ -127,6 +134,7 @@ export interface MusicData {
   audioUrl: string;
   subText: string;
   enabled: boolean;
+  playlist?: TrackItem[];
 }
 
 export interface StatItem {
@@ -471,6 +479,14 @@ const DEFAULT_PORTFOLIO_STATE: PortfolioState = {
     audioUrl: "/audio/FUR - Walking Back Home.mp3",
     subText: "Dengarkan musik sembari membaca portofolio.",
     enabled: true,
+    playlist: [
+      {
+        id: "tr-1",
+        title: "Walking Back Home",
+        artist: "FUR",
+        audioUrl: "/audio/FUR - Walking Back Home.mp3",
+      },
+    ],
   },
   stats: [
     { id: "st-1", label: "Server Deployments", value: 45, suffix: "+" },

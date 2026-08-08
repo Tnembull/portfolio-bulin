@@ -13,11 +13,11 @@ export default function Skills() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-x border-line">
         {/* Header */}
         <div className="screen-line-top screen-line-bottom p-4 border-b border-line bg-muted/20">
-          <span className="bg-[#48b685]/10 border border-[#48b685]/30 text-[#48b685] px-2.5 py-0.5 rounded-md font-bold text-[10px] w-fit inline-block">
+          <span className="bg-[#48b685]/10 border border-[#48b685]/30 text-[#48b685] px-2.5 py-0.5 rounded-md font-bold text-[10px] w-fit inline-block font-mono">
             {skills.sectionBadge || "04. CAPABILITIES_MATRIX"}
           </span>
-          <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-foreground mt-1.5">
-            <span className="text-[#48b685] font-normal">const</span>{" "}
+          <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-foreground mt-1.5 font-sans">
+            <span className="text-[#48b685] font-mono font-normal">const</span>{" "}
             {skills.titleMain || "Capabilities"}{" "}
             <span className="text-[#48b685]">
               {skills.titleHighlight || "Matrix"}
@@ -26,7 +26,7 @@ export default function Skills() {
         </div>
 
         {/* Categorized Stack Rows */}
-        <div className="divide-y divide-line border-b border-line bg-background font-mono text-xs">
+        <div className="divide-y divide-line border-b border-line bg-background text-xs">
           {skillItems.map((item, idx) => (
             <div
               key={item.id || idx}
@@ -34,8 +34,8 @@ export default function Skills() {
             >
               {/* Left Column: Number & Category Title */}
               <div className="text-[#48b685] flex items-center gap-2">
-                <span className="font-bold bg-[#48b685]/10 border border-[#48b685]/30 px-1.5 py-0.5 rounded text-[10px]">{item.num}</span>
-                <span className="font-semibold tracking-wide uppercase text-foreground">{item.title}</span>
+                <span className="font-mono font-bold bg-[#48b685]/10 border border-[#48b685]/30 px-1.5 py-0.5 rounded text-[10px]">{item.num}</span>
+                <span className="font-sans font-bold tracking-wide uppercase text-foreground">{item.title}</span>
               </div>
 
               {/* Right Column: Cyber Pill tags */}
@@ -43,7 +43,7 @@ export default function Skills() {
                 {item.desc.split(",").map((tech, tIdx) => (
                   <div
                     key={tIdx}
-                    className="cyber-card px-3 py-1.5 rounded-lg border border-line hover:border-[#48b685] text-[#48b685] hover:bg-[#48b685]/15 flex items-center gap-2 shadow-xs transition-all cursor-default transform hover:-translate-y-0.5"
+                    className="cyber-card px-3 py-1.5 rounded-lg border border-line hover:border-[#48b685] text-[#48b685] hover:bg-[#48b685]/15 flex items-center gap-2 shadow-xs transition-all cursor-default transform hover:-translate-y-0.5 active:scale-[0.98]"
                   >
                     <span className="size-1.5 rounded-full bg-[#48b685] animate-pulse shrink-0" />
                     <span className="font-mono text-xs font-bold">{tech.trim()}</span>

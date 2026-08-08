@@ -4,15 +4,19 @@ import LenisProvider from "@/components/LenisProvider";
 import NavigationWrapper from "@/components/NavigationWrapper";
 import { PortfolioProvider } from "@/context/PortfolioContext";
 
-const fontSans = {
-  variable: "--font-sans",
-  className: "font-sans",
-};
+import { Outfit, JetBrains_Mono } from "next/font/google";
 
-const fontMono = {
+const fontSans = Outfit({
+  subsets: ["latin"],
+  variable: "--font-sans",
+  display: "swap",
+});
+
+const fontMono = JetBrains_Mono({
+  subsets: ["latin"],
   variable: "--font-mono",
-  className: "font-mono",
-};
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://bulindev.tech"),

@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Image from "next/image";
 import { usePortfolio } from "@/context/PortfolioContext";
 import {
   CodeXml,
@@ -96,9 +97,12 @@ export default function SequenceScroll() {
             {/* Monogram Image — Full Width */}
             <figure className="relative overflow-hidden flex items-center justify-center h-48 border-b border-line bg-[#0d090f]">
               <div className="absolute inset-0 bg-radial from-[#48b685]/15 via-[#48b685]/5 to-transparent blur-2xl pointer-events-none z-10" />
-              <img
+              <Image
                 src="/logo/logo-monogram.png"
                 alt="MNA Monogram 3D Perspective Design"
+                width={600}
+                height={300}
+                priority
                 className="w-full h-full object-contain p-2 select-none pointer-events-none"
                 draggable={false}
               />
@@ -120,9 +124,12 @@ export default function SequenceScroll() {
                         : "bg-[#19131a] border border-line"
                     }`}
                   >
-                    <img
+                    <Image
                       src="/logo/logo.png"
                       alt="MNA Monogram Logo"
+                      width={64}
+                      height={64}
+                      priority
                       className="w-full h-full object-contain filter drop-shadow-[0_0_10px_rgba(72,182,133,0.8)]"
                     />
                   </div>
@@ -159,9 +166,12 @@ export default function SequenceScroll() {
             {/* Top Right: 3D Perspective MNA Monogram */}
             <figure className="relative col-span-1 col-start-2 overflow-hidden flex items-center justify-center min-h-[200px] md:min-h-[240px] lg:min-h-[260px]">
               <div className="absolute inset-0 bg-radial from-[#48b685]/15 via-[#48b685]/5 to-transparent blur-3xl pointer-events-none z-10" />
-              <img
+              <Image
                 src="/logo/logo-monogram.png"
                 alt="MNA Monogram 3D Perspective Design"
+                width={800}
+                height={400}
+                priority
                 className="w-full h-full min-h-[200px] md:min-h-[240px] lg:min-h-[260px] object-cover object-[50%_28%] select-none pointer-events-none"
                 draggable={false}
               />
@@ -183,9 +193,12 @@ export default function SequenceScroll() {
                           : "bg-[#19131a] border border-line"
                       }`}
                     >
-                      <img
+                      <Image
                         src="/logo/logo.png"
                         alt="MNA Monogram Logo"
+                        width={112}
+                        height={112}
+                        priority
                         className="w-full h-full object-contain filter drop-shadow-[0_0_10px_rgba(72,182,133,0.8)] group-hover/avatar-lights-toggle:scale-110 transition-transform duration-300"
                       />
                     </div>
@@ -369,7 +382,7 @@ export default function SequenceScroll() {
         <div className="p-4 border-b border-line bg-background">
           <div className="flex flex-wrap gap-2">
             <a
-              href="https://twitter.com/ashiddiqi"
+              href="https://twitter.com/tnembull"
               target="_blank"
               rel="noopener noreferrer"
               className="size-8 rounded-lg border border-line bg-background hover:bg-muted text-foreground/80 hover:text-foreground flex items-center justify-center transition-all"
@@ -387,7 +400,7 @@ export default function SequenceScroll() {
               <Github size={15} />
             </a>
             <a
-              href="https://linkedin.com/in/ashiddiqi"
+              href="https://linkedin.com/in/muhammadnurashiddiqi"
               target="_blank"
               rel="noopener noreferrer"
               className="size-8 rounded-lg border border-line bg-background hover:bg-muted text-foreground/80 hover:text-foreground flex items-center justify-center transition-all"
@@ -396,7 +409,7 @@ export default function SequenceScroll() {
               <Linkedin size={15} />
             </a>
             <a
-              href={`mailto:${hero.email || "ashiddiqi.devops@gmail.com"}`}
+              href={`mailto:${hero.email || "muhammadnurashiddiqi@gmail.com"}`}
               className="size-8 rounded-lg border border-line bg-background hover:bg-muted text-foreground/80 hover:text-foreground flex items-center justify-center transition-all"
               title="Email"
             >
@@ -406,20 +419,20 @@ export default function SequenceScroll() {
         </div>
 
         {/* Hello / Greeting Overview Section */}
-        <div className="screen-line-top screen-line-bottom p-4 sm:p-5 border-b border-line bg-background space-y-3 font-mono text-xs">
-          <h2 className="text-lg sm:text-2xl font-bold text-foreground tracking-tight flex flex-wrap items-baseline gap-x-2 gap-y-1">
-            <span className="text-[#48b685] font-serif italic">{greeting},</span>
+        <div className="screen-line-top screen-line-bottom p-4 sm:p-5 border-b border-line bg-background space-y-3 font-sans text-xs">
+          <h2 className="text-xl sm:text-3xl font-bold text-foreground tracking-tight flex flex-wrap items-baseline gap-x-2 gap-y-1">
+            <span className="text-[#48b685] font-sans italic font-normal">{greeting},</span>
             <span>selamat datang.</span>
           </h2>
-          <div className="text-xs text-[#a392a3] leading-relaxed space-y-2 font-mono">
+          <div className="text-sm text-[#a392a3] leading-relaxed space-y-2 font-sans">
             <p>
-              • Saya <strong className="text-foreground font-bold">Muhammad Nur Ashiddiqi (Bulin)</strong> — Backend & DevOps Engineer lulusan Sarjana Ilmu Komputer (S.Kom) Universitas Lampung yang berdomisili di Bandar Lampung.
+              • Saya <strong className="text-foreground font-semibold">Muhammad Nur Ashiddiqi (Bulin)</strong> — Backend & DevOps Engineer lulusan Sarjana Ilmu Komputer (S.Kom) Universitas Lampung yang berdomisili di Bandar Lampung.
             </p>
             <p>
               • Berfokus pada perancangan REST API terstruktur berbasis Node.js/Express & Prisma, optimasi query database PostgreSQL, serta otomatisasi deployment server Linux menggunakan Docker & CI/CD.
             </p>
             <p>
-              • Saat ini aktif berkarir di <strong className="text-foreground font-bold">Newus Teknologi</strong> mengembangkan sistem backend E-Gov dan integrasi payment gateway.
+              • Saat ini aktif berkarir di <strong className="text-foreground font-semibold">Newus Teknologi</strong> mengembangkan sistem backend E-Gov dan integrasi payment gateway.
             </p>
           </div>
         </div>

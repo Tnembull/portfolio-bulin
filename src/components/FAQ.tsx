@@ -21,8 +21,8 @@ export default function FAQ() {
               {faq.sectionBadge || "09. CYBER_VAULT_FAQ"}
             </span>
           </div>
-          <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-foreground mt-1">
-            <span className="text-[#48b685] font-normal">const</span>{" "}
+          <h2 className="text-xl sm:text-2xl font-bold tracking-tight text-foreground mt-1 font-sans">
+            <span className="text-[#48b685] font-mono font-normal">const</span>{" "}
             {faq.titleMain || "Questions &"}{" "}
             <span className="text-[#48b685]">
               {faq.titleHighlight || "Answers"}
@@ -33,17 +33,17 @@ export default function FAQ() {
         {/* Accordion List */}
         <div className="divide-y divide-line border-b border-line">
           {faqItems.map((item, i) => (
-            <div key={item.id || i} className="bg-background font-mono">
+            <div key={item.id || i} className="bg-background">
               <button
                 onClick={() => setActiveIndex(activeIndex === i ? null : i)}
                 className="w-full p-4 flex items-center justify-between gap-4 text-left hover:bg-[#48b685]/5 transition-colors cursor-pointer"
               >
-                <span className="font-mono font-bold text-xs sm:text-sm text-foreground flex items-center gap-2">
-                  <span className="text-[#48b685] text-[11px]">[{String(i + 1).padStart(2, "0")}]</span>
+                <span className="font-sans font-bold text-sm sm:text-base text-foreground flex items-center gap-2.5">
+                  <span className="text-[#48b685] font-mono text-xs">[{String(i + 1).padStart(2, "0")}]</span>
                   <span className="hover:text-[#48b685] transition-colors">{item.question}</span>
                 </span>
                 <ChevronDown
-                  size={14}
+                  size={16}
                   className={`text-[#48b685] transition-transform duration-200 shrink-0 ${
                     activeIndex === i ? "rotate-180 text-[#48b685]" : ""
                   }`}
@@ -51,7 +51,7 @@ export default function FAQ() {
               </button>
 
               {activeIndex === i && (
-                <div className="px-4 pb-4 font-mono text-xs text-foreground/80 leading-relaxed pl-10 border-l-2 border-[#48b685]/40 ml-4 mb-2">
+                <div className="px-4 pb-4 font-sans text-xs sm:text-sm text-foreground/80 leading-relaxed pl-10 border-l-2 border-[#48b685]/40 ml-4 mb-2">
                   {item.answer}
                 </div>
               )}

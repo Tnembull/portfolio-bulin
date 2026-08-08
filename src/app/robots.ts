@@ -7,6 +7,6 @@ export default function robots(): MetadataRoute.Robots {
       allow: "/",
       disallow: "/private/",
     },
-    sitemap: "https://robihardinata.my.id/sitemap.xml",
+    sitemap: "https://bulindev.tech/sitemap.xml",
   };
 }

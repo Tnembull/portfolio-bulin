@@ -2,7 +2,7 @@ import { ImageResponse } from "next/og";
 
 export const runtime = "edge";
 
-export const alt = "Geraldine Firdaus — Back-End Developer & Full-Stack Engineer";
+export const alt = "Muhammad Nur Ashiddiqi — DevOps & Backend Engineer";
 export const size = {
   width: 1200,
   height: 630,
@@ -10,6 +10,12 @@ export const size = {
 export const contentType = "image/png";
 
 export default async function Image() {
+  const name = "Muhammad Nur Ashiddiqi";
+  const role = "DevOps & Backend Engineer";
+  const bio = "Kubernetes • CI/CD Pipelines • Cloud Infrastructure (AWS/GCP) • Terraform • High Availability System Architecture";
+  const domain = "https://bulindev.tech";
+  const initials = "MNA";
+
   return new ImageResponse(
     (
       <div
@@ -20,134 +26,182 @@ export default async function Image() {
           flexDirection: "column",
           alignItems: "flex-start",
           justifyContent: "space-between",
-          backgroundColor: "#f6d4b1",
-          padding: "80px",
+          backgroundColor: "#19131a",
+          padding: "70px 80px",
           fontFamily: "sans-serif",
           position: "relative",
           overflow: "hidden",
         }}
       >
-        {/* Ambient Warm Glow in Top-Right Corner */}
+        {/* Ambient Mint Glow in Top-Right Corner */}
         <div
           style={{
             position: "absolute",
             top: "-150px",
             right: "-150px",
-            width: "500px",
-            height: "500px",
+            width: "550px",
+            height: "550px",
             borderRadius: "50%",
-            background: "radial-gradient(circle, rgba(200,86,40,0.25) 0%, rgba(246,212,177,0) 70%)",
+            background: "radial-gradient(circle, rgba(72, 182, 133, 0.25) 0%, rgba(25, 19, 26, 0) 70%)",
           }}
         />
 
-        {/* Top Bar: Logo & Tag */}
-        <div style={{ display: "flex", alignItems: "center", gap: "20px" }}>
-          {/* Logo Container */}
-          <div
-            style={{
-              width: "60px",
-              height: "60px",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              borderRadius: "16px",
-              backgroundColor: "rgba(200, 86, 40, 0.12)",
-              border: "1px solid rgba(200, 86, 40, 0.3)",
-            }}
-          >
+        {/* Ambient Subtle Mint Glow in Bottom-Left */}
+        <div
+          style={{
+            position: "absolute",
+            bottom: "-150px",
+            left: "-150px",
+            width: "450px",
+            height: "450px",
+            borderRadius: "50%",
+            background: "radial-gradient(circle, rgba(72, 182, 133, 0.12) 0%, rgba(25, 19, 26, 0) 70%)",
+          }}
+        />
+
+        {/* Top Bar: Monogram Logo & System Status Badge */}
+        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", width: "100%" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "20px" }}>
+            {/* Monogram Badge */}
             <div
               style={{
-                fontSize: "28px",
-                fontWeight: "900",
-                color: "#c85628",
+                width: "64px",
+                height: "64px",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                borderRadius: "16px",
+                backgroundColor: "rgba(72, 182, 133, 0.15)",
+                border: "1.5px solid rgba(72, 182, 133, 0.5)",
               }}
             >
-              GF
+              <div
+                style={{
+                  fontSize: "26px",
+                  fontWeight: "900",
+                  color: "#48b685",
+                  fontFamily: "monospace",
+                }}
+              >
+                {initials}
+              </div>
+            </div>
+
+            <div
+              style={{
+                fontSize: "14px",
+                fontFamily: "monospace",
+                color: "#48b685",
+                letterSpacing: "3px",
+                textTransform: "uppercase",
+                fontWeight: 700,
+                backgroundColor: "rgba(72, 182, 133, 0.1)",
+                border: "1px solid rgba(72, 182, 133, 0.3)",
+                padding: "8px 16px",
+                borderRadius: "8px",
+              }}
+            >
+              01 // DEVOPS PORTFOLIO MATRIX
             </div>
           </div>
 
           <div
             style={{
-              fontSize: "16px",
+              fontSize: "13px",
               fontFamily: "monospace",
-              color: "#c85628",
-              letterSpacing: "4px",
-              textTransform: "uppercase",
-              fontWeight: 600,
+              color: "#48b685",
+              fontWeight: 700,
+              backgroundColor: "rgba(72, 182, 133, 0.1)",
+              border: "1px solid rgba(72, 182, 133, 0.3)",
+              padding: "8px 16px",
+              borderRadius: "8px",
+              display: "flex",
+              alignItems: "center",
+              gap: "8px",
             }}
           >
-            01 // PORTOFOLIO RESMI
+            <div
+              style={{
+                width: "8px",
+                height: "8px",
+                borderRadius: "50%",
+                backgroundColor: "#48b685",
+              }}
+            />
+            ONLINE // SYSTEM_STABLE
           </div>
         </div>
 
-        {/* Middle Main Content */}
+        {/* Middle Content */}
         <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
           <div
             style={{
-              fontSize: "64px",
-              fontWeight: 800,
-              color: "#2b211b",
-              letterSpacing: "-2px",
+              fontSize: "58px",
+              fontWeight: 900,
+              color: "#e7e9db",
+              letterSpacing: "-1.5px",
               lineHeight: 1.1,
             }}
           >
-            Geraldine Firdaus
+            {name}
           </div>
 
           <div
             style={{
-              fontSize: "32px",
-              fontWeight: 600,
-              color: "#c85628",
+              fontSize: "30px",
+              fontWeight: 700,
+              color: "#48b685",
               letterSpacing: "-0.5px",
+              fontFamily: "monospace",
             }}
           >
-            Back-End & Full-Stack Developer
+            {role}
           </div>
 
           <div
             style={{
-              fontSize: "18px",
-              color: "rgba(43, 33, 27, 0.8)",
-              maxWidth: "850px",
+              fontSize: "19px",
+              color: "#a392a3",
+              maxWidth: "920px",
               lineHeight: 1.5,
-              marginTop: "8px",
+              marginTop: "4px",
             }}
           >
-            Pengalaman mengembangkan aplikasi web dan mobile menggunakan PHP, Node.js (Express), Android (Kotlin), Golang (Fiber), dan database PostgreSQL & MySQL.
+            {bio}
           </div>
         </div>
 
-        {/* Bottom Bar: Domain Badge & Location */}
+        {/* Bottom Bar: Domain Link & Region */}
         <div
           style={{
             display: "flex",
             alignItems: "center",
             justifyContent: "space-between",
             width: "100%",
-            paddingTop: "30px",
-            borderTop: "1px solid rgba(43, 33, 27, 0.15)",
+            paddingTop: "24px",
+            borderTop: "1px solid #483145",
           }}
         >
           <div
             style={{
               fontSize: "18px",
               fontFamily: "monospace",
-              color: "#c85628",
+              color: "#48b685",
               fontWeight: 700,
             }}
           >
-            https://github.com/geraldz99
+            {domain}
           </div>
 
           <div
             style={{
-              fontSize: "16px",
+              fontSize: "15px",
               fontFamily: "monospace",
-              color: "rgba(43, 33, 27, 0.6)",
+              color: "#a392a3",
+              fontWeight: 600,
             }}
           >
-            INDONESIA
+            INDONESIA // ASIA-SOUTHEAST
           </div>
         </div>
       </div>

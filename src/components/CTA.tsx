@@ -22,7 +22,7 @@ export default function CTA() {
             {cta.title || "Get In Touch"}
           </h2>
 
-          <p className="text-xs font-mono text-[#a392a3] max-w-md mx-auto leading-relaxed italic">
+          <p className="text-sm font-sans text-[#a392a3] max-w-md mx-auto leading-relaxed">
             {cta.description ||
               "Interested in collaborating or have a question regarding DevOps, Kubernetes, or Cloud Infrastructure? Reach out anytime."}
           </p>
@@ -30,11 +30,11 @@ export default function CTA() {
           <div className="flex flex-wrap items-center justify-center gap-3 pt-2 font-mono text-xs relative z-10">
             <a
               href={`mailto:${cta.email || "ashiddiqi.devops@gmail.com"}`}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-lg border border-[#48b685] bg-[#48b685]/20 text-[#48b685] font-bold hover:bg-[#48b685]/30 transition-all"
+              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl border border-[#48b685] bg-[#48b685]/20 text-[#48b685] font-bold hover:bg-[#48b685]/30 hover:scale-[1.02] active:scale-[0.98] transition-all shadow-md"
             >
-              <Mail size={14} className="text-[#48b685]" />
+              <Mail size={15} className="text-[#48b685]" />
               <span>{cta.email || "ashiddiqi.devops@gmail.com"}</span>
-              <ArrowUpRight size={13} />
+              <ArrowUpRight size={14} />
             </a>
 
             {cta.linkedinUrl && (
@@ -42,9 +42,9 @@ export default function CTA() {
                 href={cta.linkedinUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg border border-[#48b685]/30 bg-[#48b685]/10 hover:bg-[#48b685]/20 text-[#48b685] font-bold transition-all"
+                className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl border border-[#48b685]/30 bg-[#48b685]/10 hover:bg-[#48b685]/20 hover:scale-[1.02] active:scale-[0.98] text-[#48b685] font-bold transition-all"
               >
-                <Linkedin size={14} />
+                <Linkedin size={15} />
                 <span>LinkedIn</span>
               </a>
             )}
@@ -54,9 +54,9 @@ export default function CTA() {
                 href={cta.githubUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 px-3.5 py-2 rounded-lg border border-[#48b685]/30 bg-[#48b685]/10 hover:bg-[#48b685]/20 text-[#48b685] font-bold transition-all"
+                className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl border border-[#48b685]/30 bg-[#48b685]/10 hover:bg-[#48b685]/20 hover:scale-[1.02] active:scale-[0.98] text-[#48b685] font-bold transition-all"
               >
-                <Github size={14} />
+                <Github size={15} />
                 <span>GitHub</span>
               </a>
             )}

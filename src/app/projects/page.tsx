@@ -78,10 +78,10 @@ export default function AllProjectsPage() {
               <button
                 key={cat}
                 onClick={() => handleCategoryChange(cat)}
-                className={`px-3 py-1 rounded-full border border-line text-xs font-mono transition-colors whitespace-nowrap shrink-0 cursor-pointer ${
+                className={`px-3 py-1.5 rounded-lg border text-[10px] font-mono font-bold tracking-wider transition-all cursor-pointer whitespace-nowrap shrink-0 ${
                   selectedCategory === cat
-                    ? "bg-[#48b685] text-[#19131a] border-[#48b685] font-semibold"
-                    : "bg-muted/40 text-muted-foreground hover:text-foreground"
+                    ? "bg-[#48b685] text-[#19131a] border-[#48b685] shadow-[0_0_12px_rgba(72,182,133,0.4)]"
+                    : "bg-[#2f1e2e] text-[#a392a3] border-[#483145] hover:border-[#48b685]/50 hover:text-foreground"
                 }`}
               >
                 {cat}
@@ -91,7 +91,7 @@ export default function AllProjectsPage() {
 
           {/* Search Box */}
           <div className="relative max-w-sm w-full">
-            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground size-3.5" />
+            <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-[#48b685] size-3.5" />
             <input
               type="text"
               value={searchQuery}
@@ -100,7 +100,7 @@ export default function AllProjectsPage() {
                 setCurrentPage(1);
               }}
               placeholder="Filter by title, stack..."
-              className="w-full pl-8 pr-8 py-1.5 bg-muted/20 border border-line rounded-lg text-xs font-mono text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-foreground/40 transition-colors"
+              className="w-full pl-8 pr-8 py-1.5 bg-[#2f1e2e] border border-[#483145] rounded-lg text-xs font-mono text-foreground placeholder:text-[#a392a3] focus:outline-none focus:border-[#48b685] focus:shadow-[0_0_15px_rgba(72,182,133,0.2)] transition-all"
             />
             {searchQuery && (
               <button
@@ -108,7 +108,7 @@ export default function AllProjectsPage() {
                   setSearchQuery("");
                   setCurrentPage(1);
                 }}
-                className="absolute right-2.5 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground cursor-pointer"
+                className="absolute right-2.5 top-1/2 -translate-y-1/2 text-[#a392a3] hover:text-[#48b685] cursor-pointer"
               >
                 <X size={12} />
               </button>
@@ -132,7 +132,7 @@ export default function AllProjectsPage() {
                 key={project.id}
                 href={project.link || project.url || "#"}
                 target={project.link || project.url ? "_blank" : "_self"}
-                className="group rounded-xl border border-line bg-[#19131a] p-4 hover:border-[#48b685] transition-all flex flex-col justify-between space-y-3.5 shadow-sm"
+                className="cyber-card group rounded-xl border border-line bg-[#19131a] p-4 hover:border-[#48b685] transition-all transform hover:-translate-y-1 active:scale-[0.98] flex flex-col justify-between space-y-3.5 shadow-sm"
               >
                 <div className="space-y-2.5">
                   {/* Image Showcase */}
@@ -153,12 +153,12 @@ export default function AllProjectsPage() {
                 {/* Details */}
                 <div className="space-y-1">
                   <div className="flex items-center justify-between gap-2">
-                    <h3 className="font-sans font-bold text-sm text-foreground group-hover:underline line-clamp-1">
+                    <h3 className="font-sans font-bold text-sm text-foreground group-hover:text-[#48b685] transition-colors line-clamp-1">
                       {project.title}
                     </h3>
-                    <ArrowUpRight size={14} className="text-muted-foreground group-hover:text-foreground shrink-0" />
+                    <ArrowUpRight size={14} className="text-[#48b685] group-hover:text-foreground shrink-0" />
                   </div>
-                  <p className="font-sans text-xs text-muted-foreground leading-relaxed line-clamp-2">
+                  <p className="font-sans text-xs text-[#a392a3] leading-relaxed line-clamp-2">
                     {project.description}
                   </p>
                 </div>
@@ -169,9 +169,9 @@ export default function AllProjectsPage() {
                 {(project.tech || []).map((t) => (
                   <span
                     key={t}
-                    className="px-2 py-0.5 rounded border border-line bg-muted/20 text-muted-foreground"
+                    className="px-2 py-0.5 rounded border border-[#48b685]/30 bg-[#48b685]/10 text-[#48b685] font-bold"
                   >
-                    {t}
+                    #{t}
                   </span>
                 ))}
               </div>
