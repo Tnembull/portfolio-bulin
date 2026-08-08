@@ -81,6 +81,10 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark scroll-smooth" suppressHydrationWarning>
       <head>
+        <link rel="preconnect" href="https://images.unsplash.com" />
+        <link rel="dns-prefetch" href="https://images.unsplash.com" />
+        <link rel="preconnect" href="https://unavatar.io" />
+        <link rel="dns-prefetch" href="https://unavatar.io" />
         <script
           dangerouslySetInnerHTML={{
             __html: `

@@ -5,7 +5,7 @@ export default function robots(): MetadataRoute.Robots {
     rules: {
       userAgent: "*",
       allow: "/",
-      disallow: "/private/",
+      disallow: ["/private/", "/admin/", "/login/", "/*secret*"],
     },
     sitemap: "https://bulindev.tech/sitemap.xml",
   };

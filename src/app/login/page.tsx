@@ -25,7 +25,9 @@ export default function LoginPage() {
 
     try {
       await new Promise((resolve) => setTimeout(resolve, 600));
-      window.location.href = "/admin";
+      document.cookie = "porto_admin_auth=true; path=/; max-age=86400; SameSite=Strict";
+      const secretPath = process.env.NEXT_PUBLIC_ADMIN_SECRET_PATH || "mna-system-control-secret";
+      window.location.href = `/${secretPath}/dashboard`;
     } catch {
       setError("Email atau password tidak sesuai.");
     } finally {
