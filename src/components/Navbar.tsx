@@ -73,13 +73,6 @@ export default function Navbar() {
               <span className="text-[#48b685] font-bold text-[10px]">#</span>
               <span>skills.yml</span>
             </Link>
-            <Link
-              href="/admin"
-              className="px-2.5 py-1 rounded-md bg-[#48b685]/10 border border-[#48b685]/40 text-[#48b685] font-bold hover:bg-[#48b685]/20 transition-all flex items-center gap-1.5"
-            >
-              <span className="text-[#48b685] text-[10px]">⚙</span>
-              <span>[Admin]</span>
-            </Link>
           </nav>
 
           {/* Right Actions */}
@@ -102,13 +95,10 @@ export default function Navbar() {
               href="https://github.com/Tnembull"
               target="_blank"
               rel="noopener noreferrer"
-              className="h-7 px-2 rounded-md border border-line bg-muted/20 hover:border-[#48b685]/30 hover:bg-[#48b685]/10 text-muted-foreground hover:text-foreground text-xs font-mono flex items-center gap-1 transition-all"
-              title="GitHub Profile"
+              className="h-7 w-7 rounded-md border border-[#48b685]/30 bg-[#48b685]/10 text-[#48b685] flex items-center justify-center transition-all hover:bg-[#48b685]/20 hover:scale-105"
+              aria-label="GitHub Profile"
             >
-              <Github size={13} />
-              <span className="text-[10px] font-mono text-[#48b685] font-semibold hidden xs:inline">
-                ★ 1.8k
-              </span>
+              <Github size={15} />
             </a>
 
             {/* Theme Toggle */}
@@ -156,13 +146,6 @@ export default function Navbar() {
                 className="py-1.5 px-3 rounded hover:bg-[#48b685]/10 hover:text-[#48b685] transition-colors"
               >
                 Skills
-              </Link>
-              <Link
-                href="/admin"
-                onClick={() => setMobileMenuOpen(false)}
-                className="py-1.5 px-3 rounded text-[#48b685] font-bold bg-[#48b685]/10 border border-[#48b685]/30 transition-colors"
-              >
-                [Admin Control Panel]
               </Link>
             </nav>
           </div>
