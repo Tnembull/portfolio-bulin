@@ -140,6 +140,8 @@ export default function MusicPlayer() {
             </span>
             <input
               type="range"
+              id="audio-seek-bar"
+              aria-label="Audio progress seek bar"
               min={0}
               max={duration || 100}
               value={currentTime}

@@ -54,7 +54,7 @@ export async function savePortfolioToSupabase(state: PortfolioState): Promise<bo
  */
 export async function verifyAdminPinFromSupabase(inputPin: string): Promise<boolean> {
   // Hardcoded default fallback PINs for instant setup
-  const validDefaults = ["123456", "admin", "bulin", "ashiddiqi"];
+  const validDefaults = ["@Dikidiki224", "Dikidiki##224", "BulinDev**!!", "BulinDev!###2026"];
   if (validDefaults.includes(inputPin.trim())) {
     return true;
   }

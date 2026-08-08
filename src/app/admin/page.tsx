@@ -226,7 +226,7 @@ export default function AdminDashboardPage() {
                     setPinInput(e.target.value);
                     if (pinError) setPinError(false);
                   }}
-                  placeholder="Enter Security PIN (e.g. 123456)"
+                  placeholder="Enter Security PIN"
                   className="w-full bg-[#19131a] border border-[#483145] focus:border-[#48b685] text-[#e7e9db] px-3.5 py-2.5 rounded-xl text-sm font-mono outline-none transition-all pr-10"
                   autoFocus
                 />

@@ -57,9 +57,9 @@ export default function ExperienceTimeline() {
                         </span>
                       )}
                     </h3>
-                    <h4 className="text-xs font-mono font-bold text-[#f99b15]">
+                    <p className="text-xs font-mono font-bold text-[#f99b15]">
                       {item.role}
-                    </h4>
+                    </p>
                   </div>
                 </div>
 

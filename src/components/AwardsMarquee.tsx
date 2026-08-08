@@ -84,9 +84,9 @@ export default function AwardsMarquee() {
                     </div>
 
                     <div className="my-auto space-y-2">
-                      <h4 className="font-extrabold text-slate-100 text-base sm:text-lg leading-tight font-sans tracking-tight">
+                      <h3 className="font-extrabold text-slate-100 text-base sm:text-lg leading-tight font-sans tracking-tight">
                         {currentAward.title}
-                      </h4>
+                      </h3>
                       {currentAward.credentialId && (
                         <p className="text-[11px] text-[#48b685] font-bold font-mono">
                           ID: {currentAward.credentialId}
@@ -100,7 +100,7 @@ export default function AwardsMarquee() {
                         href={currentAward.image}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="bg-[#48b685] text-[#19131a] px-3 py-1.5 rounded-lg text-xs font-extrabold flex items-center gap-1.5 shadow-md hover:bg-[#48b685]/90 transition-all cursor-pointer"
+                        className="bg-[#48b685] text-black px-3.5 py-2 rounded-lg text-xs font-black flex items-center gap-1.5 shadow-md hover:bg-[#48b685]/90 transition-all cursor-pointer min-h-[44px] min-w-[44px]"
                         onClick={(e) => e.stopPropagation()}
                       >
                         <ExternalLink size={13} />
@@ -130,9 +130,9 @@ export default function AwardsMarquee() {
                     </div>
 
                     <div className="my-auto space-y-2">
-                      <h4 className="font-extrabold text-slate-100 text-base sm:text-lg leading-tight font-sans tracking-tight">
+                      <h3 className="font-extrabold text-slate-100 text-base sm:text-lg leading-tight font-sans tracking-tight">
                         {currentAward.title}
-                      </h4>
+                      </h3>
                       {currentAward.credentialId && (
                         <p className="text-[11px] text-[#48b685] font-bold font-mono">
                           ID: {currentAward.credentialId}
@@ -161,7 +161,8 @@ export default function AwardsMarquee() {
                     e.stopPropagation();
                     setSelectedAward(currentAward);
                   }}
-                  className="absolute bottom-3 right-3 bg-[#19131a]/90 backdrop-blur-md border border-line hover:border-[#48b685] text-foreground p-2 rounded-lg opacity-90 group-hover:opacity-100 transition-opacity cursor-pointer z-10"
+                  className="absolute bottom-3 right-3 bg-[#19131a]/90 backdrop-blur-md border border-line hover:border-[#48b685] text-foreground p-2 rounded-lg opacity-90 group-hover:opacity-100 transition-opacity cursor-pointer z-10 min-w-[44px] min-h-[44px] flex items-center justify-center"
+                  aria-label="View Certificate Details"
                   title="View Certificate Details"
                 >
                   <Maximize2 size={14} className="text-[#48b685]" />

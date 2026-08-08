@@ -1,7 +1,7 @@
 "use client";
 
 import { usePortfolio, EducationItem } from "@/context/PortfolioContext";
-import { GraduationCap, Calendar, Sparkles } from "lucide-react";
+import { GraduationCap, Calendar} from "lucide-react";
 
 export default function Education() {
   const { state } = usePortfolio();
@@ -67,7 +67,6 @@ export default function Education() {
                   </span>
                   {item.gpa && (
                     <span className="flex items-center gap-1 bg-[#48b685] text-[#19131a] border border-[#48b685] px-3 py-1 rounded-md font-extrabold shadow-[0_0_12px_rgba(72,182,133,0.4)]">
-                      <Sparkles size={12} className="text-[#19131a]" />
                       {item.gpa}
                     </span>
                   )}
