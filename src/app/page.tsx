@@ -1,4 +1,7 @@
 import SequenceScroll from "@/components/Hero/SequenceScroll";
+import PipelineWidget from "@/components/PipelineWidget";
+import ProgressTracker from "@/components/ProgressTracker";
+import CredlyBadges from "@/components/CredlyBadges";
 import About from "@/components/About";
 import Projects from "@/components/Projects";
 import ExperienceTimeline from "@/components/ExperienceTimeline";
@@ -18,12 +21,16 @@ export default function Home() {
   return (
     <main className="relative pb-12">
       <SequenceScroll />
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <PipelineWidget />
+      </div>
       <About />
       <Projects />
       <ExperienceTimeline />
       <Education />
       <Skills />
       <ToolsSlider />
+      <ProgressTracker />
       <WorkProcess />
       <GitHubContributions />
       <MusicPlayer />

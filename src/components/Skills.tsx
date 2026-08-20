@@ -1,6 +1,7 @@
 "use client";
 
 import { usePortfolio } from "@/context/PortfolioContext";
+import CredlyBadges from "@/components/CredlyBadges";
 
 export default function Skills() {
   const { state } = usePortfolio();
@@ -52,6 +53,11 @@ export default function Skills() {
               </div>
             </div>
           ))}
+        </div>
+
+        {/* Digital Certification Badges */}
+        <div className="p-4 sm:p-6 bg-background">
+          <CredlyBadges />
         </div>
       </div>
     </section>
