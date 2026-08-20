@@ -7,7 +7,11 @@ import { usePortfolio } from "@/context/PortfolioContext";
 import { PROJECTS as INITIAL_PROJECTS, Project } from "@/data/projects";
 import { ArrowUpRight, ExternalLink, X, FolderGit2 } from "lucide-react";
 
-export default function Projects() {
+interface ProjectsProps {
+  featuredOnly?: boolean;
+}
+
+export default function Projects({ featuredOnly = false }: ProjectsProps = {}) {
   const { state } = usePortfolio();
   const { projects } = state;
   const rawItems = (projects?.items && projects.items.length >= 3) ? projects.items : INITIAL_PROJECTS;
@@ -23,6 +27,11 @@ export default function Projects() {
     if (selectedCategory === "AUTOMATION") return item.category?.toLowerCase().includes("auto") || item.category?.toLowerCase().includes("script") || item.category?.toLowerCase().includes("ci");
     return true;
   });
+
+  const featuredItems = filteredItems.filter((item) => item.featured !== false);
+  const itemsToDisplay = featuredOnly
+    ? (featuredItems.length >= 3 ? featuredItems : filteredItems).slice(0, 3)
+    : filteredItems;
 
   return (
     <section id="projects" className="w-full bg-background py-2 px-2 font-mono text-xs">
@@ -42,7 +51,7 @@ export default function Projects() {
                 {projects.titleHighlight || "Vault"}
               </span>
               <span className="text-[#48b685] font-mono text-xs bg-[#48b685]/10 border border-[#48b685]/30 px-2 py-0.5 rounded font-bold">
-                [{filteredItems.length} NODES]
+                [{itemsToDisplay.length} NODES]
               </span>
             </h2>
           </div>
@@ -67,7 +76,7 @@ export default function Projects() {
 
         {/* 3-Column Cyberpunk Data Vault Cards Grid (Max 3 Items on Landing Page) */}
         <div className="p-4 sm:p-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 border-b border-line bg-background">
-          {filteredItems.slice(0, 3).map((proj, idx) => {
+          {itemsToDisplay.map((proj, idx) => {
             const fallbackImages = [
               "https://images.unsplash.com/photo-1667372335854-c072b9886360?q=80&w=1200&auto=format&fit=crop",
               "https://images.unsplash.com/photo-1618401471353-b98afee0b2eb?q=80&w=1200&auto=format&fit=crop",
@@ -141,8 +150,12 @@ export default function Projects() {
             href="/projects"
             className="inline-flex items-center gap-2 bg-[#48b685] text-[#19131a] px-6 py-2.5 rounded-xl font-extrabold text-xs shadow-lg hover:bg-[#48b685]/90 hover:scale-[1.02] transition-all cursor-pointer"
           >
-            <span>LIHAT SEMUA PROYEK ({rawItems.length})</span>
-            <ArrowUpRight size={15} />
+            <span>
+              {featuredOnly
+                ? "View All Engineering & Infrastructure Projects →"
+                : `LIHAT SEMUA PROYEK (${rawItems.length})`}
+            </span>
+            {!featuredOnly && <ArrowUpRight size={15} />}
           </Link>
         </div>
       </div>

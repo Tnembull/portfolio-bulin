@@ -17,12 +17,14 @@ export default function NavigationWrapper({
     return <>{children}</>;
   }
 
+  const showFooter = pathname !== "/";
+
   return (
     <>
       <CustomCursor />
       <Navbar />
       {children}
-      <Footer />
+      {showFooter && <Footer />}
     </>
   );
 }
