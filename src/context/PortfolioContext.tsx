@@ -2,6 +2,7 @@
 
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { PROJECTS as INITIAL_PROJECTS, Project } from "@/data/projects";
+import { PipelineStage, LearningProgress, CertificationBadge } from "@/lib/supabase";
 
 export interface HeroData {
   name: string;
@@ -231,6 +232,9 @@ export interface PortfolioState {
   awards: AwardItem[];
   testimonials: TestimonialsData;
   cta: CtaData;
+  pipeline?: PipelineStage[];
+  progress?: LearningProgress[];
+  badges?: CertificationBadge[];
 }
 
 const DEVOPS_PROJECTS: Project[] = [
@@ -278,6 +282,141 @@ const DEVOPS_PROJECTS: Project[] = [
     featured: false,
     image: "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?q=80&w=1200&auto=format&fit=crop"
   }
+];
+
+const DEFAULT_PIPELINE: PipelineStage[] = [
+  {
+    id: "stage-code",
+    title: "Code & Static Analysis",
+    description: "Automated git commit validation, TypeScript type-checking & ESLint audit",
+    status: "success",
+    icon_name: "code",
+    order_index: 1,
+    logs: [
+      "[INFO] Initializing CI pipeline runner v3.8.4 on branch main...",
+      "[INFO] Repository checkout SHA: 8a4f9b2 (feat: implement pipeline widget)",
+      "[INFO] Executing static code analysis (TypeScript v5.8, ESLint v9.2)...",
+      "[SUCCESS] src/components/PipelineWidget.tsx passed strict typecheck.",
+      "[SUCCESS] 0 lint errors, 0 warnings across 52 source files.",
+      "[INFO] Verifying security policy compliance & secret scanning...",
+      "[SUCCESS] 0 vulnerabilities or exposed credentials found.",
+      "[SUCCESS] Stage 'Code & Static Analysis' completed in 1.4s.",
+    ],
+  },
+  {
+    id: "stage-build",
+    title: "Docker Image Build",
+    description: "Compiling production Next.js assets into multi-stage OCI container image",
+    status: "success",
+    icon_name: "build",
+    order_index: 2,
+    logs: [
+      "[INFO] Spawning Docker daemon builder (BuildKit v0.12 enabled)...",
+      "[INFO] Step 1/7: FROM node:20-alpine AS base",
+      "[INFO] Step 3/7: RUN npm run build (Next.js 16.1.6)",
+      "[INFO] Creating an optimized production build...",
+      "[INFO] Compiled / (SSR & Static) successfully in 12.4s.",
+      "[SUCCESS] Image tagged: ghcr.io/tnembull/porto-bulin:v2.4.0",
+      "[SUCCESS] Artifact compressed: 134.8 MB container layer.",
+      "[SUCCESS] Stage 'Docker Image Build' completed in 16.8s.",
+    ],
+  },
+  {
+    id: "stage-test",
+    title: "Automated Test Suite",
+    description: "Running Jest unit specs & Playwright end-to-end integration matrix",
+    status: "success",
+    icon_name: "test",
+    order_index: 3,
+    logs: [
+      "[INFO] Initializing headless Chrome test runner environment...",
+      "[INFO] Running Jest unit suite (34 test files found)...",
+      "[SUCCESS] PASS src/__tests__/PipelineWidget.test.tsx (0.42s)",
+      "[SUCCESS] PASS src/__tests__/supabase.test.ts (0.31s)",
+      "[INFO] Launching Playwright E2E matrix on Chromium, Firefox & WebKit...",
+      "[SUCCESS] 18/18 integration specs passed with 0 retries.",
+      "[SUCCESS] Coverage summary: 95.4% statements, 92.1% branches.",
+      "[SUCCESS] Stage 'Automated Test Suite' completed in 8.2s.",
+    ],
+  },
+  {
+    id: "stage-deploy",
+    title: "Production Deployment",
+    description: "Zero-downtime rolling deployment to Kubernetes production cluster",
+    status: "running",
+    icon_name: "deploy",
+    order_index: 4,
+    logs: [
+      "[INFO] Target environment: Production (Cluster: k8s-us-east-1)",
+      "[INFO] Applying Kubernetes deployment manifest k8s/production.yaml...",
+      "[RUNNING] Provisioning new pod replicas: 2/3 ready...",
+      "[INFO] Executing database schema migration script...",
+      "[SUCCESS] Migration 004_pipeline_tracker.sql executed seamlessly.",
+      "[RUNNING] Performing readiness & liveness HTTP probes (/api/health)...",
+      "[RUNNING] Shifted 75% traffic target to new release release-v2.4.0...",
+    ],
+  },
+];
+
+const DEFAULT_PROGRESS: LearningProgress[] = [
+  {
+    id: "kcna-cert",
+    title: "Kubernetes & Cloud Native Associate (KCNA)",
+    provider: "Linux Foundation / CNCF",
+    progress_percent: 85,
+    target_date: "Q4 2026",
+    status: "in_progress",
+    description:
+      "Mastering cloud-native ecosystem fundamentals, container orchestration, Kubernetes architecture, and GitOps delivery pipelines.",
+    order_index: 1,
+  },
+  {
+    id: "aws-saa",
+    title: "AWS Certified Solutions Architect",
+    provider: "Amazon Web Services",
+    progress_percent: 60,
+    target_date: "Q1 2027",
+    status: "in_progress",
+    description:
+      "Designing resilient, high-performing, cost-optimized, and secure multi-tier cloud architectures on AWS.",
+    order_index: 2,
+  },
+  {
+    id: "cka-cert",
+    title: "Certified Kubernetes Administrator (CKA)",
+    provider: "Linux Foundation",
+    progress_percent: 25,
+    target_date: "Q2 2027",
+    status: "planned",
+    description:
+      "Hands-on cluster installation, networking configuration, storage volume management, ingress controllers, and troubleshooting.",
+    order_index: 3,
+  },
+];
+
+const DEFAULT_BADGES: CertificationBadge[] = [
+  {
+    id: "badge-oci-devops",
+    name: "Oracle Cloud Infrastructure 2025 Certified DevOps Professional",
+    issuer: "Oracle",
+    badge_image_url:
+      "https://images.credly.com/size/340x340/images/d3752e25-1e3d-49d7-8321-7299a9b6f124/image.png",
+    verification_url: "https://credly.com",
+    issue_date: "2025",
+    is_featured: true,
+    order_index: 0,
+  },
+  {
+    id: "badge-aws-clf",
+    name: "AWS Certified Cloud Practitioner",
+    issuer: "Amazon Web Services",
+    badge_image_url:
+      "https://images.credly.com/size/340x340/images/b9feab85-1a4e-4e6e-8280-f04e477e38c7/image.png",
+    verification_url: "https://credly.com",
+    issue_date: "2024",
+    is_featured: true,
+    order_index: 1,
+  },
 ];
 
 const DEFAULT_PORTFOLIO_STATE: PortfolioState = {
@@ -577,6 +716,9 @@ const DEFAULT_PORTFOLIO_STATE: PortfolioState = {
     linkedinUrl: "https://www.linkedin.com/in/muhammadnurashiddiqi",
     githubUrl: "https://github.com/Tnembull",
   },
+  pipeline: DEFAULT_PIPELINE,
+  progress: DEFAULT_PROGRESS,
+  badges: DEFAULT_BADGES,
 };
 
 export type Language = "en" | "id";
@@ -620,6 +762,9 @@ export function PortfolioProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     function sanitizeState(data: Partial<PortfolioState>): PortfolioState {
       const merged = { ...DEFAULT_PORTFOLIO_STATE, ...data };
+      if (!merged.pipeline) merged.pipeline = DEFAULT_PIPELINE;
+      if (!merged.progress) merged.progress = DEFAULT_PROGRESS;
+      if (!merged.badges) merged.badges = DEFAULT_BADGES;
       if (!merged.projects || !merged.projects.items || merged.projects.items.length < 3) {
         merged.projects = {
           ...DEFAULT_PORTFOLIO_STATE.projects,

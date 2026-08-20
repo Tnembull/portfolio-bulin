@@ -24,6 +24,7 @@ import {
   X,
   LogOut,
   RotateCcw,
+  TrendingUp,
 } from "lucide-react";
 import { usePortfolio } from "@/context/PortfolioContext";
 import ThemeToggle from "@/components/ThemeToggle";
@@ -44,6 +45,9 @@ import FaqEditor from "@/components/admin/FaqEditor";
 import AwardsEditor from "@/components/admin/AwardsEditor";
 import TestimonialsEditor from "@/components/admin/TestimonialsEditor";
 import CtaEditor from "@/components/admin/CtaEditor";
+import PipelineEditor from "@/components/admin/PipelineEditor";
+import ProgressEditor from "@/components/admin/ProgressEditor";
+import BadgesEditor from "@/components/admin/BadgesEditor";
 import { Mail } from "lucide-react";
 
 type SectionTab =
@@ -61,7 +65,10 @@ type SectionTab =
   | "faq"
   | "awards"
   | "testimonials"
-  | "cta";
+  | "cta"
+  | "pipeline"
+  | "progress"
+  | "badges";
 
 import { Lock, Eye, EyeOff, ShieldCheck, KeyRound } from "lucide-react";
 
@@ -136,6 +143,9 @@ export default function AdminDashboardPage() {
   const [awards, setAwards] = useState(state.awards);
   const [testimonialsData, setTestimonialsData] = useState(state.testimonials);
   const [ctaData, setCtaData] = useState(state.cta);
+  const [pipelineData, setPipelineData] = useState(state.pipeline || []);
+  const [progressData, setProgressData] = useState(state.progress || []);
+  const [badgesData, setBadgesData] = useState(state.badges || []);
 
   useEffect(() => {
     setHeroData(state.hero);
@@ -152,6 +162,9 @@ export default function AdminDashboardPage() {
     setAwards(state.awards);
     setTestimonialsData(state.testimonials);
     setCtaData(state.cta);
+    setPipelineData(state.pipeline || []);
+    setProgressData(state.progress || []);
+    setBadgesData(state.badges || []);
   }, [state]);
 
   const triggerSave = () => {
@@ -169,6 +182,9 @@ export default function AdminDashboardPage() {
     updateSection("awards", awards);
     updateSection("testimonials", testimonialsData);
     updateSection("cta", ctaData);
+    updateSection("pipeline", pipelineData);
+    updateSection("progress", progressData);
+    updateSection("badges", badgesData);
 
     setSaveToast(true);
     setTimeout(() => setSaveToast(false), 3000);
@@ -190,6 +206,9 @@ export default function AdminDashboardPage() {
     { id: "awards" as SectionTab, label: "12 / Certifications", icon: Award },
     { id: "testimonials" as SectionTab, label: "13 / Endorsements", icon: MessageSquareQuote },
     { id: "cta" as SectionTab, label: "14 / Contact & CTA", icon: Mail },
+    { id: "pipeline" as SectionTab, label: "15 / DevOps Pipeline", icon: GitBranch },
+    { id: "progress" as SectionTab, label: "16 / Learning Progress", icon: TrendingUp },
+    { id: "badges" as SectionTab, label: "17 / Digital Badges", icon: ShieldCheck },
   ];
 
   // Render Admin Login Gate if not authenticated
@@ -307,7 +326,7 @@ export default function AdminDashboardPage() {
         {/* Navigation List */}
         <nav data-lenis-prevent className="flex-1 overflow-y-auto p-3 space-y-1 font-mono text-xs">
           <div className="px-2 pb-2 text-[10px] text-[#a392a3] uppercase tracking-wider font-bold italic">
-            MODULAR_EDITOR_NODES (14 PANELS)
+            MODULAR_EDITOR_NODES (17 PANELS)
           </div>
           {navMenuItems.map((item) => {
             const Icon = item.icon;
@@ -467,6 +486,18 @@ export default function AdminDashboardPage() {
 
           {activeTab === "cta" && (
             <CtaEditor data={ctaData} onChange={(data) => setCtaData(data)} />
+          )}
+
+          {activeTab === "pipeline" && (
+            <PipelineEditor stages={pipelineData} onChange={(stages) => setPipelineData(stages)} />
+          )}
+
+          {activeTab === "progress" && (
+            <ProgressEditor items={progressData} onChange={(items) => setProgressData(items)} />
+          )}
+
+          {activeTab === "badges" && (
+            <BadgesEditor items={badgesData} onChange={(items) => setBadgesData(items)} />
           )}
         </main>
       </div>
