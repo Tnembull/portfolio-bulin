@@ -1,6 +1,44 @@
 import { createClient } from "@supabase/supabase-js";
 import { PortfolioState } from "@/context/PortfolioContext";
 
+export interface PipelineStage {
+  id: string;
+  title: string;
+  description?: string;
+  status: "success" | "running" | "idle" | "failed";
+  icon_name?: string;
+  logs: string[];
+  order_index: number;
+  created_at?: string;
+  updated_at?: string;
+}
+
+export interface LearningProgress {
+  id: string;
+  title: string;
+  provider: string;
+  progress_percent: number;
+  target_date?: string;
+  status: "in_progress" | "planned" | "completed";
+  description?: string;
+  order_index: number;
+  created_at?: string;
+  updated_at?: string;
+}
+
+export interface CertificationBadge {
+  id: string;
+  name: string;
+  issuer: string;
+  badge_image_url: string;
+  verification_url?: string;
+  issue_date?: string;
+  is_featured: boolean;
+  order_index: number;
+  created_at?: string;
+  updated_at?: string;
+}
+
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || "https://suvppsdiekwqccgrcnem.supabase.co";
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY || "sb_publishable_xzUlqjxHa9MvsBsCNRYxDg_dbT0ybvH";
 
