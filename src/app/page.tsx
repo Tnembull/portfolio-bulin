@@ -1,32 +1,33 @@
-import SequenceScroll from "@/components/Hero/SequenceScroll";
-import PipelineWidget from "@/components/PipelineWidget";
+import HeroEditorial from "@/components/HeroEditorial";
 import Projects from "@/components/Projects";
 import Skills from "@/components/Skills";
 import ProgressTracker from "@/components/ProgressTracker";
+import PipelineWidget from "@/components/PipelineWidget";
 import CTA from "@/components/CTA";
-import Footer from "@/components/Footer";
 
 export default function Home() {
   return (
-    <main id="main-content" className="relative pb-12">
-      {/* 1. Hero Header & Pipeline Widget */}
-      <SequenceScroll />
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <PipelineWidget />
-      </div>
+    <main
+      id="main-content"
+      className="max-w-5xl mx-auto border-x border-slate-800/60 bg-slate-950 text-slate-100 font-sans"
+    >
+      {/* Section 1: Hero */}
+      <HeroEditorial />
 
-      {/* 2. Top 3 Featured Projects */}
+      {/* Section 2: Top 3 Featured Projects */}
       <Projects featuredOnly={true} />
 
-      {/* 3. Capabilities & Digital Badges */}
+      {/* Section 3: Technical Capabilities & Certifications */}
       <Skills />
 
-      {/* 4. Progress Learning Roadmap */}
+      {/* Section 4: Progress Learning Roadmap */}
       <ProgressTracker />
 
-      {/* 5. Contact & Footer */}
-      <CTA />
-      <Footer />
+      {/* Section 5: Terminal & Contact */}
+      <section id="terminal-and-contact">
+        <PipelineWidget />
+        <CTA />
+      </section>
     </main>
   );
 }
