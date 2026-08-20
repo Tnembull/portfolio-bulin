@@ -19,7 +19,7 @@ import CTA from "@/components/CTA";
 
 export default function Home() {
   return (
-    <main className="relative pb-12">
+    <main id="main-content" className="relative pb-12">
       <SequenceScroll />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <PipelineWidget />

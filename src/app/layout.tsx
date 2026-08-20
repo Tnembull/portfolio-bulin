@@ -3,6 +3,7 @@ import "./globals.css";
 import LenisProvider from "@/components/LenisProvider";
 import NavigationWrapper from "@/components/NavigationWrapper";
 import { PortfolioProvider } from "@/context/PortfolioContext";
+import JSONLDSchema from "@/components/JSONLDSchema";
 
 import { Outfit, JetBrains_Mono } from "next/font/google";
 
@@ -103,6 +104,13 @@ export default function RootLayout({
       <body
         className={`${fontSans.variable} ${fontMono.variable} ${fontSans.className} antialiased bg-background text-foreground relative selection:bg-foreground selection:text-background min-h-screen`}
       >
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-cyan-500 focus:text-slate-950 focus:font-mono focus:font-bold focus:rounded-lg focus:shadow-2xl"
+        >
+          Skip to main content
+        </a>
+        <JSONLDSchema />
         <PortfolioProvider>
           <LenisProvider>
             <NavigationWrapper>{children}</NavigationWrapper>
