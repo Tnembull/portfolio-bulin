@@ -34,7 +34,7 @@ export default function JSONLDSchema() {
   const websiteSchema = {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    name: "Muhammad Nur Ashiddiqi – DevOps Engineer Portfolio",
+    name: "Muhammad Nur Ashiddiqi - DevOps Engineer Portfolio",
     url: "https://bulindev.tech",
     author: {
       "@type": "Person",

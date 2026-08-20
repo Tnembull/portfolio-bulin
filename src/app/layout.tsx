@@ -22,7 +22,7 @@ const fontMono = JetBrains_Mono({
 export const metadata: Metadata = {
   metadataBase: new URL("https://bulindev.tech"),
   title: {
-    default: "Muhammad Nur Ashiddiqi – DevOps Engineer",
+    default: "Muhammad Nur Ashiddiqi - DevOps Engineer",
     template: "%s | Muhammad Nur Ashiddiqi",
   },
   description:
@@ -57,14 +57,14 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     url: "https://bulindev.tech",
-    siteName: "Muhammad Nur Ashiddiqi – DevOps Engineer",
-    title: "Muhammad Nur Ashiddiqi – DevOps Engineer",
+    siteName: "Muhammad Nur Ashiddiqi - DevOps Engineer",
+    title: "Muhammad Nur Ashiddiqi - DevOps Engineer",
     description:
       "DevOps & Cloud Engineer creating high availability cloud infrastructure, automated pipelines, and Kubernetes container orchestration.",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Muhammad Nur Ashiddiqi – DevOps Engineer",
+    title: "Muhammad Nur Ashiddiqi - DevOps Engineer",
     description:
       "DevOps & Cloud Engineer creating high availability cloud infrastructure, automated pipelines, and Kubernetes container orchestration.",
   },
