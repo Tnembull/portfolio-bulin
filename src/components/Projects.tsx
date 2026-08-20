@@ -145,19 +145,16 @@ export default function Projects({ featuredOnly = false }: ProjectsProps = {}) {
         </div>
 
         {/* Bottom CTA to view all projects */}
-        <div className="p-4 sm:p-5 border-b border-line bg-muted/10 flex items-center justify-center">
-          <Link
-            href="/projects"
-            className="inline-flex items-center gap-2 bg-[#48b685] text-[#19131a] px-6 py-2.5 rounded-xl font-extrabold text-xs shadow-lg hover:bg-[#48b685]/90 hover:scale-[1.02] transition-all cursor-pointer"
-          >
-            <span>
-              {featuredOnly
-                ? "View All Engineering & Infrastructure Projects →"
-                : `LIHAT SEMUA PROYEK (${rawItems.length})`}
-            </span>
-            {!featuredOnly && <ArrowUpRight size={15} />}
-          </Link>
-        </div>
+        {featuredOnly && (
+          <div className="p-4 sm:p-5 border-b border-line bg-muted/10 flex items-center justify-center">
+            <Link
+              href="/projects"
+              className="inline-flex items-center gap-2 bg-[#48b685] text-[#19131a] px-6 py-2.5 rounded-xl font-extrabold text-xs shadow-lg hover:bg-[#48b685]/90 hover:scale-[1.02] transition-all cursor-pointer"
+            >
+              <span>View All Engineering & Infrastructure Projects →</span>
+            </Link>
+          </div>
+        )}
       </div>
 
       {/* Expanded Project Detail Modal */}
