@@ -2,16 +2,12 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { Search, Github, Menu, X } from "lucide-react";
+import { Github, Menu, X } from "lucide-react";
 import ThemeToggle from "./ThemeToggle";
-import { usePortfolio } from "@/context/PortfolioContext";
 
 export default function Navbar() {
-  const { state } = usePortfolio();
   const [commandOpen, setCommandOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-
-  const initials = "MNA";
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
@@ -26,66 +22,59 @@ export default function Navbar() {
 
   return (
     <>
-      <header className="sticky top-0 z-50 w-full bg-background/90 backdrop-blur-md border-b border-line transition-colors">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex h-14 items-center justify-between gap-2">
-          {/* Logo */}
+      <header className="sticky top-0 z-50 w-full bg-[#0b0e12] border-b border-[#303235] text-[#bababb]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 xl:px-12 flex h-14 items-center justify-between gap-4">
+          {/* Logo Mark */}
           <Link
             href="/"
-            className="flex items-center gap-2 font-mono text-xs font-bold tracking-tight hover:opacity-90 transition-opacity shrink-0"
+            className="flex items-center gap-2.5 font-mono text-xs font-normal tracking-[0.053em] hover:text-[#dedede] transition-colors shrink-0"
             aria-label="Home"
           >
-            <div className="size-7 rounded-md border border-[#48b685]/50 bg-[#48b685]/15 flex items-center justify-center font-mono text-[11px] font-extrabold text-[#48b685]">
-              {initials}
-            </div>
-            <span className="hidden xs:inline-flex items-center gap-1.5 text-[10px] font-mono tracking-widest text-[#48b685] uppercase bg-[#48b685]/10 border border-[#48b685]/30 px-2 py-0.5 rounded-md font-bold">
-              <span className="size-1.5 rounded-full bg-[#48b685] animate-pulse" />
-              ONLINE
+            <span className="text-[#00d892] font-semibold text-sm">mna</span>
+            <span className="text-[#303235]">/</span>
+            <span className="text-[#818284] text-[11px] uppercase tracking-[0.064em]">
+              cloud_sys
             </span>
           </Link>
 
-          {/* Nav links (Desktop lg+) - Carbon Code Tabs style */}
-          <nav className="hidden lg:flex items-center gap-1.5 text-xs font-mono">
+          {/* Nav links */}
+          <nav className="hidden md:flex items-center gap-8 text-[12px] font-mono tracking-[0.053em] uppercase">
             <Link
               href="/#overview"
-              className="px-2.5 py-1 rounded-md bg-muted/40 border border-transparent hover:border-[#48b685]/50 hover:bg-[#48b685]/10 text-foreground transition-all flex items-center gap-1.5"
+              className="text-[#bababb] hover:text-[#dedede] transition-colors py-1"
             >
-              <span className="text-[#48b685] font-bold text-[10px]">⚛</span>
-              <span>overview.tsx</span>
+              OVERVIEW
             </Link>
             <Link
               href="/#experience"
-              className="px-2.5 py-1 rounded-md bg-muted/40 border border-transparent hover:border-[#48b685]/50 hover:bg-[#48b685]/10 text-foreground transition-all flex items-center gap-1.5"
+              className="text-[#bababb] hover:text-[#dedede] transition-colors py-1"
             >
-              <span className="text-[#48b685] font-bold text-[10px]">TS</span>
-              <span>experience.ts</span>
+              EXPERIENCE
             </Link>
             <Link
               href="/#projects"
-              className="px-2.5 py-1 rounded-md bg-muted/40 border border-transparent hover:border-[#f99b15]/50 hover:bg-[#f99b15]/10 text-foreground transition-all flex items-center gap-1.5"
+              className="text-[#bababb] hover:text-[#dedede] transition-colors py-1"
             >
-              <span className="text-[#f99b15] font-bold text-[10px]">{`{}`}</span>
-              <span>projects.json</span>
+              SYSTEMS
             </Link>
             <Link
               href="/#skills"
-              className="px-2.5 py-1 rounded-md bg-muted/40 border border-transparent hover:border-[#48b685]/50 hover:bg-[#48b685]/10 text-foreground transition-all flex items-center gap-1.5"
+              className="text-[#bababb] hover:text-[#dedede] transition-colors py-1"
             >
-              <span className="text-[#48b685] font-bold text-[10px]">#</span>
-              <span>skills.yml</span>
+              CAPABILITIES
             </Link>
           </nav>
 
           {/* Right Actions */}
-          <div className="flex items-center gap-1.5 sm:gap-2">
+          <div className="flex items-center gap-2.5">
             {/* Command Trigger */}
             <button
               onClick={() => setCommandOpen(true)}
-              className="h-7 px-2 rounded-md border border-[#48b685]/30 bg-[#48b685]/10 hover:bg-[#48b685]/20 text-muted-foreground hover:text-[#48b685] text-xs font-mono flex items-center gap-1.5 transition-all cursor-pointer select-none"
-              title="Command Palette"
+              className="h-7 px-2.5 rounded-[1px] border border-[#303235] bg-[#181a1d] hover:border-[#bababb] hover:text-[#dedede] text-[#818284] text-[11px] font-mono tracking-[0.053em] flex items-center gap-2 transition-all cursor-pointer"
+              title="CLI Command Palette"
             >
-              <Search size={13} className="text-[#48b685]" />
-              <span className="hidden md:inline text-[11px]">Search…</span>
-              <kbd className="hidden md:inline-flex h-4 items-center justify-center rounded border border-[#48b685]/30 bg-background/90 px-1 text-[9px] font-mono text-[#48b685]">
+              <span className="hidden sm:inline">CLI SEARCH</span>
+              <kbd className="hidden sm:inline-flex h-4 items-center justify-center rounded-[1px] border border-[#303235] bg-[#0b0e12] px-1 text-[9px] font-mono text-[#00d892]">
                 ⌘K
               </kbd>
             </button>
@@ -95,57 +84,57 @@ export default function Navbar() {
               href="https://github.com/Tnembull"
               target="_blank"
               rel="noopener noreferrer"
-              className="h-7 w-7 rounded-md border border-[#48b685]/30 bg-[#48b685]/10 text-[#48b685] flex items-center justify-center transition-all hover:bg-[#48b685]/20 hover:scale-105"
+              className="h-7 w-7 rounded-[1px] border border-[#303235] bg-[#181a1d] text-[#bababb] hover:text-[#dedede] hover:border-[#bababb] flex items-center justify-center transition-all"
               aria-label="GitHub Profile"
             >
-              <Github size={15} />
+              <Github size={14} />
             </a>
 
             {/* Theme Toggle */}
             <ThemeToggle />
 
-            {/* Mobile Menu Toggle Button (lg:hidden) */}
+            {/* Mobile Menu Toggle Button */}
             <button
               onClick={() => setMobileMenuOpen((prev) => !prev)}
-              className="lg:hidden h-7 w-7 rounded-md border border-[#48b685]/30 bg-[#48b685]/10 text-[#48b685] flex items-center justify-center cursor-pointer transition-all hover:bg-[#48b685]/20"
+              className="md:hidden h-7 w-7 rounded-[1px] border border-[#303235] bg-[#181a1d] text-[#bababb] flex items-center justify-center cursor-pointer transition-all hover:border-[#bababb]"
               aria-label="Toggle navigation menu"
             >
-              {mobileMenuOpen ? <X size={15} /> : <Menu size={15} />}
+              {mobileMenuOpen ? <X size={14} /> : <Menu size={14} />}
             </button>
           </div>
         </div>
 
         {/* Mobile Navigation Drawer */}
         {mobileMenuOpen && (
-          <div className="lg:hidden border-t border-line bg-background/95 backdrop-blur-md p-4 space-y-3 font-mono text-xs animate-in fade-in slide-in-from-top-2">
-            <nav className="flex flex-col space-y-2 uppercase tracking-wider text-muted-foreground">
+          <div className="md:hidden border-t border-[#303235] bg-[#0b0e12] p-4 font-mono text-xs tracking-[0.053em]">
+            <nav className="flex flex-col space-y-3 uppercase text-[#bababb]">
               <Link
                 href="/#overview"
                 onClick={() => setMobileMenuOpen(false)}
-                className="py-1.5 px-3 rounded hover:bg-[#48b685]/10 hover:text-[#48b685] transition-colors"
+                className="py-1 hover:text-[#dedede] transition-colors"
               >
-                Overview
+                OVERVIEW
               </Link>
               <Link
                 href="/#experience"
                 onClick={() => setMobileMenuOpen(false)}
-                className="py-1.5 px-3 rounded hover:bg-[#48b685]/10 hover:text-[#48b685] transition-colors"
+                className="py-1 hover:text-[#dedede] transition-colors"
               >
-                Experience
+                EXPERIENCE
               </Link>
               <Link
                 href="/#projects"
                 onClick={() => setMobileMenuOpen(false)}
-                className="py-1.5 px-3 rounded hover:bg-[#48b685]/10 hover:text-[#48b685] transition-colors"
+                className="py-1 hover:text-[#dedede] transition-colors"
               >
-                Projects
+                SYSTEMS
               </Link>
               <Link
                 href="/#skills"
                 onClick={() => setMobileMenuOpen(false)}
-                className="py-1.5 px-3 rounded hover:bg-[#48b685]/10 hover:text-[#48b685] transition-colors"
+                className="py-1 hover:text-[#dedede] transition-colors"
               >
-                Skills
+                CAPABILITIES
               </Link>
             </nav>
           </div>
@@ -155,57 +144,56 @@ export default function Navbar() {
       {/* Command Palette Modal */}
       {commandOpen && (
         <div
-          className="fixed inset-0 z-50 bg-black/75 backdrop-blur-sm flex items-start justify-center pt-24 px-4"
+          className="fixed inset-0 z-50 bg-[#0b0e12]/90 flex items-start justify-center pt-24 px-4"
           onClick={() => setCommandOpen(false)}
         >
           <div
-            className="w-full max-w-lg rounded-xl border border-[#483145] bg-[#2f1e2e] p-4 space-y-4 shadow-2xl animate-in fade-in zoom-in-95 duration-150"
+            className="w-full max-w-lg rounded-[1px] border border-[#303235] bg-[#181a1d] p-4 space-y-4 shadow-none font-mono"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="flex items-center justify-between border-b border-[#483145] pb-3">
-              <div className="flex items-center gap-2 text-[#48b685] text-xs font-mono font-bold">
-                <Search size={15} />
-                <span className="tracking-widest uppercase">[ SYSTEM_COMMAND_TERMINAL ]</span>
+            <div className="flex items-center justify-between border-b border-[#303235] pb-3">
+              <div className="text-[#00d892] text-xs tracking-[0.058em] uppercase">
+                [ SYSTEM_CLI_INDEX ]
               </div>
               <button
                 onClick={() => setCommandOpen(false)}
-                className="text-xs font-mono px-2 py-0.5 rounded border border-[#48b685]/30 text-[#48b685] hover:bg-[#48b685]/10 cursor-pointer"
+                className="text-[11px] tracking-[0.053em] px-2 py-0.5 rounded-[1px] border border-[#303235] text-[#818284] hover:text-[#dedede] hover:border-[#bababb] cursor-pointer"
               >
                 ESC
               </button>
             </div>
 
-            <div className="space-y-1 font-mono text-xs">
-              <p className="text-[11px] text-[#a392a3] uppercase tracking-wider mb-2 font-bold">
-                Pintasan Navigasi
+            <div className="space-y-1 text-xs text-[#bababb]">
+              <p className="text-[10px] text-[#818284] uppercase tracking-[0.064em] mb-2">
+                SYSTEM NAV DIRECTORY
               </p>
               <Link
-                href="/#about"
+                href="/#overview"
                 onClick={() => setCommandOpen(false)}
-                className="block p-2 rounded border border-transparent hover:border-[#48b685]/30 hover:bg-[#48b685]/10 text-foreground transition-all font-semibold"
+                className="block p-2 rounded-[1px] border border-[#303235] bg-[#1f2124] hover:border-[#00d892] hover:text-[#dedede] transition-all"
               >
-                01. Biografi & Profil
+                BIOGRAPHY & OVERVIEW
               </Link>
               <Link
                 href="/#experience"
                 onClick={() => setCommandOpen(false)}
-                className="block p-2 rounded border border-transparent hover:border-[#48b685]/30 hover:bg-[#48b685]/10 text-foreground transition-all font-semibold"
+                className="block p-2 rounded-[1px] border border-[#303235] bg-[#1f2124] hover:border-[#00d892] hover:text-[#dedede] transition-all"
               >
-                02. Pengalaman Kerja
+                ENGINEERING EXPERIENCE
               </Link>
               <Link
                 href="/#projects"
                 onClick={() => setCommandOpen(false)}
-                className="block p-2 rounded border border-transparent hover:border-[#48b685]/30 hover:bg-[#48b685]/10 text-foreground transition-all font-semibold"
+                className="block p-2 rounded-[1px] border border-[#303235] bg-[#1f2124] hover:border-[#00d892] hover:text-[#dedede] transition-all"
               >
-                03. Proyek & Portofolio
+                INFRASTRUCTURE & SYSTEMS
               </Link>
               <Link
                 href="/#skills"
                 onClick={() => setCommandOpen(false)}
-                className="block p-2 rounded border border-transparent hover:border-[#48b685]/30 hover:bg-[#48b685]/10 text-foreground transition-all font-semibold"
+                className="block p-2 rounded-[1px] border border-[#303235] bg-[#1f2124] hover:border-[#00d892] hover:text-[#dedede] transition-all"
               >
-                04. Keahlian & Tech Stack
+                TECHNICAL CAPABILITIES & CERTS
               </Link>
             </div>
           </div>

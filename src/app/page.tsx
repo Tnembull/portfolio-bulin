@@ -9,7 +9,7 @@ export default function Home() {
   return (
     <main
       id="main-content"
-      className="max-w-5xl mx-auto border-x border-slate-800/60 bg-slate-950 text-slate-100 font-sans"
+      className="w-full bg-[#0b0e12] text-[#bababb] font-sans min-h-screen"
     >
       {/* Section 1: Hero */}
       <HeroEditorial />
@@ -24,7 +24,7 @@ export default function Home() {
       <ProgressTracker />
 
       {/* Section 5: Terminal & Contact */}
-      <section id="terminal-and-contact">
+      <section id="terminal-and-contact" className="w-full">
         <PipelineWidget />
         <CTA />
       </section>

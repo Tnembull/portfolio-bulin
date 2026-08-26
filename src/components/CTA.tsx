@@ -1,6 +1,6 @@
 "use client";
 
-import { Mail, Linkedin, Github, ArrowUpRight } from "lucide-react";
+import { ArrowUpRight } from "lucide-react";
 import { usePortfolio } from "@/context/PortfolioContext";
 
 export default function CTA() {
@@ -8,33 +8,29 @@ export default function CTA() {
   const { cta } = state;
 
   return (
-    <section id="contact" className="w-full bg-background py-2 px-2">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 border-x border-line">
-        {/* Header */}
-        <div className="screen-line-top screen-line-bottom p-6 sm:p-8 border-b border-line bg-muted/20 text-center space-y-4 relative overflow-hidden">
-          <div className="scanline-overlay absolute inset-0 pointer-events-none" />
-          
-          <span className="text-[10px] font-mono text-[#48b685] uppercase tracking-widest bg-[#48b685]/10 border border-[#48b685]/30 px-3 py-1 rounded-md inline-block font-bold">
-            [ INITIATE CONNECTION ]
-          </span>
+    <section id="contact" className="w-full bg-[#0b0e12] py-16 sm:py-24 border-b border-[#303235]">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 xl:px-12">
+        <div className="oxide-panel p-8 sm:p-12 text-center space-y-6">
+          <p className="font-mono text-xs tracking-[0.064em] text-[#00d892] uppercase">
+            INITIATE CONNECTION
+          </p>
 
-          <h2 className="text-2xl sm:text-4xl font-extrabold font-sans tracking-tight text-foreground">
+          <h2 className="text-3xl sm:text-5xl font-normal font-sans tracking-[-0.005em] text-[#dedede]">
             {cta.title || "Get In Touch"}
           </h2>
 
-          <p className="text-sm font-sans text-[#a392a3] max-w-md mx-auto leading-relaxed">
+          <p className="text-sm sm:text-base font-sans text-[#bababb] max-w-xl mx-auto leading-[1.38] font-normal">
             {cta.description ||
               "Interested in collaborating or have a question regarding DevOps, Kubernetes, or Cloud Infrastructure? Reach out anytime."}
           </p>
 
-          <div className="flex flex-wrap items-center justify-center gap-3 pt-2 font-mono text-xs relative z-10">
+          <div className="flex flex-wrap items-center justify-center gap-3 pt-4 font-mono text-xs">
             <a
               href={`mailto:${cta.email || "ashiddiqi.devops@gmail.com"}`}
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl border border-[#48b685] bg-[#48b685]/20 text-[#48b685] font-bold hover:bg-[#48b685]/30 hover:scale-[1.02] active:scale-[0.98] transition-all shadow-md"
+              className="oxide-button-filled inline-flex items-center gap-2 px-5 py-2.5"
             >
-              <Mail size={15} className="text-[#48b685]" />
               <span>{cta.email || "ashiddiqi.devops@gmail.com"}</span>
-              <ArrowUpRight size={14} />
+              <ArrowUpRight className="w-4 h-4 text-[#00d892]" />
             </a>
 
             {cta.linkedinUrl && (
@@ -42,10 +38,10 @@ export default function CTA() {
                 href={cta.linkedinUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl border border-[#48b685]/30 bg-[#48b685]/10 hover:bg-[#48b685]/20 hover:scale-[1.02] active:scale-[0.98] text-[#48b685] font-bold transition-all"
+                className="oxide-button-ghost inline-flex items-center gap-2 px-4 py-2.5"
               >
-                <Linkedin size={15} />
-                <span>LinkedIn</span>
+                <span>LINKEDIN</span>
+                <ArrowUpRight className="w-4 h-4 text-[#bababb]" />
               </a>
             )}
 
@@ -54,10 +50,10 @@ export default function CTA() {
                 href={cta.githubUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 px-4 py-2.5 rounded-xl border border-[#48b685]/30 bg-[#48b685]/10 hover:bg-[#48b685]/20 hover:scale-[1.02] active:scale-[0.98] text-[#48b685] font-bold transition-all"
+                className="oxide-button-ghost inline-flex items-center gap-2 px-4 py-2.5"
               >
-                <Github size={15} />
-                <span>GitHub</span>
+                <span>GITHUB</span>
+                <ArrowUpRight className="w-4 h-4 text-[#bababb]" />
               </a>
             )}
           </div>

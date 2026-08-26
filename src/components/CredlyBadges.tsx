@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { Award, ExternalLink } from "lucide-react";
+import { Award, ArrowUpRight } from "lucide-react";
 import { CertificationBadge } from "@/lib/supabase";
 
 export interface CredlyBadgesProps {
@@ -37,7 +37,7 @@ const BadgeImage: React.FC<{ url: string; alt: string }> = ({ url, alt }) => {
   const [hasError, setHasError] = useState(false);
 
   if (hasError || !url) {
-    return <Award className="w-8 h-8 text-cyan-400 shrink-0" />;
+    return <Award className="w-5 h-5 text-[#00d892] shrink-0" />;
   }
 
   return (
@@ -57,39 +57,39 @@ export const CredlyBadges: React.FC<CredlyBadgesProps> = ({
 
   return (
     <div className="w-full font-sans">
-      {/* Section Header */}
-      <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-6 pb-4 border-b border-slate-800/80 gap-2">
+      {/* Header */}
+      <div className="flex flex-col sm:flex-row sm:items-end justify-between mb-6 pb-4 border-b border-[#303235] gap-2">
         <div>
-          <p className="font-mono text-xs tracking-wider text-cyan-400 uppercase mb-1">
-            Certifications & Badges
+          <p className="font-mono text-xs tracking-[0.064em] text-[#00d892] uppercase mb-1">
+            VERIFIED DIGITAL CREDENTIALS
           </p>
-          <h3 className="text-xl sm:text-2xl font-sans font-bold tracking-tight text-slate-100">
-            Verified Digital Credentials
+          <h3 className="text-xl sm:text-2xl font-normal font-sans tracking-tight text-[#dedede]">
+            Certifications & Badges
           </h3>
         </div>
-        <span className="font-mono text-xs text-slate-400">
-          {displayBadges.length} Verified
+        <span className="font-mono text-xs text-[#818284] tracking-[0.053em]">
+          {displayBadges.length} VERIFIED
         </span>
       </div>
 
-      {/* Open Minimal Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      {/* Oxide Panel Grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
         {displayBadges.map((badge) => (
           <div
             key={badge.id}
-            className="flex items-start gap-4 p-4 rounded-lg bg-slate-900/50 border border-slate-800/80"
+            className="oxide-panel p-4 flex items-start gap-4 hover:border-[#bababb] transition-colors"
           >
-            {/* Badge Image / Fallback Icon */}
-            <div className="w-12 h-12 shrink-0 flex items-center justify-center">
+            {/* Badge Image */}
+            <div className="w-9 h-9 shrink-0 flex items-center justify-center bg-[#1f2124] border border-[#303235] rounded-[1px] p-1">
               <BadgeImage url={badge.badge_image_url} alt={badge.name} />
             </div>
 
             {/* Certification Details */}
             <div className="flex-1 min-w-0">
-              <h4 className="text-sm font-semibold text-slate-100 leading-snug">
+              <h4 className="text-sm font-normal text-[#dedede] leading-snug">
                 {badge.name}
               </h4>
-              <p className="text-xs font-mono text-slate-400 mt-1">
+              <p className="text-xs font-mono text-[#818284] tracking-[0.053em] mt-1">
                 {badge.issuer}
                 {badge.issue_date ? ` • ${badge.issue_date}` : ""}
               </p>
@@ -98,10 +98,10 @@ export const CredlyBadges: React.FC<CredlyBadgesProps> = ({
                   href={badge.verification_url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-1 text-xs font-mono text-cyan-400 hover:text-cyan-300 mt-2 transition-colors"
+                  className="oxide-button-ghost inline-flex items-center gap-1 text-[11px] px-2 py-0.5 mt-3"
                 >
-                  <span>Verify</span>
-                  <ExternalLink className="w-3 h-3" />
+                  <span>VERIFY</span>
+                  <ArrowUpRight className="w-3 h-3 text-[#00d892]" />
                 </a>
               )}
             </div>
