@@ -18,7 +18,7 @@ export default function HeroEditorial() {
   const statusText = hero?.statusText || "AVAILABLE FOR DEVOPS ENGAGEMENTS";
 
   return (
-    <section className="relative w-full bg-[#0b0e12] text-[#bababb] pt-20 pb-16 sm:pt-28 sm:pb-24 border-b border-[#303235]">
+    <section id="overview" className="relative w-full bg-[#0b0e12] text-[#bababb] pt-20 pb-16 sm:pt-28 sm:pb-24 border-b border-[#303235]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 xl:px-12">
         {/* Status Readout (Clean text, no FIG 1) */}
         <div className="inline-block px-2.5 py-1 bg-[#181a1d] border border-[#303235] rounded-[1px] font-mono text-[11px] tracking-[0.064em] uppercase text-[#00d892] mb-8">

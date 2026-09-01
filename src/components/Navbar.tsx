@@ -38,18 +38,12 @@ export default function Navbar() {
           </Link>
 
           {/* Nav links */}
-          <nav className="hidden md:flex items-center gap-8 text-[12px] font-mono tracking-[0.053em] uppercase">
+          <nav className="hidden md:flex items-center gap-7 text-[12px] font-mono tracking-[0.053em] uppercase">
             <Link
               href="/#overview"
               className="text-[#bababb] hover:text-[#dedede] transition-colors py-1"
             >
               OVERVIEW
-            </Link>
-            <Link
-              href="/#experience"
-              className="text-[#bababb] hover:text-[#dedede] transition-colors py-1"
-            >
-              EXPERIENCE
             </Link>
             <Link
               href="/#projects"
@@ -62,6 +56,18 @@ export default function Navbar() {
               className="text-[#bababb] hover:text-[#dedede] transition-colors py-1"
             >
               CAPABILITIES
+            </Link>
+            <Link
+              href="/#progress"
+              className="text-[#bababb] hover:text-[#dedede] transition-colors py-1"
+            >
+              ROADMAP
+            </Link>
+            <Link
+              href="/#contact"
+              className="text-[#bababb] hover:text-[#dedede] transition-colors py-1"
+            >
+              CONTACT
             </Link>
           </nav>
 
@@ -116,13 +122,6 @@ export default function Navbar() {
                 OVERVIEW
               </Link>
               <Link
-                href="/#experience"
-                onClick={() => setMobileMenuOpen(false)}
-                className="py-1 hover:text-[#dedede] transition-colors"
-              >
-                EXPERIENCE
-              </Link>
-              <Link
                 href="/#projects"
                 onClick={() => setMobileMenuOpen(false)}
                 className="py-1 hover:text-[#dedede] transition-colors"
@@ -135,6 +134,20 @@ export default function Navbar() {
                 className="py-1 hover:text-[#dedede] transition-colors"
               >
                 CAPABILITIES
+              </Link>
+              <Link
+                href="/#progress"
+                onClick={() => setMobileMenuOpen(false)}
+                className="py-1 hover:text-[#dedede] transition-colors"
+              >
+                ROADMAP
+              </Link>
+              <Link
+                href="/#contact"
+                onClick={() => setMobileMenuOpen(false)}
+                className="py-1 hover:text-[#dedede] transition-colors"
+              >
+                CONTACT
               </Link>
             </nav>
           </div>
@@ -175,13 +188,6 @@ export default function Navbar() {
                 BIOGRAPHY & OVERVIEW
               </Link>
               <Link
-                href="/#experience"
-                onClick={() => setCommandOpen(false)}
-                className="block p-2 rounded-[1px] border border-[#303235] bg-[#1f2124] hover:border-[#00d892] hover:text-[#dedede] transition-all"
-              >
-                ENGINEERING EXPERIENCE
-              </Link>
-              <Link
                 href="/#projects"
                 onClick={() => setCommandOpen(false)}
                 className="block p-2 rounded-[1px] border border-[#303235] bg-[#1f2124] hover:border-[#00d892] hover:text-[#dedede] transition-all"
@@ -194,6 +200,20 @@ export default function Navbar() {
                 className="block p-2 rounded-[1px] border border-[#303235] bg-[#1f2124] hover:border-[#00d892] hover:text-[#dedede] transition-all"
               >
                 TECHNICAL CAPABILITIES & CERTS
+              </Link>
+              <Link
+                href="/#progress"
+                onClick={() => setCommandOpen(false)}
+                className="block p-2 rounded-[1px] border border-[#303235] bg-[#1f2124] hover:border-[#00d892] hover:text-[#dedede] transition-all"
+              >
+                CERTIFICATION ROADMAP
+              </Link>
+              <Link
+                href="/#contact"
+                onClick={() => setCommandOpen(false)}
+                className="block p-2 rounded-[1px] border border-[#303235] bg-[#1f2124] hover:border-[#00d892] hover:text-[#dedede] transition-all"
+              >
+                TERMINAL & INITIATE CONTACT
               </Link>
             </div>
           </div>

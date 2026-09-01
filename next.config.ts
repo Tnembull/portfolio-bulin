@@ -1,10 +1,5 @@
 import type { NextConfig } from "next";
 
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const withBundleAnalyzer = require("@next/bundle-analyzer")({
-  enabled: process.env.ANALYZE === "true",
-});
-
 const nextConfig: NextConfig = {
   compress: true,
   images: {
@@ -35,4 +30,18 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default withBundleAnalyzer(nextConfig);
+let finalConfig = nextConfig;
+
+if (process.env.ANALYZE === "true") {
+  try {
+    // eslint-disable-next-line @typescript-eslint/no-require-imports
+    const withBundleAnalyzer = require("@next/bundle-analyzer")({
+      enabled: true,
+    });
+    finalConfig = withBundleAnalyzer(nextConfig);
+  } catch (e) {
+    console.warn("Bundle analyzer not installed or failed to load:", e);
+  }
+}
+
+export default finalConfig;

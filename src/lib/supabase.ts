@@ -88,15 +88,19 @@ export async function savePortfolioToSupabase(state: PortfolioState): Promise<bo
 }
 
 /**
- * Verify Admin Security PIN via Supabase
+ * Verify Admin Security PIN via Supabase / Environment
  */
 export async function verifyAdminPinFromSupabase(inputPin: string): Promise<boolean> {
-  // Hardcoded default fallback PINs for instant setup
-  const validDefaults = ["@Dikidiki224", "Dikidiki##224", "BulinDev**!!", "BulinDev!###2026"];
-  if (validDefaults.includes(inputPin.trim())) {
+  const trimmed = inputPin.trim();
+  if (!trimmed) return false;
+
+  // 1. Check against Environment Variable if defined
+  const envPin = process.env.ADMIN_MASTER_PIN || process.env.NEXT_PUBLIC_ADMIN_PIN;
+  if (envPin && envPin.trim() === trimmed) {
     return true;
   }
 
+  // 2. Check against Supabase admin_credentials
   try {
     const { data, error } = await supabase
       .from("admin_credentials")
@@ -105,11 +109,13 @@ export async function verifyAdminPinFromSupabase(inputPin: string): Promise<bool
       .single();
 
     if (!error && data && data.pin_code) {
-      return data.pin_code === inputPin.trim();
+      return data.pin_code === trimmed;
     }
   } catch {}
 
-  return false;
+  // 3. Built-in setup fallback PIN
+  const defaultFallbackPins = ["@Dikidiki224", "Dikidiki##224", "BulinDev**!!", "BulinDev!###2026"];
+  return defaultFallbackPins.includes(trimmed);
 }
 
 /**
