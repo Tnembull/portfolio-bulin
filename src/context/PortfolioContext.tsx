@@ -216,6 +216,19 @@ export interface EducationData {
   items: EducationItem[];
 }
 
+export interface SeoData {
+  metaTitle: string;
+  metaDescription: string;
+  keywords: string;
+  ogTitle: string;
+  ogDescription: string;
+  ogImage: string;
+  canonicalUrl: string;
+  faviconUrl: string;
+  appleTouchIconUrl: string;
+  googleAnalyticsId: string;
+}
+
 export interface PortfolioState {
   hero: HeroData;
   about: AboutData;
@@ -232,6 +245,7 @@ export interface PortfolioState {
   awards: AwardItem[];
   testimonials: TestimonialsData;
   cta: CtaData;
+  seo?: SeoData;
   pipeline?: PipelineStage[];
   progress?: LearningProgress[];
   badges?: CertificationBadge[];
@@ -344,6 +358,18 @@ const DEFAULT_PORTFOLIO_STATE: PortfolioState = {
     linkedinUrl: "https://www.linkedin.com/in/muhammadnurashiddiqi",
     githubUrl: "https://github.com/Tnembull",
   },
+  seo: {
+    metaTitle: "Muhammad Nur Ashiddiqi — DevOps & Backend Engineer",
+    metaDescription: "Official portfolio of Muhammad Nur Ashiddiqi. DevOps & Backend Engineer specializing in REST APIs, PostgreSQL optimization, Kubernetes orchestration, Docker containerization, and automated CI/CD pipelines.",
+    keywords: "Muhammad Nur Ashiddiqi, DevOps Engineer, Backend Developer, Cloud Engineer, Kubernetes, Docker, Terraform, CI/CD, GitHub Actions, Node.js, PostgreSQL",
+    ogTitle: "Muhammad Nur Ashiddiqi — DevOps & Backend Engineer",
+    ogDescription: "DevOps & Backend Engineer creating high availability cloud infrastructure, automated pipelines, and containerized backend systems.",
+    ogImage: "https://bulindev.tech/opengraph-image",
+    canonicalUrl: "https://bulindev.tech",
+    faviconUrl: "/favicon.ico",
+    appleTouchIconUrl: "/logo/logo.png",
+    googleAnalyticsId: "G-FC0GRRZXY3",
+  },
   pipeline: [],
   progress: [],
   badges: [],
@@ -445,6 +471,15 @@ export function PortfolioProvider({ children }: { children: React.ReactNode }) {
         merged.pipeline = data.pipeline;
       } else {
         merged.pipeline = merged.pipeline || [];
+      }
+
+      if (data.seo) {
+        merged.seo = {
+          ...DEFAULT_PORTFOLIO_STATE.seo,
+          ...data.seo,
+        };
+      } else {
+        merged.seo = DEFAULT_PORTFOLIO_STATE.seo;
       }
 
       return merged;

@@ -49,7 +49,8 @@ import CtaEditor from "@/components/admin/CtaEditor";
 import PipelineEditor from "@/components/admin/PipelineEditor";
 import ProgressEditor from "@/components/admin/ProgressEditor";
 import BadgesEditor from "@/components/admin/BadgesEditor";
-import { Mail, GraduationCap } from "lucide-react";
+import SeoEditor from "@/components/admin/SeoEditor";
+import { Mail, GraduationCap, Globe } from "lucide-react";
 
 type SectionTab =
   | "overview"
@@ -70,7 +71,8 @@ type SectionTab =
   | "cta"
   | "pipeline"
   | "progress"
-  | "badges";
+  | "badges"
+  | "seo";
 
 import { Lock, Eye, EyeOff, ShieldCheck, KeyRound } from "lucide-react";
 
@@ -150,6 +152,7 @@ export default function AdminDashboardPage() {
   const [pipelineData, setPipelineData] = useState(state.pipeline || []);
   const [progressData, setProgressData] = useState(state.progress || []);
   const [badgesData, setBadgesData] = useState(state.badges || []);
+  const [seoData, setSeoData] = useState(state.seo);
 
   useEffect(() => {
     setHeroData(state.hero);
@@ -170,6 +173,7 @@ export default function AdminDashboardPage() {
     setPipelineData(state.pipeline || []);
     setProgressData(state.progress || []);
     setBadgesData(state.badges || []);
+    setSeoData(state.seo);
   }, [state]);
 
   const triggerSave = () => {
@@ -191,6 +195,7 @@ export default function AdminDashboardPage() {
     updateSection("pipeline", pipelineData);
     updateSection("progress", progressData);
     updateSection("badges", badgesData);
+    if (seoData) updateSection("seo", seoData);
 
     setSaveToast(true);
     setTimeout(() => setSaveToast(false), 3000);
@@ -216,6 +221,7 @@ export default function AdminDashboardPage() {
     { id: "pipeline" as SectionTab, label: "16 / DevOps Pipeline", icon: GitBranch },
     { id: "progress" as SectionTab, label: "17 / Learning Progress", icon: TrendingUp },
     { id: "badges" as SectionTab, label: "18 / Digital Badges", icon: ShieldCheck },
+    { id: "seo" as SectionTab, label: "19 / SEO, OG & Favicon", icon: Globe },
   ];
 
   // Render Admin Login Gate if not authenticated
@@ -404,30 +410,32 @@ export default function AdminDashboardPage() {
       {/* Main Content */}
       <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
         {/* Header Bar */}
-        <header className="h-14 border-b border-border bg-surface px-4 sm:px-6 flex items-center justify-between gap-4 shrink-0">
-          <div className="flex items-center gap-3">
+        <header className="h-14 border-b border-border bg-surface px-3 sm:px-6 flex items-center justify-between gap-2 shrink-0">
+          <div className="flex items-center gap-2 sm:gap-3 min-w-0">
             <button
               onClick={() => setSidebarOpen(true)}
-              className="lg:hidden text-secondary hover:text-foreground p-1 cursor-pointer"
+              className="lg:hidden text-secondary hover:text-foreground p-1 cursor-pointer shrink-0"
+              aria-label="Open navigation drawer"
             >
-              <Menu size={20} />
+              <Menu size={18} />
             </button>
-            <h1 className="text-xs font-semibold text-foreground uppercase tracking-wide truncate flex items-center gap-2">
-              <span className="text-muted font-mono">SECTION:</span>
-              <span className="bg-surface-secondary border border-border px-2 py-0.5 rounded-md text-accent font-mono">
+            <div className="text-xs font-semibold text-foreground uppercase tracking-wide truncate flex items-center gap-1.5 min-w-0">
+              <span className="hidden sm:inline text-muted font-mono">SECTION:</span>
+              <span className="bg-surface-secondary border border-border px-2 py-0.5 rounded-md text-accent font-mono text-[11px] truncate max-w-[130px] sm:max-w-none">
                 {navMenuItems.find((m) => m.id === activeTab)?.label}
               </span>
-            </h1>
+            </div>
           </div>
 
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2 shrink-0">
             <ThemeToggle />
             <button
               onClick={triggerSave}
-              className="px-4 py-2 bg-accent hover:bg-accent-hover text-accent-text rounded-md text-xs font-semibold transition-colors flex items-center gap-1.5 cursor-pointer font-mono"
+              className="px-2.5 sm:px-4 py-1.5 bg-accent hover:bg-accent-hover text-accent-text rounded-md text-xs font-semibold transition-colors flex items-center gap-1.5 cursor-pointer font-mono shrink-0"
             >
               <Save size={14} />
-              <span>Save & Sync</span>
+              <span className="hidden sm:inline">Save & Sync</span>
+              <span className="sm:hidden">Save</span>
             </button>
           </div>
         </header>
@@ -508,6 +516,10 @@ export default function AdminDashboardPage() {
 
           {activeTab === "badges" && (
             <BadgesEditor items={badgesData} onChange={(items) => setBadgesData(items)} />
+          )}
+
+          {activeTab === "seo" && (
+            <SeoEditor data={seoData} onChange={(data) => setSeoData(data)} />
           )}
         </main>
       </div>
