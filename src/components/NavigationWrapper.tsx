@@ -22,7 +22,7 @@ export default function NavigationWrapper({
   return (
     <>
       <CustomCursor />
-      <Navbar />
+      {pathname !== "/" && <Navbar />}
       {children}
       {showFooter && <Footer />}
     </>
