@@ -71,7 +71,15 @@ export async function generateMetadata(): Promise<Metadata> {
   const canonicalUrl = "https://www.bulindev.tech";
   const ogTitle = seo?.ogTitle || rawTitle;
   const ogDescription = trimDescription(seo?.ogDescription || rawDescription, 160);
-  const ogImage = "https://www.bulindev.tech/opengraph-image";
+  const ogImage =
+    seo?.ogImage && seo.ogImage.startsWith("http")
+      ? seo.ogImage
+      : "https://www.bulindev.tech/opengraph-image";
+  const ogImageType = ogImage.endsWith(".webp")
+    ? "image/webp"
+    : ogImage.endsWith(".png")
+    ? "image/png"
+    : "image/jpeg";
   const faviconUrl = seo?.faviconUrl && seo.faviconUrl.startsWith("http") ? seo.faviconUrl : "/favicon.ico";
   const appleTouchIconUrl =
     seo?.appleTouchIconUrl && seo.appleTouchIconUrl.startsWith("http")
@@ -95,18 +103,11 @@ export async function generateMetadata(): Promise<Metadata> {
     manifest: "/site.webmanifest",
     icons: {
       icon: [
-        { url: "/favicon.svg", type: "image/svg+xml" },
-        { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
-        { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
         { url: faviconUrl },
       ],
       apple: [
         { url: appleTouchIconUrl, sizes: "180x180", type: "image/png" },
         { url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
-      ],
-      other: [
-        { rel: "android-chrome-192x192", url: "/android-chrome-192x192.png" },
-        { rel: "android-chrome-512x512", url: "/android-chrome-512x512.png" },
       ],
     },
     openGraph: {
@@ -123,7 +124,7 @@ export async function generateMetadata(): Promise<Metadata> {
           width: 1200,
           height: 630,
           alt: ogTitle,
-          type: "image/png",
+          type: ogImageType,
         },
       ],
     },
@@ -167,9 +168,7 @@ export default async function RootLayout({
   return (
     <html lang="en" className="dark scroll-smooth" suppressHydrationWarning>
       <head>
-        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
-        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+        <link rel="icon" href="/favicon.ico" />
         <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
         <link rel="manifest" href="/site.webmanifest" />
         <link rel="preconnect" href="https://unavatar.io" />
