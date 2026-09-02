@@ -208,15 +208,17 @@ export default function ContactTab() {
         )}
       </section>
 
-      {/* 3. Telemetry Pipeline */}
-      <section className="space-y-4">
-        <h2 className="text-xs font-mono uppercase tracking-wider text-[#6f7781]">
-          CI/CD Automation Pipeline
-        </h2>
-        <div className="rounded-md border border-[#252a30] bg-[#111418] overflow-hidden">
-          <PipelineWidget />
-        </div>
-      </section>
+      {/* 3. Telemetry Pipeline (Only if real pipeline stages exist) */}
+      {state.pipeline && state.pipeline.length > 0 && (
+        <section className="space-y-4">
+          <h2 className="text-xs font-mono uppercase tracking-wider text-[#6f7781]">
+            CI/CD Automation Pipeline
+          </h2>
+          <div className="rounded-md border border-[#252a30] bg-[#111418] overflow-hidden">
+            <PipelineWidget stages={state.pipeline} />
+          </div>
+        </section>
+      )}
     </div>
   );
 }

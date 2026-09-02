@@ -114,58 +114,64 @@ export default function HomeTab({ onNavigateTab }: HomeTabProps) {
           </button>
         </div>
 
-        <div className="divide-y divide-[#252a30]">
-          {featuredProjects.map((item, idx) => (
-            <article
-              key={item.id}
-              className="py-6 first:pt-0 last:pb-0 grid grid-cols-1 md:grid-cols-[60px_1fr_auto] gap-4 items-start"
-            >
-              {/* Index Number */}
-              <span className="font-mono text-xs text-[#6f7781]">
-                {String(idx + 1).padStart(2, "0")}
-              </span>
+        {featuredProjects.length === 0 ? (
+          <div className="py-8 text-sm text-[#9aa1a9]">
+            No projects added yet.
+          </div>
+        ) : (
+          <div className="divide-y divide-[#252a30]">
+            {featuredProjects.map((item, idx) => (
+              <article
+                key={item.id}
+                className="py-6 first:pt-0 last:pb-0 grid grid-cols-1 md:grid-cols-[60px_1fr_auto] gap-4 items-start"
+              >
+                {/* Index Number */}
+                <span className="font-mono text-xs text-[#6f7781]">
+                  {String(idx + 1).padStart(2, "0")}
+                </span>
 
-              {/* Details */}
-              <div className="space-y-2">
-                <h3 className="text-base font-semibold text-[#f2f4f5]">
-                  {item.title}
-                </h3>
-                <p className="text-xs sm:text-sm text-[#9aa1a9] leading-relaxed max-w-2xl">
-                  {item.description}
-                </p>
-                <div className="text-xs text-[#6f7781] font-mono">
-                  {(item.tags || item.tech || []).join(" · ")}
+                {/* Details */}
+                <div className="space-y-2">
+                  <h3 className="text-base font-semibold text-[#f2f4f5]">
+                    {item.title}
+                  </h3>
+                  <p className="text-xs sm:text-sm text-[#9aa1a9] leading-relaxed max-w-2xl">
+                    {item.description}
+                  </p>
+                  <div className="text-xs text-[#6f7781] font-mono">
+                    {(item.tags || item.tech || []).join(" · ")}
+                  </div>
                 </div>
-              </div>
 
-              {/* Links */}
-              <div className="flex items-center gap-4 text-xs font-mono self-start pt-1">
-                {(item.githubUrl || item.link) && (
-                  <a
-                    href={item.githubUrl || item.link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-[#9aa1a9] hover:text-[#f2f4f5] inline-flex items-center gap-1 transition-colors"
-                  >
-                    <span>GitHub</span>
-                    <ArrowUpRight size={12} />
-                  </a>
-                )}
-                {(item.liveUrl || item.url) && (
-                  <a
-                    href={item.liveUrl || item.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-[#00c896] hover:underline inline-flex items-center gap-1 transition-colors"
-                  >
-                    <span>Demo</span>
-                    <ArrowUpRight size={12} />
-                  </a>
-                )}
-              </div>
-            </article>
-          ))}
-        </div>
+                {/* Links */}
+                <div className="flex items-center gap-4 text-xs font-mono self-start pt-1">
+                  {(item.githubUrl || item.link) && (
+                    <a
+                      href={item.githubUrl || item.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-[#9aa1a9] hover:text-[#f2f4f5] inline-flex items-center gap-1 transition-colors"
+                    >
+                      <span>GitHub</span>
+                      <ArrowUpRight size={12} />
+                    </a>
+                  )}
+                  {(item.liveUrl || item.url) && (
+                    <a
+                      href={item.liveUrl || item.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-[#00c896] hover:underline inline-flex items-center gap-1 transition-colors"
+                    >
+                      <span>Demo</span>
+                      <ArrowUpRight size={12} />
+                    </a>
+                  )}
+                </div>
+              </article>
+            ))}
+          </div>
+        )}
       </section>
 
       {/* Divider */}

@@ -132,10 +132,11 @@ const getStatusConfig = (status: PipelineStage["status"]) => {
 };
 
 export default function PipelineWidget({ stages }: PipelineWidgetProps) {
-  const pipelineStages =
-    stages && stages.length > 0
-      ? [...stages].sort((a, b) => a.order_index - b.order_index)
-      : DEFAULT_STAGES;
+  if (!stages || stages.length === 0) {
+    return null;
+  }
+
+  const pipelineStages = [...stages].sort((a, b) => a.order_index - b.order_index);
 
   const [activeModalStage, setActiveModalStage] = useState<PipelineStage | null>(null);
   const [copied, setCopied] = useState(false);

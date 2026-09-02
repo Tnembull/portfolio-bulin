@@ -10,10 +10,7 @@ export default function ProjectsTab() {
   const { state } = usePortfolio();
   const { projects } = state;
 
-  const rawProjects: Project[] =
-    projects?.items && projects.items.length > 0
-      ? projects.items
-      : INITIAL_PROJECTS;
+  const rawProjects: Project[] = projects?.items || [];
 
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("ALL");
