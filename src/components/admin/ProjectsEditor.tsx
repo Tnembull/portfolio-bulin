@@ -580,6 +580,40 @@ export default function ProjectsEditor({ data, onChange }: ProjectsEditorProps) 
                             ))}
                           </div>
                         </div>
+
+                        {/* Measurable Impact & Outcomes */}
+                        <div className="space-y-2 pt-3 border-t border-border">
+                          <div className="flex items-center justify-between">
+                            <label className="text-secondary font-bold block text-[11px] uppercase">DAMPAK & HASIL NYATA (MEASURABLE IMPACT & OUTCOMES)</label>
+                            <button
+                              type="button"
+                              onClick={() => handleAddArrayItem(pIdx, "impact", "Peningkatan performa / efisiensi...")}
+                              className="text-[10px] text-accent font-bold hover:underline cursor-pointer"
+                            >
+                              + Tambah Dampak
+                            </button>
+                          </div>
+                          <div className="space-y-1.5">
+                            {(proj.impact || []).map((iItem, iIdx) => (
+                              <div key={iIdx} className="flex items-center gap-2">
+                                <input
+                                  type="text"
+                                  value={iItem}
+                                  onChange={(e) => handleArrayItemChange(pIdx, "impact", iIdx, e.target.value)}
+                                  placeholder="e.g. 99.99% Uptime SLA tercapai, 40% pemangkasan biaya cloud..."
+                                  className="flex-1 px-3 py-1.5 bg-surface-secondary border border-border rounded-md text-foreground text-xs outline-none"
+                                />
+                                <button
+                                  type="button"
+                                  onClick={() => handleRemoveArrayItem(pIdx, "impact", iIdx)}
+                                  className="text-rose-400 hover:text-rose-300 p-1 cursor-pointer"
+                                >
+                                  <X size={14} />
+                                </button>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
                       </div>
                     )}
                   </div>
