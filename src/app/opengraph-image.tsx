@@ -1,4 +1,5 @@
 import { ImageResponse } from "next/og";
+import { fetchPortfolioFromSupabase } from "@/lib/supabase";
 
 export const runtime = "edge";
 
@@ -10,11 +11,13 @@ export const size = {
 export const contentType = "image/png";
 
 export default async function Image() {
-  const name = "Muhammad Nur Ashiddiqi";
-  const role = "DevOps & Backend Engineer";
-  const bio = "Kubernetes • CI/CD Pipelines • Cloud Infrastructure (AWS/GCP) • Terraform • High Availability System Architecture";
-  const domain = "https://bulindev.tech";
-  const initials = "MNA";
+  const data = await fetchPortfolioFromSupabase();
+  const name = data?.hero?.name || "Muhammad Nur Ashiddiqi";
+  const role = data?.hero?.role || "DevOps & Backend Engineer";
+  const bio =
+    data?.hero?.bio ||
+    "Backend Developer turned DevOps Engineer. Experienced in building structured REST APIs, PostgreSQL optimization, Docker containerization, Kubernetes orchestration, and automated CI/CD deployment pipelines.";
+  const domain = "bulindev.tech";
 
   return new ImageResponse(
     (
@@ -26,82 +29,53 @@ export default async function Image() {
           flexDirection: "column",
           alignItems: "flex-start",
           justifyContent: "space-between",
-          backgroundColor: "#19131a",
+          backgroundColor: "#0d1013",
           padding: "70px 80px",
           fontFamily: "sans-serif",
           position: "relative",
           overflow: "hidden",
         }}
       >
-        {/* Ambient Mint Glow in Top-Right Corner */}
+        {/* Top Bar: Brand Monogram & Domain */}
         <div
           style={{
-            position: "absolute",
-            top: "-150px",
-            right: "-150px",
-            width: "550px",
-            height: "550px",
-            borderRadius: "50%",
-            background: "radial-gradient(circle, rgba(72, 182, 133, 0.25) 0%, rgba(25, 19, 26, 0) 70%)",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "space-between",
+            width: "100%",
           }}
-        />
-
-        {/* Ambient Subtle Mint Glow in Bottom-Left */}
-        <div
-          style={{
-            position: "absolute",
-            bottom: "-150px",
-            left: "-150px",
-            width: "450px",
-            height: "450px",
-            borderRadius: "50%",
-            background: "radial-gradient(circle, rgba(72, 182, 133, 0.12) 0%, rgba(25, 19, 26, 0) 70%)",
-          }}
-        />
-
-        {/* Top Bar: Monogram Logo & System Status Badge */}
-        <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", width: "100%" }}>
-          <div style={{ display: "flex", alignItems: "center", gap: "20px" }}>
-            {/* Monogram Badge */}
+        >
+          <div style={{ display: "flex", alignItems: "center", gap: "16px" }}>
             <div
               style={{
-                width: "64px",
-                height: "64px",
+                width: "48px",
+                height: "48px",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
-                borderRadius: "16px",
-                backgroundColor: "rgba(72, 182, 133, 0.15)",
-                border: "1.5px solid rgba(72, 182, 133, 0.5)",
+                borderRadius: "8px",
+                backgroundColor: "#14181d",
+                border: "1px solid #262e37",
+                color: "#00d29d",
+                fontSize: "20px",
+                fontWeight: 700,
+                fontFamily: "monospace",
               }}
             >
-              <div
-                style={{
-                  fontSize: "26px",
-                  fontWeight: "900",
-                  color: "#48b685",
-                  fontFamily: "monospace",
-                }}
-              >
-                {initials}
-              </div>
+              MNA
             </div>
 
             <div
               style={{
                 fontSize: "14px",
                 fontFamily: "monospace",
-                color: "#48b685",
-                letterSpacing: "3px",
+                color: "#00d29d",
+                letterSpacing: "1.5px",
                 textTransform: "uppercase",
-                fontWeight: 700,
-                backgroundColor: "rgba(72, 182, 133, 0.1)",
-                border: "1px solid rgba(72, 182, 133, 0.3)",
-                padding: "8px 16px",
-                borderRadius: "8px",
+                fontWeight: 600,
               }}
             >
-              01 // DEVOPS PORTFOLIO MATRIX
+              ENGINEERING PORTFOLIO
             </div>
           </div>
 
@@ -109,15 +83,14 @@ export default async function Image() {
             style={{
               fontSize: "13px",
               fontFamily: "monospace",
-              color: "#48b685",
-              fontWeight: 700,
-              backgroundColor: "rgba(72, 182, 133, 0.1)",
-              border: "1px solid rgba(72, 182, 133, 0.3)",
-              padding: "8px 16px",
-              borderRadius: "8px",
+              color: "#8e98a4",
               display: "flex",
               alignItems: "center",
               gap: "8px",
+              padding: "6px 14px",
+              borderRadius: "6px",
+              backgroundColor: "#14181d",
+              border: "1px solid #262e37",
             }}
           >
             <div
@@ -125,10 +98,10 @@ export default async function Image() {
                 width: "8px",
                 height: "8px",
                 borderRadius: "50%",
-                backgroundColor: "#48b685",
+                backgroundColor: "#00d29d",
               }}
             />
-            ONLINE // SYSTEM_STABLE
+            AVAILABLE FOR COLLABORATION
           </div>
         </div>
 
@@ -136,9 +109,9 @@ export default async function Image() {
         <div style={{ display: "flex", flexDirection: "column", gap: "16px" }}>
           <div
             style={{
-              fontSize: "58px",
-              fontWeight: 900,
-              color: "#e7e9db",
+              fontSize: "56px",
+              fontWeight: 800,
+              color: "#f0f2f5",
               letterSpacing: "-1.5px",
               lineHeight: 1.1,
             }}
@@ -148,9 +121,9 @@ export default async function Image() {
 
           <div
             style={{
-              fontSize: "30px",
-              fontWeight: 700,
-              color: "#48b685",
+              fontSize: "28px",
+              fontWeight: 600,
+              color: "#00d29d",
               letterSpacing: "-0.5px",
               fontFamily: "monospace",
             }}
@@ -160,8 +133,8 @@ export default async function Image() {
 
           <div
             style={{
-              fontSize: "19px",
-              color: "#a392a3",
+              fontSize: "18px",
+              color: "#8e98a4",
               maxWidth: "920px",
               lineHeight: 1.5,
               marginTop: "4px",
@@ -179,29 +152,28 @@ export default async function Image() {
             justifyContent: "space-between",
             width: "100%",
             paddingTop: "24px",
-            borderTop: "1px solid #483145",
+            borderTop: "1px solid #262e37",
           }}
         >
           <div
             style={{
-              fontSize: "18px",
+              fontSize: "16px",
               fontFamily: "monospace",
-              color: "#48b685",
-              fontWeight: 700,
+              color: "#f0f2f5",
+              fontWeight: 600,
             }}
           >
-            {domain}
+            https://{domain}
           </div>
 
           <div
             style={{
-              fontSize: "15px",
+              fontSize: "14px",
               fontFamily: "monospace",
-              color: "#a392a3",
-              fontWeight: 600,
+              color: "#8e98a4",
             }}
           >
-            INDONESIA // ASIA-SOUTHEAST
+            INDONESIA · GMT+7
           </div>
         </div>
       </div>

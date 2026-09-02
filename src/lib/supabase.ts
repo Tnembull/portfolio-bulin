@@ -1,5 +1,6 @@
 import { createClient } from "@supabase/supabase-js";
 import { PortfolioState } from "@/context/PortfolioContext";
+import { Project } from "@/data/projects";
 
 export interface PipelineStage {
   id: string;
@@ -84,6 +85,25 @@ export async function savePortfolioToSupabase(state: PortfolioState): Promise<bo
     return !error;
   } catch {
     return false;
+  }
+}
+
+/**
+ * Fetch a single project by slug or ID from Supabase for dynamic SSR & Open Graph metadata
+ */
+export async function getProjectBySlugOrId(slugOrId: string): Promise<Project | null> {
+  try {
+    const portfolio = await fetchPortfolioFromSupabase();
+    if (!portfolio || !portfolio.projects || !portfolio.projects.items) {
+      return null;
+    }
+    return (
+      portfolio.projects.items.find(
+        (p) => p.slug === slugOrId || p.id === slugOrId
+      ) || null
+    );
+  } catch {
+    return null;
   }
 }
 
