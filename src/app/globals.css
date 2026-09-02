@@ -92,3 +92,57 @@ select:focus {
   border-color: var(--accent) !important;
   outline: none !important;
 }
+
+/* Admin Theme Harmonizer */
+.bg-\[\#2f1e2e\],
+.bg-\[\#181a1d\],
+.bg-\[\#19131a\],
+.bg-\[\#14171b\],
+.bg-\[\#121722\] {
+  background-color: var(--surface) !important;
+}
+
+.bg-\[\#07090e\],
+.bg-\[\#0b0e12\],
+.bg-\[\#0b0d0f\],
+.bg-\[\#0c0f16\] {
+  background-color: var(--background) !important;
+}
+
+.border-\[\#483145\],
+.border-\[\#303235\],
+.border-\[\#252a30\] {
+  border-color: var(--border) !important;
+}
+
+.text-\[\#48b685\],
+.text-\[\#00d892\],
+.text-\[\#00c896\] {
+  color: var(--accent) !important;
+}
+
+.bg-\[\#48b685\],
+.bg-\[\#00d892\],
+.bg-\[\#00c896\] {
+  background-color: var(--accent) !important;
+  color: var(--accent-text) !important;
+}
+
+.text-\[\#e7e9db\],
+.text-\[\#dedede\],
+.text-\[\#f2f4f5\] {
+  color: var(--foreground) !important;
+}
+
+.text-\[\#a392a3\],
+.text-\[\#818284\],
+.text-\[\#9aa1a9\],
+.text-\[\#bababb\] {
+  color: var(--text-secondary) !important;
+}
+
+.cyber-card {
+  background-color: var(--surface) !important;
+  border-color: var(--border) !important;
+  color: var(--foreground) !important;
+}

@@ -290,43 +290,43 @@ export default function AdminDashboardPage() {
   }
 
   return (
-    <div className="dark flex h-screen overflow-hidden bg-[#19131a] text-[#e7e9db] font-mono">
-      {/* Cyber Toast */}
+    <div className="flex h-screen overflow-hidden bg-background text-foreground font-sans">
+      {/* Save Toast */}
       {saveToast && (
-        <div className="fixed top-6 right-6 z-50 bg-[#2f1e2e] text-[#48b685] px-5 py-3 rounded-xl font-mono text-xs font-bold flex items-center gap-2 shadow-2xl border border-[#48b685]/50 animate-in fade-in slide-in-from-top-4">
-          <CheckCircle2 size={16} className="text-[#48b685]" />
-          <span>[ SUCCESS ] All Portfolio Matrix Data Saved!</span>
+        <div className="fixed top-6 right-6 z-50 bg-surface border border-accent text-accent px-5 py-3 rounded-lg font-mono text-xs font-bold flex items-center gap-2 shadow-2xl animate-in fade-in slide-in-from-top-4">
+          <CheckCircle2 size={16} className="text-accent" />
+          <span>All Portfolio Data Saved & Synced to Database!</span>
         </div>
       )}
 
       {/* Sidebar Navigation */}
       <aside
-        className={`fixed inset-y-0 left-0 z-40 w-72 bg-[#2f1e2e] border-r border-[#483145] flex flex-col justify-between transition-transform duration-300 lg:static lg:translate-x-0 ${
+        className={`fixed inset-y-0 left-0 z-40 w-72 bg-surface border-r border-border flex flex-col justify-between transition-transform duration-300 lg:static lg:translate-x-0 ${
           sidebarOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
         {/* Sidebar Header */}
-        <div className="h-14 px-4 border-b border-[#483145] flex items-center justify-between shrink-0 bg-muted/20">
+        <div className="h-14 px-4 border-b border-border flex items-center justify-between shrink-0 bg-surface-secondary">
           <div className="space-y-0.5">
-            <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-[#48b685]">
-              [ ADMIN_CONTROL_TERMINAL ]
+            <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-accent">
+              ADMIN CONTROL PANEL
             </span>
-            <h2 className="text-sm font-bold text-slate-100 font-mono truncate">
-              {state.hero.name || "MUHAMMAD NUR ASHIDDIQI"}
+            <h2 className="text-sm font-semibold text-foreground truncate">
+              {state.hero.name || "Muhammad Nur Ashiddiqi"}
             </h2>
           </div>
           <button
             onClick={() => setSidebarOpen(false)}
-            className="lg:hidden text-[#48b685] hover:text-white cursor-pointer"
+            className="lg:hidden text-secondary hover:text-foreground cursor-pointer"
           >
             <X size={18} />
           </button>
         </div>
 
         {/* Navigation List */}
-        <nav data-lenis-prevent className="flex-1 overflow-y-auto p-3 space-y-1 font-mono text-xs">
-          <div className="px-2 pb-2 text-[10px] text-[#a392a3] uppercase tracking-wider font-bold italic">
-            MODULAR_EDITOR_NODES (17 PANELS)
+        <nav data-lenis-prevent className="flex-1 overflow-y-auto p-3 space-y-1 text-xs">
+          <div className="px-2 pb-2 text-[10px] text-muted uppercase tracking-wider font-mono font-bold">
+            EDITOR SECTIONS (17 PANELS)
           </div>
           {navMenuItems.map((item) => {
             const Icon = item.icon;
@@ -339,13 +339,13 @@ export default function AdminDashboardPage() {
                   setActiveTab(item.id);
                   setSidebarOpen(false);
                 }}
-                className={`w-full flex items-center gap-2.5 px-3 py-2 rounded-lg transition-all cursor-pointer ${
+                className={`w-full flex items-center gap-2.5 px-3 py-2 rounded-md transition-colors cursor-pointer text-left ${
                   isActive
-                    ? "bg-[#48b685]/20 text-[#48b685] border border-[#48b685] font-bold"
-                    : "text-[#e7e9db]/80 hover:text-white hover:bg-[#48b685]/10 hover:border-[#48b685]/30 border border-transparent"
+                    ? "bg-surface-secondary text-accent border border-border font-semibold"
+                    : "text-secondary hover:text-foreground hover:bg-surface-secondary border border-transparent"
                 }`}
               >
-                <Icon size={14} className={isActive ? "text-[#48b685]" : "text-[#48b685]"} />
+                <Icon size={14} className={isActive ? "text-accent" : "text-secondary"} />
                 <span className="truncate">{item.label}</span>
               </button>
             );
@@ -353,11 +353,11 @@ export default function AdminDashboardPage() {
         </nav>
 
         {/* Sidebar Footer */}
-        <div className="p-3 border-t border-[#483145] space-y-2 font-mono text-xs bg-muted/20">
-          <div className="flex items-center justify-between px-2.5 py-1 bg-[#19131a] rounded-md border border-[#483145] text-[10px] text-[#a392a3]">
-            <span>[ SYSTEM_STATUS ]</span>
-            <span className="text-[#48b685] font-bold flex items-center gap-1">
-              <span className="size-1.5 rounded-full bg-[#48b685] animate-pulse" />
+        <div className="p-3 border-t border-border space-y-2 text-xs bg-surface-secondary">
+          <div className="flex items-center justify-between px-2.5 py-1 bg-surface rounded-md border border-border text-[10px] text-secondary font-mono">
+            <span>DATABASE SYNC</span>
+            <span className="text-accent font-bold flex items-center gap-1">
+              <span className="size-1.5 rounded-full bg-accent" />
               ONLINE
             </span>
           </div>
@@ -366,7 +366,7 @@ export default function AdminDashboardPage() {
             <Link
               href="/"
               target="_blank"
-              className="flex-1 flex items-center justify-center gap-1.5 py-2 border border-[#48b685]/30 bg-[#48b685]/10 hover:bg-[#48b685]/20 text-[#48b685] rounded-lg font-semibold transition-all"
+              className="flex-1 flex items-center justify-center gap-1.5 py-2 border border-border bg-surface hover:bg-surface-secondary text-secondary hover:text-foreground rounded-md text-xs font-medium transition-colors"
             >
               <span>View Site</span>
               <ExternalLink size={13} />
@@ -374,7 +374,7 @@ export default function AdminDashboardPage() {
 
             <button
               onClick={handleLogout}
-              className="p-2 border border-red-500/30 bg-red-500/10 hover:bg-red-500/20 text-red-400 rounded-lg transition-all cursor-pointer"
+              className="p-2 border border-rose-500/30 bg-rose-500/10 hover:bg-rose-500/20 text-rose-400 rounded-md transition-colors cursor-pointer"
               title="Lock Console / Logout"
             >
               <LogOut size={14} />
@@ -382,11 +382,11 @@ export default function AdminDashboardPage() {
 
             <button
               onClick={() => {
-                if (confirm("Reset portfolio back to default DevOps data?")) {
+                if (confirm("Reset portfolio back to default data?")) {
                   resetAll();
                 }
               }}
-              className="p-2 border border-orange-500/30 bg-orange-500/10 hover:bg-orange-500/20 text-orange-400 rounded-lg transition-all cursor-pointer"
+              className="p-2 border border-amber-500/30 bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 rounded-md transition-colors cursor-pointer"
               title="Reset All Data"
             >
               <RotateCcw size={14} />
@@ -398,17 +398,17 @@ export default function AdminDashboardPage() {
       {/* Main Content */}
       <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
         {/* Header Bar */}
-        <header className="h-14 border-b border-[#483145] bg-[#2f1e2e] px-4 sm:px-6 flex items-center justify-between gap-4 shrink-0 font-mono">
+        <header className="h-14 border-b border-border bg-surface px-4 sm:px-6 flex items-center justify-between gap-4 shrink-0">
           <div className="flex items-center gap-3">
             <button
               onClick={() => setSidebarOpen(true)}
-              className="lg:hidden text-[#48b685] hover:text-white p-1"
+              className="lg:hidden text-secondary hover:text-foreground p-1 cursor-pointer"
             >
               <Menu size={20} />
             </button>
-            <h1 className="text-xs font-bold text-[#48b685] uppercase tracking-wide truncate flex items-center gap-2">
-              <span className="text-[#a392a3]">SECTION:</span>
-              <span className="bg-[#48b685]/10 border border-[#48b685]/30 px-2 py-0.5 rounded-md text-[#48b685]">
+            <h1 className="text-xs font-semibold text-foreground uppercase tracking-wide truncate flex items-center gap-2">
+              <span className="text-muted font-mono">SECTION:</span>
+              <span className="bg-surface-secondary border border-border px-2 py-0.5 rounded-md text-accent font-mono">
                 {navMenuItems.find((m) => m.id === activeTab)?.label}
               </span>
             </h1>
@@ -418,16 +418,16 @@ export default function AdminDashboardPage() {
             <ThemeToggle />
             <button
               onClick={triggerSave}
-              className="px-4 py-1.5 bg-[#48b685]/20 text-[#48b685] border border-[#48b685] rounded-lg text-xs font-bold uppercase tracking-wider hover:bg-[#48b685]/30 active:scale-95 transition-all flex items-center gap-1.5 cursor-pointer font-bold"
+              className="px-4 py-2 bg-accent hover:bg-accent-hover text-accent-text rounded-md text-xs font-semibold transition-colors flex items-center gap-1.5 cursor-pointer font-mono"
             >
-              <Save size={14} className="text-[#48b685]" />
-              <span>Save Matrix</span>
+              <Save size={14} />
+              <span>Save & Sync</span>
             </button>
           </div>
         </header>
 
         {/* Modular Canvas */}
-        <main data-lenis-prevent className="flex-1 overflow-y-auto p-4 sm:p-8 space-y-6 bg-[#07090e]">
+        <main data-lenis-prevent className="flex-1 overflow-y-auto p-4 sm:p-8 space-y-6 bg-background">
           {activeTab === "overview" && (
             <OverviewEditor items={navMenuItems.slice(1)} onSelectTab={(tab) => setActiveTab(tab as SectionTab)} />
           )}

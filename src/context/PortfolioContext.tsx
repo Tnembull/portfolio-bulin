@@ -1,8 +1,8 @@
 "use client";
 
 import React, { createContext, useContext, useState, useEffect } from "react";
-import { PROJECTS as INITIAL_PROJECTS, Project } from "@/data/projects";
-import { PipelineStage, LearningProgress, CertificationBadge } from "@/lib/supabase";
+import { Project } from "@/data/projects";
+import { PipelineStage, LearningProgress, CertificationBadge, fetchPortfolioFromSupabase, savePortfolioToSupabase } from "@/lib/supabase";
 
 export interface HeroData {
   name: string;
@@ -237,494 +237,116 @@ export interface PortfolioState {
   badges?: CertificationBadge[];
 }
 
-const DEVOPS_PROJECTS: Project[] = [
-  {
-    id: "proj-1",
-    title: "Multi-Region Kubernetes Cluster Automation",
-    category: "Infrastructure & Kubernetes",
-    description: "Automated provisioning of highly scalable, fault-tolerant Kubernetes clusters across AWS & GCP using Terraform, Helm, and Cilium CNI.",
-    tags: ["Kubernetes", "Terraform", "Helm", "AWS", "Cilium"],
-    tech: ["Kubernetes", "Terraform", "Helm", "AWS", "Cilium"],
-    link: "https://github.com/Tnembull/k8s-multi-region",
-    featured: true,
-    image: "https://images.unsplash.com/photo-1667372335854-c072b9886360?q=80&w=1200&auto=format&fit=crop"
-  },
-  {
-    id: "proj-2",
-    title: "GitOps Continuous Delivery Pipeline",
-    category: "CI/CD & GitOps",
-    description: "Enterprise zero-downtime deployment framework leveraging ArgoCD, GitHub Actions, and Vault for automated security compliance.",
-    tags: ["GitOps", "ArgoCD", "GitHub Actions", "Docker", "Vault"],
-    tech: ["GitOps", "ArgoCD", "GitHub Actions", "Docker", "Vault"],
-    link: "https://github.com/Tnembull/gitops-pipeline",
-    featured: true,
-    image: "https://images.unsplash.com/photo-1618401471353-b98afee0b2eb?q=80&w=1200&auto=format&fit=crop"
-  },
-  {
-    id: "proj-3",
-    title: "Unified Observability & Monitoring Stack",
-    category: "Observability & Site Reliability",
-    description: "Centralized telemetry pipeline using Prometheus, Grafana, Loki, and OpenTelemetry monitoring 500+ microservices.",
-    tags: ["Prometheus", "Grafana", "Loki", "OpenTelemetry", "Go"],
-    tech: ["Prometheus", "Grafana", "Loki", "OpenTelemetry", "Go"],
-    link: "https://github.com/ashiddiqi/observability-stack",
-    featured: true,
-    image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?q=80&w=1200&auto=format&fit=crop"
-  },
-  {
-    id: "proj-4",
-    title: "Automated Cloud Disaster Recovery Engine",
-    category: "Cloud Security & Resilience",
-    description: "Automated backup, replication, and instant failover orchestration system using Ansible & AWS Lambda.",
-    tags: ["Ansible", "AWS Lambda", "Python", "Disaster Recovery"],
-    tech: ["Ansible", "AWS Lambda", "Python", "Disaster Recovery"],
-    link: "https://github.com/ashiddiqi/cloud-dr-engine",
-    featured: false,
-    image: "https://images.unsplash.com/photo-1544197150-b99a580bb7a8?q=80&w=1200&auto=format&fit=crop"
-  }
-];
-
-const DEFAULT_PIPELINE: PipelineStage[] = [
-  {
-    id: "stage-code",
-    title: "Code & Static Analysis",
-    description: "Automated git commit validation, TypeScript type-checking & ESLint audit",
-    status: "success",
-    icon_name: "code",
-    order_index: 1,
-    logs: [
-      "[INFO] Initializing CI pipeline runner v3.8.4 on branch main...",
-      "[INFO] Repository checkout SHA: 8a4f9b2 (feat: implement pipeline widget)",
-      "[INFO] Executing static code analysis (TypeScript v5.8, ESLint v9.2)...",
-      "[SUCCESS] src/components/PipelineWidget.tsx passed strict typecheck.",
-      "[SUCCESS] 0 lint errors, 0 warnings across 52 source files.",
-      "[INFO] Verifying security policy compliance & secret scanning...",
-      "[SUCCESS] 0 vulnerabilities or exposed credentials found.",
-      "[SUCCESS] Stage 'Code & Static Analysis' completed in 1.4s.",
-    ],
-  },
-  {
-    id: "stage-build",
-    title: "Docker Image Build",
-    description: "Compiling production Next.js assets into multi-stage OCI container image",
-    status: "success",
-    icon_name: "build",
-    order_index: 2,
-    logs: [
-      "[INFO] Spawning Docker daemon builder (BuildKit v0.12 enabled)...",
-      "[INFO] Step 1/7: FROM node:20-alpine AS base",
-      "[INFO] Step 3/7: RUN npm run build (Next.js 16.1.6)",
-      "[INFO] Creating an optimized production build...",
-      "[INFO] Compiled / (SSR & Static) successfully in 12.4s.",
-      "[SUCCESS] Image tagged: ghcr.io/tnembull/porto-bulin:v2.4.0",
-      "[SUCCESS] Artifact compressed: 134.8 MB container layer.",
-      "[SUCCESS] Stage 'Docker Image Build' completed in 16.8s.",
-    ],
-  },
-  {
-    id: "stage-test",
-    title: "Automated Test Suite",
-    description: "Running Jest unit specs & Playwright end-to-end integration matrix",
-    status: "success",
-    icon_name: "test",
-    order_index: 3,
-    logs: [
-      "[INFO] Initializing headless Chrome test runner environment...",
-      "[INFO] Running Jest unit suite (34 test files found)...",
-      "[SUCCESS] PASS src/__tests__/PipelineWidget.test.tsx (0.42s)",
-      "[SUCCESS] PASS src/__tests__/supabase.test.ts (0.31s)",
-      "[INFO] Launching Playwright E2E matrix on Chromium, Firefox & WebKit...",
-      "[SUCCESS] 18/18 integration specs passed with 0 retries.",
-      "[SUCCESS] Coverage summary: 95.4% statements, 92.1% branches.",
-      "[SUCCESS] Stage 'Automated Test Suite' completed in 8.2s.",
-    ],
-  },
-  {
-    id: "stage-deploy",
-    title: "Production Deployment",
-    description: "Zero-downtime rolling deployment to Kubernetes production cluster",
-    status: "running",
-    icon_name: "deploy",
-    order_index: 4,
-    logs: [
-      "[INFO] Target environment: Production (Cluster: k8s-us-east-1)",
-      "[INFO] Applying Kubernetes deployment manifest k8s/production.yaml...",
-      "[RUNNING] Provisioning new pod replicas: 2/3 ready...",
-      "[INFO] Executing database schema migration script...",
-      "[SUCCESS] Migration 004_pipeline_tracker.sql executed seamlessly.",
-      "[RUNNING] Performing readiness & liveness HTTP probes (/api/health)...",
-      "[RUNNING] Shifted 75% traffic target to new release release-v2.4.0...",
-    ],
-  },
-];
-
-const DEFAULT_PROGRESS: LearningProgress[] = [
-  {
-    id: "kcna-cert",
-    title: "Kubernetes & Cloud Native Associate (KCNA)",
-    provider: "Linux Foundation / CNCF",
-    progress_percent: 85,
-    target_date: "Q4 2026",
-    status: "in_progress",
-    description:
-      "Mastering cloud-native ecosystem fundamentals, container orchestration, Kubernetes architecture, and GitOps delivery pipelines.",
-    order_index: 1,
-  },
-  {
-    id: "aws-saa",
-    title: "AWS Certified Solutions Architect",
-    provider: "Amazon Web Services",
-    progress_percent: 60,
-    target_date: "Q1 2027",
-    status: "in_progress",
-    description:
-      "Designing resilient, high-performing, cost-optimized, and secure multi-tier cloud architectures on AWS.",
-    order_index: 2,
-  },
-  {
-    id: "cka-cert",
-    title: "Certified Kubernetes Administrator (CKA)",
-    provider: "Linux Foundation",
-    progress_percent: 25,
-    target_date: "Q2 2027",
-    status: "planned",
-    description:
-      "Hands-on cluster installation, networking configuration, storage volume management, ingress controllers, and troubleshooting.",
-    order_index: 3,
-  },
-];
-
-const DEFAULT_BADGES: CertificationBadge[] = [
-  {
-    id: "badge-oci-devops",
-    name: "Oracle Cloud Infrastructure 2025 Certified DevOps Professional",
-    issuer: "Oracle",
-    badge_image_url:
-      "https://images.credly.com/size/340x340/images/d3752e25-1e3d-49d7-8321-7299a9b6f124/image.png",
-    verification_url: "https://credly.com",
-    issue_date: "2025",
-    is_featured: true,
-    order_index: 0,
-  },
-  {
-    id: "badge-aws-clf",
-    name: "AWS Certified Cloud Practitioner",
-    issuer: "Amazon Web Services",
-    badge_image_url:
-      "https://images.credly.com/size/340x340/images/b9feab85-1a4e-4e6e-8280-f04e477e38c7/image.png",
-    verification_url: "https://credly.com",
-    issue_date: "2024",
-    is_featured: true,
-    order_index: 1,
-  },
-];
-
 const DEFAULT_PORTFOLIO_STATE: PortfolioState = {
   hero: {
     name: "Muhammad Nur Ashiddiqi",
     role: "DevOps & Backend Engineer",
-    bio: "Backend Developer (S.Kom Unila) turned DevOps Engineer. Experienced in building structured REST APIs, PostgreSQL optimization, Docker containerization & automated CI/CD deployment pipelines.",
-    avatarOff: "https://unavatar.io/github/Tnembull",
-    avatarOn: "https://unavatar.io/github/Tnembull",
-    statusText: "DevOps & Backend Engineer @ Newus Teknologi",
-    company: "Newus Teknologi",
-    companyLink: "https://newus.id",
-    location: "Bandar Lampung, Indonesia",
-    locationLink: "https://maps.google.com/?q=Bandar+Lampung,Indonesia",
+    bio: "",
+    avatarOff: "/avatar.jpg",
+    avatarOn: "/avatar.jpg",
+    statusText: "Available for collaboration",
+    company: "",
+    companyLink: "",
+    location: "Indonesia",
+    locationLink: "",
     timezone: "Asia/Jakarta",
-    phone: "+62 812 3456 7890",
+    phone: "",
     email: "muhammadnurashiddiqi@gmail.com",
     website: "bulindev.tech",
-    pronouns: "he/him",
+    pronouns: "",
   },
   about: {
-    sectionBadge: "01. BIOGRAPHY",
-    titleMain: "Software Engineering &",
-    titleHighlight: "DevOps Infrastructure",
-    bioText: "Saya Muhammad Nur Ashiddiqi (Bulin), lulusan Sarjana Ilmu Komputer (S.Kom) Universitas Lampung yang kini berkarir sebagai Backend & DevOps Engineer di Newus Teknologi. Berfokus pada pembangunan REST API terstruktur berbasis Node.js/Express & Prisma, optimasi database PostgreSQL, serta otomatisasi deployment server dengan Docker & CI/CD.",
-    profileBadge: "MUHAMMAD NUR ASHIDDIQI (BULIN)",
-    highlights: [
-      { id: "h-1", label: "Nama Lengkap", value: "Muhammad Nur Ashiddiqi (Bulin)" },
-      { id: "h-2", label: "Pendidikan", value: "S.Kom - Universitas Lampung (IPK 3.32)" },
-      { id: "h-3", label: "Posisi Saat Ini", value: "Backend & DevOps Engineer @ Newus Teknologi" },
-      { id: "h-4", label: "Keahlian Utama", value: "Node.js, Express.js, TypeScript, PostgreSQL, Docker" },
-      { id: "h-5", label: "Lokasi", value: "Bandar Lampung, Indonesia" },
-    ],
-    coreTechStack: [
-      "Node.js, Express.js & TypeScript",
-      "Prisma ORM & PostgreSQL",
-      "Docker & Containerization",
-      "CI/CD Pipeline & Server Automation",
-      "Python Data & Automation Scripts",
-      "Linux Server Administration & Nginx",
-    ],
-    values: [
-      {
-        id: "v-1",
-        num: "01",
-        title: "REST API & INTEGRASI SISTEM",
-        desc: "Pengembangan REST API terstruktur, integrasi payment gateway, autentikasi aman, dan penanganan notifikasi otomatis.",
-      },
-      {
-        id: "v-2",
-        num: "02",
-        title: "OPTIMASI DATABASE & WORKERS",
-        desc: "Optimasi query PostgreSQL, modul clean architecture, logging terstruktur, dan background job worker.",
-      },
-      {
-        id: "v-3",
-        num: "03",
-        title: "DOCKER & AUTOMATED DEPLOYMENT",
-        desc: "Kontainerisasi aplikasi backend menggunakan Docker dan konfigurasi CI/CD pipeline untuk deployment server Linux.",
-      },
-    ],
+    sectionBadge: "BIOGRAPHY",
+    titleMain: "Engineering &",
+    titleHighlight: "Architecture",
+    bioText: "",
+    profileBadge: "",
+    highlights: [],
+    coreTechStack: [],
+    values: [],
   },
   experience: {
-    sectionBadge: "02. EXPERIENCE",
+    sectionBadge: "EXPERIENCE",
     titleMain: "Work",
     titleHighlight: "Experience",
-    subText: "Pengalaman kerja profesional di bidang Backend Development dan DevOps Engineering.",
-    ctaText: "HUBUNGI UNTUK KOLABORASI",
+    subText: "",
+    ctaText: "Get in touch",
     ctaLink: "mailto:muhammadnurashiddiqi@gmail.com",
-    items: [
-      {
-        id: "exp-1",
-        year: "DESEMBER 2024 — SEKARANG",
-        role: "Backend & DevOps Engineer",
-        company: "Newus Teknologi",
-        description: "Mengembangkan & merapikan API berbasis Node.js/Express & Prisma untuk aplikasi E-Gov & produk internal, integrasi payment & auth gateway, optimasi query PostgreSQL, serta merancang job worker & pipeline deployment.",
-        tags: ["Node.js", "Express.js", "Prisma", "PostgreSQL", "Docker", "CI/CD", "TypeScript"],
-        location: "Bandar Lampung, Indonesia",
-        jobType: "Full-time",
-      },
-      {
-        id: "exp-2",
-        year: "JULI 2024 — SEPTEMBER 2024",
-        role: "Fullstack Developer",
-        company: "PT. Giga Prima Lestari",
-        description: "Maintenance core backend MERN stack, perbaikan performa API endpoint penting, serta implementasi fitur real-time WebSocket untuk notifikasi & komunikasi internal.",
-        tags: ["MongoDB", "Express.js", "React", "Node.js", "WebSocket", "JavaScript"],
-        location: "Indonesia",
-        jobType: "Contract",
-      },
-      {
-        id: "exp-3",
-        year: "OKTOBER 2023 — DESEMBER 2023",
-        role: "Backend Developer",
-        company: "BP-KKN Universitas Lampung",
-        description: "Pengembangan fitur backend untuk kebutuhan operasional KKN, automasi pelaporan data, penyusunan dokumentasi API, dan pipeline deployment sederhana.",
-        tags: ["Node.js", "Express.js", "MySQL", "REST API", "API Docs"],
-        location: "Bandar Lampung, Indonesia",
-        jobType: "Project Contract",
-      },
-    ],
+    items: [],
   },
   education: {
-    sectionBadge: "03. EDUCATION",
+    sectionBadge: "EDUCATION",
     titleMain: "Academic",
     titleHighlight: "Background",
-    items: [
-      {
-        id: "edu-1",
-        year: "2018 — 2024",
-        degree: "Sarjana Ilmu Komputer (S.Kom)",
-        institution: "Universitas Lampung",
-        gpa: "IPK 3.32",
-        details: "Fokus Rekayasa Perangkat Lunak, Arsitektur Sistem Backend, Manajemen Database, dan Pemrograman Terdistribusi.",
-      },
-      {
-        id: "edu-2",
-        year: "2014 — 2017",
-        degree: "Teknik Otomotif",
-        institution: "SMK Yadika Bandar Lampung",
-        details: "Pendidikan Kejuruan Teknik & Dasar Analisis Sistem Mekanikal.",
-      },
-      {
-        id: "edu-3",
-        year: "2011 — 2014",
-        degree: "Sekolah Menengah Pertama",
-        institution: "SMP Negeri 22 Bandar Lampung",
-      },
-      {
-        id: "edu-4",
-        year: "2006 — 2011",
-        degree: "Sekolah Dasar",
-        institution: "SD Al-Kautsar Bandar Lampung",
-      },
-    ],
+    items: [],
   },
   skills: {
-    sectionBadge: "04. SKILLS",
+    sectionBadge: "SKILLS",
     titleMain: "Technical",
     titleHighlight: "Capabilities",
-    items: [
-      {
-        id: "s-1",
-        num: "01",
-        title: "Containerization & Cloud Server",
-        desc: "Docker, Docker Compose, Linux Server Admin, Nginx Reverse Proxy, Multi-stage Builds, Container Security",
-      },
-      {
-        id: "s-2",
-        num: "02",
-        title: "CI/CD & Server Automation",
-        desc: "GitHub Actions, Automated Testing Pipelines, Staging & Production Deployment, Semantic Release, Bash Scripting",
-      },
-      {
-        id: "s-3",
-        num: "03",
-        title: "Backend Development & Database",
-        desc: "Node.js, Express.js, TypeScript, PostgreSQL Optimization, Redis Caching, Prisma ORM, REST & WebSocket APIs",
-      },
-      {
-        id: "s-4",
-        num: "04",
-        title: "UI/UX Architecture & Design Systems (Pro Max)",
-        desc: "Figma, Design Tokens, User Journey Mapping, Wireframing, High-Fidelity Prototyping, Micro-Interactions, Editorial Layouts, WCAG 2.2 AAA Accessibility",
-      },
-    ],
+    items: [],
   },
   tools: {
-    sectionBadge: "05. TECH STACK",
+    sectionBadge: "TECH STACK",
     titleMain: "Tools &",
     titleHighlight: "Technologies",
-    items: [
-      { id: "t-1", name: "Docker", category: "Container Engine", logoSrc: "/logo/Devicon-css3-plain.svg" },
-      { id: "t-2", name: "Linux & Nginx", category: "Server Administration", logoSrc: "/logo/Cib-next-js_(CoreUI_Icons_v1.0.0).svg", isMonochrome: true },
-      { id: "t-3", name: "Node.js & Express", category: "Backend Runtime", logoSrc: "/logo/Typescript_logo_2020.svg" },
-      { id: "t-4", name: "TypeScript & Prisma", category: "Language & ORM", logoSrc: "/logo/React-icon.svg" },
-      { id: "t-5", name: "PostgreSQL & Redis", category: "Database & Cache", logoSrc: "/logo/Devicon-html5-plain.svg" },
-      { id: "t-6", name: "GitHub Actions", category: "CI/CD Automation", logoSrc: "/logo/Tailwind_CSS_Logo.svg" },
-    ],
+    items: [],
   },
   process: {
-    sectionBadge: "06. WORK PROCESS",
+    sectionBadge: "WORK PROCESS",
     titleMain: "Execution",
     titleHighlight: "Flow",
-    subText: "Pendekatan terstruktur dari perancangan API backend hingga otomatisasi deployment ke server Linux.",
-    items: [
-      { id: "p-1", num: "01", phase: "TAHAP 01", title: "Perancangan API & Database", desc: "Menganalisis kebutuhan aplikasi, merancang skema PostgreSQL, dan menentukan endpoint REST API." },
-      { id: "p-2", num: "02", phase: "TAHAP 02", title: "Pengembangan Kode & Clean Architecture", desc: "Menulis kode backend yang rapi menggunakan Node.js/Express/TypeScript dengan penanganan error terpusat." },
-      { id: "p-3", num: "03", phase: "TAHAP 03", title: "Kontainerisasi Docker", desc: "Mengemas aplikasi ke dalam container Docker yang efisien, terisolasi, dan siap dideploy." },
-      { id: "p-4", num: "04", phase: "TAHAP 04", title: "Automatisasi CI/CD & Deployment", desc: "Menyiapkan pipeline deployment otomatis ke server Linux tanpa downtime." },
-    ],
+    subText: "",
+    items: [],
   },
   projects: {
-    sectionBadge: "07. PROJECTS",
+    sectionBadge: "PROJECTS",
     titleMain: "Featured",
-    titleHighlight: "Portfolio Projects",
-    ctaText: "LIHAT SEMUA PROYEK",
+    titleHighlight: "Projects",
+    ctaText: "View all projects",
     ctaLink: "/projects",
-    items: DEVOPS_PROJECTS,
+    items: [],
   },
   music: {
-    sectionBadge: "08. AUDIO PLAYER",
-    title: "Walking Back Home",
-    artist: "FUR",
-    audioUrl: "/audio/FUR - Walking Back Home.mp3",
-    subText: "Dengarkan musik sembari membaca portofolio.",
-    enabled: true,
-    playlist: [
-      {
-        id: "tr-1",
-        title: "Walking Back Home",
-        artist: "FUR",
-        audioUrl: "/audio/FUR - Walking Back Home.mp3",
-      },
-    ],
+    sectionBadge: "AUDIO PLAYER",
+    title: "",
+    artist: "",
+    audioUrl: "",
+    subText: "",
+    enabled: false,
+    playlist: [],
   },
-  stats: [
-    { id: "st-1", label: "Server Deployments", value: 45, suffix: "+" },
-    { id: "st-2", label: "Tahun Pengalaman", value: 4, suffix: "+" },
-    { id: "st-3", label: "Project Selesai", value: 20, suffix: "+" },
-  ],
+  stats: [],
   github: {
-    sectionBadge: "GITHUB REPOSITORY",
+    sectionBadge: "GITHUB",
     titleMain: "GitHub &",
     titleHighlight: "Open Source",
     username: "Tnembull",
     profileUrl: "https://github.com/Tnembull",
   },
   faq: {
-    sectionBadge: "09. FAQ",
-    titleMain: "Pertanyaan",
-    titleHighlight: "Umum",
-    items: [
-      {
-        id: "f-1",
-        question: "Apa nilai tambah Backend Developer yang berpengalaman di DevOps?",
-        answer: "Pemahaman alur kode backend, REST API, dan query PostgreSQL memudahkan identifikasi bug, optimasi container Docker, serta perancangan CI/CD deployment yang lebih stabil.",
-      },
-      {
-        id: "f-2",
-        question: "Apakah Anda menerima proyek setup server dan kontainerisasi aplikasi?",
-        answer: "Ya, saya dapat membantu kontainerisasi Docker, otomatisasi deployment server Linux, dan pengembangan REST API backend.",
-      },
-    ],
+    sectionBadge: "FAQ",
+    titleMain: "Frequently Asked",
+    titleHighlight: "Questions",
+    items: [],
   },
-  awards: [
-    {
-      id: "cert-1",
-      title: "CKA: Certified Kubernetes Administrator",
-      issuer: "Cloud Native Computing Foundation (CNCF)",
-      date: "2024",
-      credentialId: "LF-CKA-982341",
-      image: "https://images.unsplash.com/photo-1607799279861-4dd421887fb3?q=80&w=1200&auto=format&fit=crop",
-      link: "https://www.cncf.io/certification/cka/",
-    },
-    {
-      id: "cert-2",
-      title: "AWS Certified Solutions Architect – Associate",
-      issuer: "Amazon Web Services (AWS)",
-      date: "2023",
-      credentialId: "AWS-PSA-771239",
-      image: "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1200&auto=format&fit=crop",
-      link: "https://aws.amazon.com/certification/certified-solutions-architect-associate/",
-    },
-    {
-      id: "cert-3",
-      title: "Docker Certified Associate (DCA)",
-      issuer: "Mirantis / Docker",
-      date: "2023",
-      credentialId: "DCA-889102",
-      image: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?q=80&w=1200&auto=format&fit=crop",
-      link: "https://www.docker.com/",
-    },
-    {
-      id: "cert-4",
-      title: "Sarjana Ilmu Komputer (S.Kom)",
-      issuer: "Universitas Lampung",
-      date: "2022",
-      credentialId: "UNILA-SKOM-2022",
-      image: "https://images.unsplash.com/photo-1523240795612-9a054b0db644?q=80&w=1200&auto=format&fit=crop",
-      link: "https://www.unila.ac.id/",
-    },
-  ],
+  awards: [],
   testimonials: {
-    sectionBadge: "10. RECOMMENDATIONS",
+    sectionBadge: "TESTIMONIALS",
     titleMain: "Client & Peer",
     titleHighlight: "Endorsements",
-    items: [
-      {
-        id: "ts-1",
-        num: "01",
-        content: "Ashiddiqi mampu menghubungkan kebutuhan pengembangan backend dengan otomatisasi deployment infrastruktur yang handal di Newus Technology.",
-        author: "Engineering Team Lead",
-        role: "Lead Developer",
-        company: "Newus Technology",
-      },
-    ],
+    items: [],
   },
   cta: {
     title: "Get In Touch",
-    description: "Tertarik berkolaborasi atau memiliki pertanyaan seputar arsitektur backend, kontainerisasi Docker, dan deployment pipeline? Terhubung sekarang.",
+    description: "",
     email: "muhammadnurashiddiqi@gmail.com",
     linkedinUrl: "https://www.linkedin.com/in/muhammadnurashiddiqi",
     githubUrl: "https://github.com/Tnembull",
   },
-  pipeline: DEFAULT_PIPELINE,
-  progress: DEFAULT_PROGRESS,
-  badges: DEFAULT_BADGES,
+  pipeline: [],
+  progress: [],
+  badges: [],
 };
 
 export type Language = "en" | "id";
@@ -739,23 +361,11 @@ interface PortfolioContextType {
 
 const PortfolioContext = createContext<PortfolioContextType | undefined>(undefined);
 
-import { fetchPortfolioFromSupabase, savePortfolioToSupabase } from "@/lib/supabase";
-
-const LOCAL_STORAGE_KEY = "porto_ashiddiqi_devops_v2";
+const LOCAL_STORAGE_KEY = "porto_ashiddiqi_devops_v3";
 
 export function PortfolioProvider({ children }: { children: React.ReactNode }) {
   const [state, setState] = useState<PortfolioState>(DEFAULT_PORTFOLIO_STATE);
-  const [lang, setLangState] = useState<Language>(() => {
-    if (typeof window !== "undefined") {
-      try {
-        const savedLang = localStorage.getItem("porto_lang") as Language;
-        if (savedLang === "en" || savedLang === "id") {
-          return savedLang;
-        }
-      } catch {}
-    }
-    return "en";
-  });
+  const [lang, setLangState] = useState<Language>("en");
   const [initialized, setInitialized] = useState(false);
 
   const setLang = (newLang: Language) => {
@@ -767,27 +377,76 @@ export function PortfolioProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     function sanitizeState(data: Partial<PortfolioState>): PortfolioState {
-      const merged = { ...DEFAULT_PORTFOLIO_STATE, ...data };
-      if (!merged.pipeline) merged.pipeline = DEFAULT_PIPELINE;
-      if (!merged.progress) merged.progress = DEFAULT_PROGRESS;
-      if (!merged.badges) merged.badges = DEFAULT_BADGES;
-      if (!merged.projects || !merged.projects.items || merged.projects.items.length < 3) {
+      const merged: PortfolioState = {
+        ...DEFAULT_PORTFOLIO_STATE,
+        ...data,
+      };
+
+      // Ensure array fields strictly use loaded arrays or default empty
+      if (data.projects && Array.isArray(data.projects.items)) {
         merged.projects = {
           ...DEFAULT_PORTFOLIO_STATE.projects,
-          ...(merged.projects || {}),
-          items: INITIAL_PROJECTS,
+          ...data.projects,
+          items: data.projects.items,
         };
+      } else if (!merged.projects) {
+        merged.projects = { ...DEFAULT_PORTFOLIO_STATE.projects, items: [] };
       }
-      const keys = Object.keys(merged) as (keyof PortfolioState)[];
-      for (const k of keys) {
-        const section = merged[k];
-        if (section && typeof section === "object" && "sectionBadge" in section) {
-          const badge = (section as { sectionBadge?: string }).sectionBadge;
-          if (badge && typeof badge === "string") {
-            (section as { sectionBadge?: string }).sectionBadge = badge.replace(/\/\//g, ".").replace(/\s+/g, " ").trim();
-          }
-        }
+
+      if (data.experience && Array.isArray(data.experience.items)) {
+        merged.experience = {
+          ...DEFAULT_PORTFOLIO_STATE.experience,
+          ...data.experience,
+          items: data.experience.items,
+        };
+      } else if (!merged.experience) {
+        merged.experience = { ...DEFAULT_PORTFOLIO_STATE.experience, items: [] };
       }
+
+      if (data.education && Array.isArray(data.education.items)) {
+        merged.education = {
+          ...DEFAULT_PORTFOLIO_STATE.education,
+          ...data.education,
+          items: data.education.items,
+        };
+      } else if (!merged.education) {
+        merged.education = { ...DEFAULT_PORTFOLIO_STATE.education, items: [] };
+      }
+
+      if (data.skills && Array.isArray(data.skills.items)) {
+        merged.skills = {
+          ...DEFAULT_PORTFOLIO_STATE.skills,
+          ...data.skills,
+          items: data.skills.items,
+        };
+      } else if (!merged.skills) {
+        merged.skills = { ...DEFAULT_PORTFOLIO_STATE.skills, items: [] };
+      }
+
+      if (data.awards && Array.isArray(data.awards)) {
+        merged.awards = data.awards;
+      } else {
+        merged.awards = merged.awards || [];
+      }
+
+      if (data.badges && Array.isArray(data.badges)) {
+        merged.badges = data.badges;
+      } else {
+        merged.badges = merged.badges || [];
+      }
+
+      if (data.progress && Array.isArray(data.progress)) {
+        merged.progress = data.progress;
+      } else {
+        merged.progress = merged.progress || [];
+      }
+
+      if (data.pipeline && Array.isArray(data.pipeline)) {
+        merged.pipeline = data.pipeline;
+      } else {
+        merged.pipeline = merged.pipeline || [];
+      }
+
       return merged;
     }
 
@@ -842,14 +501,6 @@ export function PortfolioProvider({ children }: { children: React.ReactNode }) {
     } catch {}
     savePortfolioToSupabase(DEFAULT_PORTFOLIO_STATE);
   };
-
-  if (!initialized) {
-    return (
-      <PortfolioContext.Provider value={{ state, lang, setLang, updateSection, resetAll }}>
-        {children}
-      </PortfolioContext.Provider>
-    );
-  }
 
   return (
     <PortfolioContext.Provider value={{ state, lang, setLang, updateSection, resetAll }}>

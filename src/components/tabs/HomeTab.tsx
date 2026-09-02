@@ -13,16 +13,15 @@ interface HomeTabProps {
 
 export default function HomeTab({ onNavigateTab }: HomeTabProps) {
   const { state } = usePortfolio();
-  const { hero, projects } = state;
+  const { hero, projects, skills } = state;
 
   const name = hero?.name || "Muhammad Nur Ashiddiqi";
   const role = hero?.role || "DevOps & Backend Engineer";
-  const bio =
-    hero?.bio ||
-    "Backend Developer turned DevOps Engineer. Experienced in building structured REST APIs, PostgreSQL optimization, Docker containerization, Kubernetes orchestration, and automated CI/CD deployment pipelines.";
+  const bio = hero?.bio || "";
   const avatarSrc = hero?.avatarOff || hero?.avatarOn || "/avatar.jpg";
 
   const featuredProjects: Project[] = projects?.items?.slice(0, 3) || [];
+  const capabilityList = skills?.items || [];
 
   return (
     <div className="space-y-16 pb-12">
@@ -34,7 +33,7 @@ export default function HomeTab({ onNavigateTab }: HomeTabProps) {
             {/* Status Overline */}
             <div className="flex items-center gap-2 text-xs font-mono text-accent uppercase tracking-wider">
               <span className="size-1.5 rounded-full bg-accent" />
-              <span>Available for collaboration</span>
+              <span>{hero?.statusText || "Available for collaboration"}</span>
             </div>
 
             {/* Headline */}
@@ -48,9 +47,11 @@ export default function HomeTab({ onNavigateTab }: HomeTabProps) {
             </p>
 
             {/* Bio Body */}
-            <p className="text-sm sm:text-base text-secondary leading-relaxed">
-              {bio}
-            </p>
+            {bio && (
+              <p className="text-sm sm:text-base text-secondary leading-relaxed">
+                {bio}
+              </p>
+            )}
 
             {/* Action Buttons */}
             <div className="flex flex-wrap items-center gap-3 pt-2">
@@ -69,7 +70,7 @@ export default function HomeTab({ onNavigateTab }: HomeTabProps) {
               </button>
 
               <a
-                href="https://github.com/Tnembull"
+                href={state.github?.profileUrl || "https://github.com/Tnembull"}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-1.5 px-4 py-2.5 text-sm font-medium text-secondary hover:text-foreground transition-colors"
@@ -97,130 +98,111 @@ export default function HomeTab({ onNavigateTab }: HomeTabProps) {
         </div>
       </section>
 
-      {/* Divider */}
-      <hr className="border-border" />
-
-      {/* 2. Selected Projects Section - Editorial List */}
-      <section className="space-y-6">
-        <div className="flex items-center justify-between">
-          <h2 className="text-xs font-mono uppercase tracking-wider text-muted">
-            Selected Projects
-          </h2>
-          <button
-            onClick={() => onNavigateTab("projects")}
-            className="text-xs text-secondary hover:text-accent transition-colors cursor-pointer"
-          >
-            View all ({projects?.items?.length || 0}) ↗
-          </button>
-        </div>
-
-        {featuredProjects.length === 0 ? (
-          <div className="py-8 text-sm text-secondary">
-            No projects added yet.
-          </div>
-        ) : (
-          <div className="divide-y divide-border">
-            {featuredProjects.map((item, idx) => (
-              <article
-                key={item.id}
-                className="py-6 first:pt-0 last:pb-0 grid grid-cols-1 md:grid-cols-[60px_1fr_auto] gap-4 items-start"
+      {/* 2. Selected Projects Section - Editorial List (Only if projects exist) */}
+      {featuredProjects.length > 0 && (
+        <>
+          <hr className="border-border" />
+          <section className="space-y-6">
+            <div className="flex items-center justify-between">
+              <h2 className="text-xs font-mono uppercase tracking-wider text-muted">
+                Selected Projects
+              </h2>
+              <button
+                onClick={() => onNavigateTab("projects")}
+                className="text-xs text-secondary hover:text-accent transition-colors cursor-pointer"
               >
-                {/* Index Number */}
-                <span className="font-mono text-xs text-muted">
-                  {String(idx + 1).padStart(2, "0")}
-                </span>
+                View all ({projects?.items?.length || 0}) ↗
+              </button>
+            </div>
 
-                {/* Details */}
-                <div className="space-y-2">
-                  <h3 className="text-base font-semibold text-foreground">
-                    {item.title}
-                  </h3>
-                  <p className="text-xs sm:text-sm text-secondary leading-relaxed max-w-2xl">
-                    {item.description}
-                  </p>
-                  <div className="text-xs text-muted font-mono">
-                    {(item.tags || item.tech || []).join(" · ")}
+            <div className="divide-y divide-border">
+              {featuredProjects.map((item, idx) => (
+                <article
+                  key={item.id}
+                  className="py-6 first:pt-0 last:pb-0 grid grid-cols-1 md:grid-cols-[60px_1fr_auto] gap-4 items-start"
+                >
+                  {/* Index Number */}
+                  <span className="font-mono text-xs text-muted">
+                    {String(idx + 1).padStart(2, "0")}
+                  </span>
+
+                  {/* Details */}
+                  <div className="space-y-2">
+                    <h3 className="text-base font-semibold text-foreground">
+                      {item.title}
+                    </h3>
+                    <p className="text-xs sm:text-sm text-secondary leading-relaxed max-w-2xl">
+                      {item.description}
+                    </p>
+                    <div className="text-xs text-muted font-mono">
+                      {(item.tags || item.tech || []).join(" · ")}
+                    </div>
                   </div>
+
+                  {/* Links */}
+                  <div className="flex items-center gap-4 text-xs font-mono self-start pt-1">
+                    {(item.githubUrl || item.link) && (
+                      <a
+                        href={item.githubUrl || item.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-secondary hover:text-foreground inline-flex items-center gap-1 transition-colors"
+                      >
+                        <span>GitHub</span>
+                        <ArrowUpRight size={12} />
+                      </a>
+                    )}
+                    {(item.liveUrl || item.url) && (
+                      <a
+                        href={item.liveUrl || item.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-accent hover:underline inline-flex items-center gap-1 transition-colors"
+                      >
+                        <span>Demo</span>
+                        <ArrowUpRight size={12} />
+                      </a>
+                    )}
+                  </div>
+                </article>
+              ))}
+            </div>
+          </section>
+        </>
+      )}
+
+      {/* 3. Core Capabilities Summary (Dynamic from state.skills.items) */}
+      {capabilityList.length > 0 && (
+        <>
+          <hr className="border-border" />
+          <section className="space-y-6">
+            <div className="flex items-center justify-between">
+              <h2 className="text-xs font-mono uppercase tracking-wider text-muted">
+                {skills?.sectionBadge || "Technical Capabilities"}
+              </h2>
+              <button
+                onClick={() => onNavigateTab("skills")}
+                className="text-xs text-secondary hover:text-accent transition-colors cursor-pointer font-mono"
+              >
+                View all ({capabilityList.length}) ↗
+              </button>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 text-xs">
+              {capabilityList.map((skill, idx) => (
+                <div key={skill.id || idx} className="space-y-1.5">
+                  <h3 className="font-mono font-semibold text-foreground uppercase">
+                    {skill.title}
+                  </h3>
+                  <p className="text-secondary leading-relaxed">
+                    {skill.desc}
+                  </p>
                 </div>
-
-                {/* Links */}
-                <div className="flex items-center gap-4 text-xs font-mono self-start pt-1">
-                  {(item.githubUrl || item.link) && (
-                    <a
-                      href={item.githubUrl || item.link}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-secondary hover:text-foreground inline-flex items-center gap-1 transition-colors"
-                    >
-                      <span>GitHub</span>
-                      <ArrowUpRight size={12} />
-                    </a>
-                  )}
-                  {(item.liveUrl || item.url) && (
-                    <a
-                      href={item.liveUrl || item.url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-accent hover:underline inline-flex items-center gap-1 transition-colors"
-                    >
-                      <span>Demo</span>
-                      <ArrowUpRight size={12} />
-                    </a>
-                  )}
-                </div>
-              </article>
-            ))}
-          </div>
-        )}
-      </section>
-
-      {/* Divider */}
-      <hr className="border-border" />
-
-      {/* 3. Core Capabilities Summary */}
-      <section className="space-y-6">
-        <h2 className="text-xs font-mono uppercase tracking-wider text-muted">
-          Technical Capabilities
-        </h2>
-
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 text-xs">
-          <div className="space-y-2">
-            <h3 className="font-mono font-semibold text-foreground uppercase">
-              Infrastructure
-            </h3>
-            <p className="text-secondary leading-relaxed">
-              Linux, Docker, Kubernetes, Terraform, Nginx, High Availability
-            </p>
-          </div>
-
-          <div className="space-y-2">
-            <h3 className="font-mono font-semibold text-foreground uppercase">
-              Cloud & DevOps
-            </h3>
-            <p className="text-secondary leading-relaxed">
-              AWS, GCP, CI/CD, GitHub Actions, ArgoCD GitOps, Vault
-            </p>
-          </div>
-
-          <div className="space-y-2">
-            <h3 className="font-mono font-semibold text-foreground uppercase">
-              Backend & APIs
-            </h3>
-            <p className="text-secondary leading-relaxed">
-              Go, Node.js, Python, REST APIs, Microservices Architecture
-            </p>
-          </div>
-
-          <div className="space-y-2">
-            <h3 className="font-mono font-semibold text-foreground uppercase">
-              Data & Observability
-            </h3>
-            <p className="text-secondary leading-relaxed">
-              PostgreSQL, MySQL, Redis, Prometheus, Grafana, OpenTelemetry
-            </p>
-          </div>
-        </div>
-      </section>
+              ))}
+            </div>
+          </section>
+        </>
+      )}
     </div>
   );
 }
