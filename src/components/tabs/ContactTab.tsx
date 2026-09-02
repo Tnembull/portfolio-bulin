@@ -3,22 +3,7 @@
 import React, { useState } from "react";
 import { usePortfolio } from "@/context/PortfolioContext";
 import PipelineWidget from "@/components/PipelineWidget";
-import {
-  Send,
-  Mail,
-  Linkedin,
-  Github,
-  Copy,
-  Check,
-  ArrowUpRight,
-  MessageSquare,
-  Sparkles,
-  CheckCircle2,
-  Terminal,
-  Clock,
-  MapPin,
-  Share2,
-} from "lucide-react";
+import { Copy, Check, ArrowUpRight } from "lucide-react";
 
 export default function ContactTab() {
   const { state } = usePortfolio();
@@ -49,148 +34,114 @@ export default function ContactTab() {
     if (!formData.name || !formData.email || !formData.message) return;
 
     setIsSubmitting(true);
-    // Simulating quick dispatch / mailto fallback
     setTimeout(() => {
       setIsSubmitting(false);
       setSubmitted(true);
       window.location.href = `mailto:${email}?subject=${encodeURIComponent(
-        formData.subject || `Portfolio Inquiry from ${formData.name}`
+        formData.subject || `Inquiry from ${formData.name}`
       )}&body=${encodeURIComponent(
         `Name: ${formData.name}\nEmail: ${formData.email}\n\nMessage:\n${formData.message}`
       )}`;
-    }, 600);
+    }, 400);
   };
 
   return (
-    <div className="space-y-8 pb-6 animate-in fade-in duration-300">
-      {/* 1. Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-        <div>
-          <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-mono mb-1.5">
-            <Send size={13} />
-            <span>START A CONVERSATION</span>
-          </div>
-          <h1 className="text-xl sm:text-2xl font-bold text-slate-100">
-            Let&apos;s Build Something Great
-          </h1>
-        </div>
-
-        <div className="flex items-center gap-2 text-xs font-mono text-emerald-400">
-          <span className="size-2 rounded-full bg-emerald-400 animate-pulse" />
-          <span>Average response: &lt; 24h</span>
-        </div>
+    <div className="space-y-12 pb-12">
+      {/* Header */}
+      <div className="space-y-2">
+        <h1 className="text-2xl sm:text-3xl font-semibold text-[#f2f4f5] tracking-tight">
+          Contact & Collaboration
+        </h1>
+        <p className="text-sm text-[#9aa1a9]">
+          Have a project in mind or interested in discussing DevOps, cloud infrastructure, or backend architecture?
+        </p>
       </div>
 
-      {/* 2. Direct Channels Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        {/* Email Card */}
-        <div className="p-5 rounded-2xl bg-[#121722] border border-white/[0.06] flex flex-col justify-between space-y-4 hover:border-emerald-500/30 transition-all shadow-sm">
-          <div className="flex items-start justify-between">
-            <div className="size-10 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400">
-              <Mail size={18} />
+      {/* 1. Direct Channels */}
+      <section className="space-y-4">
+        <h2 className="text-xs font-mono uppercase tracking-wider text-[#6f7781]">
+          Direct Communication Channels
+        </h2>
+
+        <div className="divide-y divide-[#252a30] border-y border-[#252a30]">
+          {/* Email */}
+          <div className="py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div>
+              <span className="text-xs font-mono text-[#6f7781] uppercase">Email</span>
+              <div className="text-sm font-semibold text-[#f2f4f5] mt-0.5">{email}</div>
             </div>
-            <button
-              onClick={handleCopyEmail}
-              className="p-1.5 rounded-lg bg-white/[0.04] hover:bg-white/[0.08] text-slate-400 hover:text-slate-200 transition-colors cursor-pointer"
-              title="Copy Email"
+            <div className="flex items-center gap-3">
+              <button
+                onClick={handleCopyEmail}
+                className="text-xs font-mono text-[#9aa1a9] hover:text-[#f2f4f5] inline-flex items-center gap-1.5 cursor-pointer"
+              >
+                {copiedEmail ? <Check size={13} className="text-[#00c896]" /> : <Copy size={13} />}
+                <span>{copiedEmail ? "Copied" : "Copy"}</span>
+              </button>
+              <a
+                href={`mailto:${email}`}
+                className="text-xs font-mono text-[#00c896] hover:underline inline-flex items-center gap-1"
+              >
+                <span>Compose</span>
+                <ArrowUpRight size={13} />
+              </a>
+            </div>
+          </div>
+
+          {/* LinkedIn */}
+          <div className="py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div>
+              <span className="text-xs font-mono text-[#6f7781] uppercase">LinkedIn</span>
+              <div className="text-sm font-semibold text-[#f2f4f5] mt-0.5">Muhammad Nur Ashiddiqi</div>
+            </div>
+            <a
+              href={linkedinUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-xs font-mono text-[#00c896] hover:underline inline-flex items-center gap-1 self-start sm:self-auto"
             >
-              {copiedEmail ? <Check size={14} className="text-emerald-400" /> : <Copy size={14} />}
-            </button>
+              <span>Connect</span>
+              <ArrowUpRight size={13} />
+            </a>
           </div>
 
-          <div>
-            <span className="text-[10px] font-mono text-slate-500 uppercase tracking-wider">Email Address</span>
-            <h3 className="text-xs sm:text-sm font-bold text-slate-100 truncate mt-0.5">{email}</h3>
-          </div>
-
-          <a
-            href={`mailto:${email}`}
-            className="flex items-center justify-between text-xs text-emerald-400 font-semibold pt-1 border-t border-white/[0.06]"
-          >
-            <span>Compose Email</span>
-            <ArrowUpRight size={14} />
-          </a>
-        </div>
-
-        {/* LinkedIn Card */}
-        <div className="p-5 rounded-2xl bg-[#121722] border border-white/[0.06] flex flex-col justify-between space-y-4 hover:border-sky-500/30 transition-all shadow-sm">
-          <div className="flex items-start justify-between">
-            <div className="size-10 rounded-xl bg-sky-500/10 border border-sky-500/20 flex items-center justify-center text-sky-400">
-              <Linkedin size={18} />
+          {/* GitHub */}
+          <div className="py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div>
+              <span className="text-xs font-mono text-[#6f7781] uppercase">GitHub</span>
+              <div className="text-sm font-semibold text-[#f2f4f5] mt-0.5">@Tnembull</div>
             </div>
-            <span className="text-[10px] font-mono text-sky-400 bg-sky-500/10 px-2 py-0.5 rounded-full">
-              Professional
-            </span>
+            <a
+              href={githubUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-xs font-mono text-[#00c896] hover:underline inline-flex items-center gap-1 self-start sm:self-auto"
+            >
+              <span>Repositories</span>
+              <ArrowUpRight size={13} />
+            </a>
           </div>
-
-          <div>
-            <span className="text-[10px] font-mono text-slate-500 uppercase tracking-wider">LinkedIn</span>
-            <h3 className="text-xs sm:text-sm font-bold text-slate-100 truncate mt-0.5">Muhammad Nur Ashiddiqi</h3>
-          </div>
-
-          <a
-            href={linkedinUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center justify-between text-xs text-sky-400 font-semibold pt-1 border-t border-white/[0.06]"
-          >
-            <span>Connect on LinkedIn</span>
-            <ArrowUpRight size={14} />
-          </a>
         </div>
+      </section>
 
-        {/* GitHub Card */}
-        <div className="p-5 rounded-2xl bg-[#121722] border border-white/[0.06] flex flex-col justify-between space-y-4 hover:border-purple-500/30 transition-all shadow-sm">
-          <div className="flex items-start justify-between">
-            <div className="size-10 rounded-xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-400">
-              <Github size={18} />
-            </div>
-            <span className="text-[10px] font-mono text-purple-400 bg-purple-500/10 px-2 py-0.5 rounded-full">
-              Source Code
-            </span>
-          </div>
-
-          <div>
-            <span className="text-[10px] font-mono text-slate-500 uppercase tracking-wider">GitHub</span>
-            <h3 className="text-xs sm:text-sm font-bold text-slate-100 truncate mt-0.5">@Tnembull</h3>
-          </div>
-
-          <a
-            href={githubUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center justify-between text-xs text-purple-400 font-semibold pt-1 border-t border-white/[0.06]"
-          >
-            <span>View Repositories</span>
-            <ArrowUpRight size={14} />
-          </a>
-        </div>
-      </div>
-
-      {/* 3. Direct Message Form */}
-      <section className="p-6 sm:p-8 rounded-3xl bg-[#121722] border border-white/[0.06] space-y-5 shadow-xl">
-        <div className="space-y-1">
-          <h2 className="text-base sm:text-lg font-bold text-slate-100">
-            Send a Direct Message
-          </h2>
-          <p className="text-xs text-slate-400 leading-relaxed">
-            Fill out the form below to initiate an instant email conversation.
-          </p>
-        </div>
+      {/* 2. Direct Message Form */}
+      <section className="space-y-4">
+        <h2 className="text-xs font-mono uppercase tracking-wider text-[#6f7781]">
+          Send a Message
+        </h2>
 
         {submitted ? (
-          <div className="p-6 rounded-2xl bg-emerald-500/10 border border-emerald-500/30 text-center space-y-3">
-            <CheckCircle2 className="size-10 text-emerald-400 mx-auto" />
-            <h3 className="text-sm font-bold text-slate-100">Message Dispatched!</h3>
-            <p className="text-xs text-slate-300">
-              Your email client has been prepared. I will get back to you shortly.
+          <div className="p-6 rounded-md bg-[#111418] border border-[#252a30] text-sm text-[#f2f4f5] space-y-2">
+            <div className="font-semibold text-[#00c896]">Message Prepared</div>
+            <p className="text-xs text-[#9aa1a9]">
+              Your email client has been opened. If it did not open automatically, please email me directly at {email}.
             </p>
             <button
               onClick={() => {
                 setSubmitted(false);
                 setFormData({ name: "", email: "", subject: "", message: "" });
               }}
-              className="text-xs font-mono text-emerald-400 hover:underline pt-2 cursor-pointer"
+              className="text-xs font-mono text-[#00c896] hover:underline pt-2 cursor-pointer"
             >
               Send another message
             </button>
@@ -199,75 +150,70 @@ export default function ContactTab() {
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="space-y-1.5">
-                <label className="text-xs font-mono text-slate-400 font-medium">Your Name *</label>
+                <label className="text-xs font-mono text-[#9aa1a9]">Name</label>
                 <input
                   type="text"
                   required
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-                  placeholder="e.g. Alex Morgan"
-                  className="w-full bg-[#0c0f16] border border-white/10 focus:border-emerald-500 text-slate-100 px-4 py-2.5 rounded-xl text-xs sm:text-sm outline-none transition-all placeholder:text-slate-600"
+                  placeholder="Your Name"
+                  className="w-full bg-[#111418] border border-[#252a30] text-[#f2f4f5] px-3.5 py-2.5 rounded-md text-sm outline-none placeholder:text-[#6f7781]"
                 />
               </div>
 
               <div className="space-y-1.5">
-                <label className="text-xs font-mono text-slate-400 font-medium">Your Email *</label>
+                <label className="text-xs font-mono text-[#9aa1a9]">Email</label>
                 <input
                   type="email"
                   required
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                  placeholder="alex@company.com"
-                  className="w-full bg-[#0c0f16] border border-white/10 focus:border-emerald-500 text-slate-100 px-4 py-2.5 rounded-xl text-xs sm:text-sm outline-none transition-all placeholder:text-slate-600"
+                  placeholder="you@domain.com"
+                  className="w-full bg-[#111418] border border-[#252a30] text-[#f2f4f5] px-3.5 py-2.5 rounded-md text-sm outline-none placeholder:text-[#6f7781]"
                 />
               </div>
             </div>
 
             <div className="space-y-1.5">
-              <label className="text-xs font-mono text-slate-400 font-medium">Subject / Topic</label>
+              <label className="text-xs font-mono text-[#9aa1a9]">Subject</label>
               <input
                 type="text"
                 value={formData.subject}
                 onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
-                placeholder="DevOps Consultation / Job Opportunity / Project Collab"
-                className="w-full bg-[#0c0f16] border border-white/10 focus:border-emerald-500 text-slate-100 px-4 py-2.5 rounded-xl text-xs sm:text-sm outline-none transition-all placeholder:text-slate-600"
+                placeholder="Topic / Opportunity / Consultation"
+                className="w-full bg-[#111418] border border-[#252a30] text-[#f2f4f5] px-3.5 py-2.5 rounded-md text-sm outline-none placeholder:text-[#6f7781]"
               />
             </div>
 
             <div className="space-y-1.5">
-              <label className="text-xs font-mono text-slate-400 font-medium">Your Message *</label>
+              <label className="text-xs font-mono text-[#9aa1a9]">Message</label>
               <textarea
                 required
                 rows={4}
                 value={formData.message}
                 onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                placeholder="Tell me about your project, timeline, or technical requirements..."
-                className="w-full bg-[#0c0f16] border border-white/10 focus:border-emerald-500 text-slate-100 px-4 py-2.5 rounded-xl text-xs sm:text-sm outline-none transition-all placeholder:text-slate-600 resize-none"
+                placeholder="Message details..."
+                className="w-full bg-[#111418] border border-[#252a30] text-[#f2f4f5] px-3.5 py-2.5 rounded-md text-sm outline-none placeholder:text-[#6f7781] resize-none"
               />
             </div>
 
             <button
               type="submit"
               disabled={isSubmitting}
-              className="w-full sm:w-auto px-6 py-3 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-[#0b0e14] font-bold text-xs sm:text-sm transition-all duration-200 shadow-[0_0_15px_rgba(0,216,146,0.3)] flex items-center justify-center gap-2 cursor-pointer active:scale-95 disabled:opacity-50"
+              className="px-5 py-2.5 rounded-md bg-[#00c896] hover:bg-[#00b084] text-[#0b0d0f] font-semibold text-sm transition-colors cursor-pointer disabled:opacity-50"
             >
-              <Send size={15} />
-              <span>{isSubmitting ? "Preparing Dispatch..." : "Send Message"}</span>
+              {isSubmitting ? "Sending..." : "Send Message"}
             </button>
           </form>
         )}
       </section>
 
-      {/* 4. Interactive CI/CD Telemetry Pipeline */}
+      {/* 3. Telemetry Pipeline */}
       <section className="space-y-4">
-        <div className="flex items-center gap-2">
-          <Terminal size={16} className="text-emerald-400" />
-          <h2 className="text-sm sm:text-base font-bold text-slate-100">
-            Automated CI/CD Delivery Pipeline
-          </h2>
-        </div>
-
-        <div className="rounded-3xl overflow-hidden border border-white/[0.06] bg-[#121722]">
+        <h2 className="text-xs font-mono uppercase tracking-wider text-[#6f7781]">
+          CI/CD Automation Pipeline
+        </h2>
+        <div className="rounded-md border border-[#252a30] bg-[#111418] overflow-hidden">
           <PipelineWidget />
         </div>
       </section>

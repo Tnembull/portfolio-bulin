@@ -27,7 +27,6 @@ function AppShellContent() {
     ) {
       setActiveTab(tabParam);
     } else {
-      // Check hash fallback if any
       const hash = window.location.hash.replace("#", "") as TabType;
       if (
         hash &&
@@ -40,17 +39,15 @@ function AppShellContent() {
 
   const handleTabChange = (tab: TabType) => {
     setActiveTab(tab);
-    // Smoothly scroll window to top on tab change
     window.scrollTo({ top: 0, behavior: "smooth" });
 
-    // Update query params in URL without full reload
     const params = new URLSearchParams(window.location.search);
     params.set("tab", tab);
     router.replace(`?${params.toString()}`, { scroll: false });
   };
 
   return (
-    <div className="min-h-screen bg-[#0b0e14] text-[#bababb] flex flex-col md:flex-row antialiased selection:bg-emerald-500 selection:text-[#0b0e14]">
+    <div className="min-h-screen bg-[#0b0d0f] text-[#f2f4f5] flex flex-col md:flex-row antialiased selection:bg-[#00c896] selection:text-[#0b0d0f]">
       {/* 1. Desktop Left Sidebar Rail (Fixed on md: screens) */}
       <DesktopSidebar activeTab={activeTab} onTabChange={handleTabChange} />
 
@@ -62,7 +59,7 @@ function AppShellContent() {
         {/* Dynamic Tab Screen Viewport */}
         <main
           id="main-content"
-          className="flex-1 w-full max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-5 sm:py-7 pb-24 md:pb-10"
+          className="flex-1 w-full max-w-4xl mx-auto px-4 sm:px-8 lg:px-12 py-8 sm:py-12 pb-24 md:pb-16"
         >
           {activeTab === "home" && <HomeTab onNavigateTab={handleTabChange} />}
           {activeTab === "experience" && <ExperienceTab />}
@@ -82,11 +79,8 @@ export default function AppShell() {
   return (
     <Suspense
       fallback={
-        <div className="min-h-screen bg-[#0b0e14] flex items-center justify-center text-emerald-400 font-mono text-xs">
-          <div className="flex items-center gap-2">
-            <span className="size-2 rounded-full bg-emerald-400 animate-ping" />
-            <span>INITIALIZING WEB APP MATRIX...</span>
-          </div>
+        <div className="min-h-screen bg-[#0b0d0f] flex items-center justify-center text-[#9aa1a9] font-mono text-xs">
+          Loading...
         </div>
       }
     >

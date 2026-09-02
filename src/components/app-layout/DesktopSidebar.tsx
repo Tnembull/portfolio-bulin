@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { TabType, NAV_TABS } from "./types";
@@ -16,9 +16,6 @@ import {
   Linkedin,
   Mail,
   Shield,
-  Disc,
-  ExternalLink,
-  Sparkles,
 } from "lucide-react";
 
 interface DesktopSidebarProps {
@@ -39,80 +36,46 @@ export default function DesktopSidebar({
   onTabChange,
 }: DesktopSidebarProps) {
   const { state } = usePortfolio();
-  const { hero, music } = state;
-  const [isPlayingAudio, setIsPlayingAudio] = useState(false);
-  const [audioRef] = useState<HTMLAudioElement | null>(() => {
-    if (typeof window !== "undefined") {
-      const audioUrl = music?.audioUrl || "/audio/FUR - Walking Back Home.mp3";
-      return new Audio(audioUrl);
-    }
-    return null;
-  });
+  const { hero } = state;
 
-  const toggleSidebarAudio = () => {
-    if (!audioRef) return;
-    if (isPlayingAudio) {
-      audioRef.pause();
-      setIsPlayingAudio(false);
-    } else {
-      audioRef.play().then(() => setIsPlayingAudio(true)).catch(() => setIsPlayingAudio(false));
-    }
-  };
-
-  const avatarSrc = hero.avatarOn || hero.avatarOff || "/avatar.jpg";
+  const avatarSrc = hero.avatarOff || hero.avatarOn || "/avatar.jpg";
   const name = hero.name || "Muhammad Nur Ashiddiqi";
-  const role = hero.role || "DevOps & Cloud Engineer";
+  const role = hero.role || "DevOps & Backend Engineer";
 
   return (
-    <aside className="hidden md:flex flex-col justify-between w-64 lg:w-72 h-screen sticky top-0 shrink-0 bg-[#0e121a]/95 backdrop-blur-xl border-r border-white/[0.08] p-5 z-30 select-none">
-      {/* Top Section: Identity & Status */}
-      <div className="space-y-6">
-        {/* Profile Card */}
-        <div className="flex items-center gap-3.5 p-3 rounded-2xl bg-white/[0.03] border border-white/[0.06] transition-all hover:bg-white/[0.05]">
-          <div className="relative shrink-0">
-            <div className="size-12 rounded-full overflow-hidden border border-white/20 bg-slate-800 ring-2 ring-emerald-500/30">
-              <Image
-                src={avatarSrc}
-                alt={name}
-                width={48}
-                height={48}
-                className="w-full h-full object-cover"
-                priority
-                unoptimized
-              />
-            </div>
-            <span className="absolute bottom-0 right-0 size-3.5 bg-emerald-500 border-2 border-[#0e121a] rounded-full animate-pulse" />
+    <aside className="hidden md:flex flex-col justify-between w-64 h-screen sticky top-0 shrink-0 bg-[#0b0d0f] border-r border-[#252a30] p-6 z-30 select-none">
+      {/* Top: Identity & Navigation */}
+      <div className="space-y-8">
+        {/* Profile */}
+        <div className="flex items-center gap-3">
+          <div className="size-10 rounded-md overflow-hidden border border-[#252a30] bg-[#111418] shrink-0">
+            <Image
+              src={avatarSrc}
+              alt={name}
+              width={40}
+              height={40}
+              className="w-full h-full object-cover"
+              priority
+              unoptimized
+            />
           </div>
 
           <div className="flex flex-col min-w-0">
-            <div className="flex items-center gap-1.5">
-              <h2 className="text-sm font-bold text-slate-100 truncate">
-                {name.split(" ")[0]} Bulin
-              </h2>
-              <span className="px-1.5 py-0.5 text-[9px] font-bold bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 rounded-full">
-                PRO
-              </span>
-            </div>
-            <p className="text-xs text-slate-400 font-mono truncate">{role}</p>
+            <h2 className="text-sm font-semibold text-[#f2f4f5] truncate">
+              {name}
+            </h2>
+            <p className="text-xs text-[#9aa1a9] truncate">{role}</p>
           </div>
         </div>
 
-        {/* Live Availability Badge */}
-        <div className="flex items-center justify-between px-3 py-2 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 text-xs font-mono">
-          <span className="flex items-center gap-2">
-            <span className="size-2 rounded-full bg-emerald-400 animate-ping" />
-            <span className="font-semibold">Open for Work</span>
-          </span>
-          <span className="text-[10px] text-emerald-400/70 uppercase tracking-widest font-bold">
-            2026
-          </span>
+        {/* Status Line */}
+        <div className="flex items-center gap-2 text-xs text-[#9aa1a9]">
+          <span className="size-1.5 rounded-full bg-[#00c896]" />
+          <span>Available for collaboration</span>
         </div>
 
-        {/* Middle: Navigation Tabs */}
-        <nav className="space-y-1.5" aria-label="Desktop App Navigation">
-          <div className="px-3 pb-1 text-[10px] font-mono uppercase tracking-wider text-slate-500 font-bold">
-            Navigation Menu
-          </div>
+        {/* Navigation */}
+        <nav className="space-y-1" aria-label="Sidebar navigation">
           {NAV_TABS.map((tab) => {
             const Icon = ICON_MAP[tab.iconName];
             const isActive = activeTab === tab.id;
@@ -121,89 +84,48 @@ export default function DesktopSidebar({
               <button
                 key={tab.id}
                 onClick={() => onTabChange(tab.id)}
-                className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 cursor-pointer ${
+                className={`w-full flex items-center gap-3 px-3 py-2 rounded-md text-sm font-medium transition-colors cursor-pointer text-left ${
                   isActive
-                    ? "bg-emerald-500/15 text-emerald-400 font-bold border border-emerald-500/30 shadow-[0_0_15px_rgba(0,216,146,0.15)] translate-x-1"
-                    : "text-slate-400 hover:text-slate-100 hover:bg-white/[0.04] border border-transparent"
+                    ? "bg-[#111418] text-[#00c896] border border-[#252a30]"
+                    : "text-[#9aa1a9] hover:text-[#f2f4f5] hover:bg-[#111418] border border-transparent"
                 }`}
               >
-                <div className="flex items-center gap-3">
-                  <Icon
-                    size={18}
-                    className={`transition-colors ${
-                      isActive ? "text-emerald-400 stroke-[2.2]" : "text-slate-400"
-                    }`}
-                  />
-                  <span>{tab.label}</span>
-                </div>
-
-                {isActive && (
-                  <span className="size-1.5 rounded-full bg-emerald-400 shadow-[0_0_8px_#00d892]" />
-                )}
+                <Icon size={16} strokeWidth={isActive ? 2.2 : 1.7} />
+                <span>{tab.label}</span>
               </button>
             );
           })}
         </nav>
       </div>
 
-      {/* Bottom Section: Media, Socials & Admin */}
-      <div className="space-y-4 pt-4 border-t border-white/[0.08]">
-        {/* Audio Player Strip */}
-        {music && (
-          <div className="flex items-center justify-between p-2 rounded-xl bg-white/[0.03] border border-white/[0.06]">
-            <div className="flex items-center gap-2.5 min-w-0">
-              <Disc
-                size={16}
-                className={`text-slate-400 shrink-0 ${
-                  isPlayingAudio ? "animate-spin text-emerald-400" : ""
-                }`}
-              />
-              <div className="flex flex-col min-w-0">
-                <span className="text-[11px] font-medium text-slate-200 truncate">
-                  {music.title || "Walking Back Home"}
-                </span>
-                <span className="text-[10px] text-slate-500 truncate">
-                  {music.artist || "FUR"}
-                </span>
-              </div>
-            </div>
-            <button
-              onClick={toggleSidebarAudio}
-              className="p-1.5 rounded-lg bg-white/5 hover:bg-emerald-500/20 text-slate-300 hover:text-emerald-400 transition-colors cursor-pointer"
-              title={isPlayingAudio ? "Pause" : "Play"}
-            >
-              <Disc size={14} />
-            </button>
-          </div>
-        )}
-
-        {/* Quick Social Links */}
-        <div className="flex items-center justify-between px-1">
+      {/* Bottom: Socials & Controls */}
+      <div className="space-y-4 pt-4 border-t border-[#252a30]">
+        <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <a
               href="https://github.com/Tnembull"
               target="_blank"
               rel="noopener noreferrer"
-              aria-label="GitHub Profile"
-              className="size-8 rounded-lg flex items-center justify-center bg-white/[0.03] border border-white/10 text-slate-400 hover:text-slate-100 hover:border-white/20 transition-all"
+              aria-label="GitHub profile"
+              className="size-8 rounded-md flex items-center justify-center bg-[#111418] border border-[#252a30] text-[#9aa1a9] hover:text-[#f2f4f5] transition-colors"
             >
-              <Github size={15} />
+              <Github size={14} />
             </a>
             <a
-              href="https://linkedin.com/in/bulin"
+              href="https://linkedin.com/in/muhammadnurashiddiqi"
               target="_blank"
               rel="noopener noreferrer"
-              aria-label="LinkedIn Profile"
-              className="size-8 rounded-lg flex items-center justify-center bg-white/[0.03] border border-white/10 text-slate-400 hover:text-sky-400 hover:border-sky-500/30 transition-all"
+              aria-label="LinkedIn profile"
+              className="size-8 rounded-md flex items-center justify-center bg-[#111418] border border-[#252a30] text-[#9aa1a9] hover:text-[#f2f4f5] transition-colors"
             >
-              <Linkedin size={15} />
+              <Linkedin size={14} />
             </a>
             <a
-              href="mailto:contact@bulindev.tech"
-              aria-label="Send Email"
-              className="size-8 rounded-lg flex items-center justify-center bg-white/[0.03] border border-white/10 text-slate-400 hover:text-emerald-400 hover:border-emerald-500/30 transition-all"
+              href="mailto:muhammadnurashiddiqi@gmail.com"
+              aria-label="Email"
+              className="size-8 rounded-md flex items-center justify-center bg-[#111418] border border-[#252a30] text-[#9aa1a9] hover:text-[#f2f4f5] transition-colors"
             >
-              <Mail size={15} />
+              <Mail size={14} />
             </a>
           </div>
 
@@ -211,17 +133,16 @@ export default function DesktopSidebar({
             <ThemeToggle />
             <Link
               href="/admin"
-              title="Admin Portal"
-              className="size-8 rounded-lg flex items-center justify-center bg-white/[0.03] border border-white/10 text-slate-400 hover:text-emerald-400 hover:border-emerald-500/30 transition-all"
+              title="Admin console"
+              className="size-8 rounded-md flex items-center justify-center bg-[#111418] border border-[#252a30] text-[#9aa1a9] hover:text-[#f2f4f5] transition-colors"
             >
-              <Shield size={14} />
+              <Shield size={13} />
             </Link>
           </div>
         </div>
 
-        {/* Footer info */}
-        <div className="text-[10px] text-slate-500 text-center font-mono">
-          bulindev.tech &copy; 2026
+        <div className="text-[11px] text-[#6f7781]">
+          &copy; 2026 Muhammad Nur Ashiddiqi
         </div>
       </div>
     </aside>
