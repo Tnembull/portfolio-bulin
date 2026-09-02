@@ -12,6 +12,26 @@ export const contentType = "image/png";
 
 export default async function Image() {
   const data = await fetchPortfolioFromSupabase();
+  const customOgImage = data?.seo?.ogImage;
+
+  // If user uploaded a custom OG image to R2, proxy/return the image directly
+  if (customOgImage && customOgImage.startsWith("http") && !customOgImage.includes("bulindev.tech/opengraph-image")) {
+    try {
+      const res = await fetch(customOgImage);
+      if (res.ok) {
+        const imageBuffer = await res.arrayBuffer();
+        return new Response(imageBuffer, {
+          headers: {
+            "Content-Type": res.headers.get("Content-Type") || "image/png",
+            "Cache-Control": "public, max-age=86400, stale-while-revalidate=3600",
+          },
+        });
+      }
+    } catch {
+      // Fallback to generated card
+    }
+  }
+
   const name = data?.hero?.name || "Muhammad Nur Ashiddiqi";
   const role = data?.hero?.role || "DevOps & Backend Engineer";
   const bio =
