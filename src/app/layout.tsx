@@ -29,23 +29,30 @@ export const viewport: Viewport = {
   ],
 };
 
-export const dynamic = "force-dynamic";
-export const revalidate = 0;
+// Incremental Static Regeneration for blazing-fast response time (< 50ms)
+export const revalidate = 60;
 
 const DEFAULT_GA_ID = process.env.NEXT_PUBLIC_GA_ID || "G-FC0GRRZXY3";
+
+function trimDescription(text: string, maxLength: number = 158): string {
+  if (!text || text.length <= maxLength) return text;
+  return text.substring(0, maxLength - 3).trim() + "...";
+}
 
 export async function generateMetadata(): Promise<Metadata> {
   const data = await fetchPortfolioFromSupabase();
   const seo = data?.seo;
   const hero = data?.hero;
 
-  const title =
+  const rawTitle =
     seo?.metaTitle ||
     `${hero?.name || "Muhammad Nur Ashiddiqi"} — ${hero?.role || "DevOps & Backend Engineer"}`;
-  const description =
+  const rawDescription =
     seo?.metaDescription ||
     hero?.bio ||
-    "Official portfolio of Muhammad Nur Ashiddiqi. DevOps & Backend Engineer specializing in REST APIs, PostgreSQL optimization, Kubernetes orchestration, Docker containerization, and automated CI/CD pipelines.";
+    "DevOps & Backend Engineer specializing in REST APIs, PostgreSQL optimization, Kubernetes orchestration, Docker containerization, and automated CI/CD pipelines.";
+  const description = trimDescription(rawDescription, 158);
+
   const keywords = seo?.keywords
     ? seo.keywords.split(",").map((k) => k.trim())
     : [
@@ -60,19 +67,21 @@ export async function generateMetadata(): Promise<Metadata> {
         "GitHub Actions",
         "Node.js",
         "PostgreSQL",
-        "Linux Server",
       ];
-  const canonicalUrl = seo?.canonicalUrl || "https://bulindev.tech";
-  const ogTitle = seo?.ogTitle || title;
-  const ogDescription = seo?.ogDescription || description;
-  const ogImage = seo?.ogImage || "https://bulindev.tech/opengraph-image";
-  const faviconUrl = seo?.faviconUrl || "/favicon.ico";
-  const appleTouchIconUrl = seo?.appleTouchIconUrl || "/logo/logo.png";
+  const canonicalUrl = "https://www.bulindev.tech";
+  const ogTitle = seo?.ogTitle || rawTitle;
+  const ogDescription = trimDescription(seo?.ogDescription || rawDescription, 160);
+  const ogImage = "https://www.bulindev.tech/opengraph-image";
+  const faviconUrl = seo?.faviconUrl && seo.faviconUrl.startsWith("http") ? seo.faviconUrl : "/favicon.ico";
+  const appleTouchIconUrl =
+    seo?.appleTouchIconUrl && seo.appleTouchIconUrl.startsWith("http")
+      ? seo.appleTouchIconUrl
+      : "/apple-touch-icon.png";
 
   return {
     metadataBase: new URL(canonicalUrl),
     title: {
-      default: title,
+      default: rawTitle,
       template: `%s | ${hero?.name || "Muhammad Nur Ashiddiqi"}`,
     },
     description,
@@ -83,14 +92,16 @@ export async function generateMetadata(): Promise<Metadata> {
     alternates: {
       canonical: canonicalUrl,
     },
+    manifest: "/site.webmanifest",
     icons: {
       icon: [
-        { url: faviconUrl },
+        { url: "/favicon.svg", type: "image/svg+xml" },
         { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
         { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
+        { url: faviconUrl },
       ],
       apple: [
-        { url: appleTouchIconUrl },
+        { url: appleTouchIconUrl, sizes: "180x180", type: "image/png" },
         { url: "/apple-touch-icon.png", sizes: "180x180", type: "image/png" },
       ],
       other: [
@@ -112,7 +123,7 @@ export async function generateMetadata(): Promise<Metadata> {
           width: 1200,
           height: 630,
           alt: ogTitle,
-          type: ogImage.endsWith(".png") ? "image/png" : "image/jpeg",
+          type: "image/png",
         },
       ],
     },
@@ -122,7 +133,14 @@ export async function generateMetadata(): Promise<Metadata> {
       creator: "@Tnembull",
       title: ogTitle,
       description: ogDescription,
-      images: [ogImage],
+      images: [
+        {
+          url: ogImage,
+          alt: ogTitle,
+          width: 1200,
+          height: 630,
+        },
+      ],
     },
     robots: {
       index: true,
@@ -149,6 +167,11 @@ export default async function RootLayout({
   return (
     <html lang="en" className="dark scroll-smooth" suppressHydrationWarning>
       <head>
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+        <link rel="manifest" href="/site.webmanifest" />
         <link rel="preconnect" href="https://unavatar.io" />
         <link rel="dns-prefetch" href="https://unavatar.io" />
         <script
