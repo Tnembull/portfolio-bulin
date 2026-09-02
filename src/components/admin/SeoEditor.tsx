@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { SeoData } from "@/context/PortfolioContext";
+import { compressImage } from "@/lib/image-compressor";
 import { Globe, Upload, Image as ImageIcon, ExternalLink, Sparkles, CheckCircle2, AlertCircle } from "lucide-react";
 
 interface SeoEditorProps {
@@ -38,8 +39,15 @@ export default function SeoEditor({ data, onChange }: SeoEditorProps) {
     setUploadError(null);
 
     try {
+      let fileToUpload = file;
+      if (field === "ogImage") {
+        fileToUpload = await compressImage(file, { maxWidth: 1200, maxHeight: 630, quality: 0.85, targetFormat: "image/webp" });
+      } else if (field === "faviconUrl" || field === "appleTouchIconUrl") {
+        fileToUpload = await compressImage(file, { maxWidth: 192, maxHeight: 192, quality: 0.9, targetFormat: "image/png" });
+      }
+
       const formData = new FormData();
-      formData.append("file", file);
+      formData.append("file", fileToUpload);
 
       const res = await fetch("/api/upload", {
         method: "POST",

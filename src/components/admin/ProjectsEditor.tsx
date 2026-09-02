@@ -3,6 +3,7 @@
 import { useState, useSyncExternalStore } from "react";
 import { createPortal } from "react-dom";
 import { Project } from "@/data/projects";
+import { compressImage } from "@/lib/image-compressor";
 import {
   Plus,
   Trash2,
@@ -361,9 +362,15 @@ export default function ProjectsEditor({ data, onChange }: ProjectsEditorProps) 
                               onChange={async (e) => {
                                 const file = e.target.files?.[0];
                                 if (!file) return;
-                                const formData = new FormData();
-                                formData.append("file", file);
                                 try {
+                                  const fileToUpload = await compressImage(file, {
+                                    maxWidth: 1200,
+                                    maxHeight: 800,
+                                    quality: 0.85,
+                                    targetFormat: "image/webp",
+                                  });
+                                  const formData = new FormData();
+                                  formData.append("file", fileToUpload);
                                   const res = await fetch("/api/upload", {
                                     method: "POST",
                                     body: formData,

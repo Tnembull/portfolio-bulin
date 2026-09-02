@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { HeroData } from "@/context/PortfolioContext";
+import { compressImage } from "@/lib/image-compressor";
 import { Sparkles, User, Building, MapPin, Mail, Phone, Globe, ShieldCheck, Upload, AlertCircle } from "lucide-react";
 
 interface HeroEditorProps {
@@ -18,8 +19,15 @@ export default function HeroEditor({ data, onChange }: HeroEditorProps) {
     setUploadError(null);
 
     try {
+      const fileToUpload = await compressImage(file, {
+        maxWidth: 512,
+        maxHeight: 512,
+        quality: 0.85,
+        targetFormat: "image/webp",
+      });
+
       const formData = new FormData();
-      formData.append("file", file);
+      formData.append("file", fileToUpload);
 
       const res = await fetch("/api/upload", {
         method: "POST",
