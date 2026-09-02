@@ -79,7 +79,7 @@ import { Lock, Eye, EyeOff, ShieldCheck, KeyRound } from "lucide-react";
 import { verifyAdminPinFromSupabase } from "@/lib/supabase";
 
 export default function AdminDashboardPage() {
-  const { state, saveEntirePortfolio, resetAll } = usePortfolio();
+  const { state, initialized, saveEntirePortfolio, resetAll } = usePortfolio();
 
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [pinInput, setPinInput] = useState("");
@@ -158,7 +158,7 @@ export default function AdminDashboardPage() {
   const [hasInitializedState, setHasInitializedState] = useState(false);
 
   useEffect(() => {
-    if (!hasInitializedState && state) {
+    if (initialized && state) {
       setHeroData(state.hero);
       setAboutData(state.about);
       setExperienceData(state.experience);
@@ -180,7 +180,7 @@ export default function AdminDashboardPage() {
       setSeoData(state.seo);
       setHasInitializedState(true);
     }
-  }, [state, hasInitializedState]);
+  }, [state, initialized]);
 
   const triggerSave = async () => {
     setIsSaving(true);
@@ -350,7 +350,7 @@ export default function AdminDashboardPage() {
         {/* Navigation List */}
         <nav data-lenis-prevent className="flex-1 overflow-y-auto p-3 space-y-1 text-xs">
           <div className="px-2 pb-2 text-[10px] text-muted uppercase tracking-wider font-mono font-bold">
-            EDITOR SECTIONS (17 PANELS)
+            EDITOR SECTIONS ({navMenuItems.length - 1} PANELS)
           </div>
           {navMenuItems.map((item) => {
             const Icon = item.icon;

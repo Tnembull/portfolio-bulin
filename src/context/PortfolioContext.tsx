@@ -379,6 +379,7 @@ export type Language = "en" | "id";
 
 interface PortfolioContextType {
   state: PortfolioState;
+  initialized: boolean;
   lang: Language;
   setLang: (lang: Language) => void;
   updateSection: <K extends keyof PortfolioState>(key: K, data: PortfolioState[K]) => void;
@@ -548,7 +549,7 @@ export function PortfolioProvider({ children }: { children: React.ReactNode }) {
   };
 
   return (
-    <PortfolioContext.Provider value={{ state, lang, setLang, updateSection, saveEntirePortfolio, resetAll }}>
+    <PortfolioContext.Provider value={{ state, initialized, lang, setLang, updateSection, saveEntirePortfolio, resetAll }}>
       {children}
     </PortfolioContext.Provider>
   );
