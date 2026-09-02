@@ -2,9 +2,10 @@
 
 import React, { useState, useMemo } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { usePortfolio } from "@/context/PortfolioContext";
 import { Project } from "@/data/projects";
-import { Search, X, ArrowUpRight } from "lucide-react";
+import { Search, X, ArrowUpRight, Github, ExternalLink, FileText } from "lucide-react";
 
 export default function ProjectsTab() {
   const { state } = usePortfolio();
@@ -16,41 +17,24 @@ export default function ProjectsTab() {
   const [selectedCategory, setSelectedCategory] = useState("ALL");
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
 
-  const categories = [
-    "ALL",
-    "DEVOPS & CLOUD",
-    "BACKEND / API",
-    "AUTOMATION",
-  ];
+  // 100% Dynamic categories extracted from Supabase project list
+  const categories = useMemo(() => {
+    const cats = new Set<string>();
+    cats.add("ALL");
+    rawProjects.forEach((p) => {
+      if (p.category && p.category.trim()) {
+        cats.add(p.category.trim().toUpperCase());
+      }
+    });
+    return Array.from(cats);
+  }, [rawProjects]);
 
   const filteredProjects = useMemo(() => {
     return rawProjects.filter((item) => {
-      // Category filter
+      // Category filter matching Supabase data
       let matchesCat = true;
-      if (selectedCategory === "BACKEND / API") {
-        matchesCat =
-          item.category?.toLowerCase().includes("backend") ||
-          item.category?.toLowerCase().includes("api") ||
-          item.category?.toLowerCase().includes("database") ||
-          item.tags?.some((t) => /postgres|api|node|golang|python/i.test(t)) ||
-          false;
-      } else if (selectedCategory === "DEVOPS & CLOUD") {
-        matchesCat =
-          item.category?.toLowerCase().includes("devops") ||
-          item.category?.toLowerCase().includes("cloud") ||
-          item.category?.toLowerCase().includes("k8s") ||
-          item.category?.toLowerCase().includes("kubernetes") ||
-          item.category?.toLowerCase().includes("infra") ||
-          item.tags?.some((t) => /k8s|kubernetes|terraform|docker|aws|gcp/i.test(t)) ||
-          false;
-      } else if (selectedCategory === "AUTOMATION") {
-        matchesCat =
-          item.category?.toLowerCase().includes("auto") ||
-          item.category?.toLowerCase().includes("script") ||
-          item.category?.toLowerCase().includes("ci") ||
-          item.category?.toLowerCase().includes("gitops") ||
-          item.tags?.some((t) => /argocd|ci\/cd|actions|helm/i.test(t)) ||
-          false;
+      if (selectedCategory !== "ALL") {
+        matchesCat = item.category?.trim().toUpperCase() === selectedCategory;
       }
 
       // Search filter
@@ -61,7 +45,7 @@ export default function ProjectsTab() {
           item.title?.toLowerCase().includes(query) ||
           item.description?.toLowerCase().includes(query) ||
           item.category?.toLowerCase().includes(query) ||
-          item.tags?.some((t) => t.toLowerCase().includes(query)) ||
+          (item.tech || item.tags || []).some((t) => t.toLowerCase().includes(query)) ||
           false;
       }
 
@@ -105,25 +89,27 @@ export default function ProjectsTab() {
           )}
         </div>
 
-        {/* Category Filters */}
-        <div className="flex items-center gap-2 border-b border-border pb-2 overflow-x-auto">
-          {categories.map((cat) => {
-            const isSelected = selectedCategory === cat;
-            return (
-              <button
-                key={cat}
-                onClick={() => setSelectedCategory(cat)}
-                className={`px-3 py-1.5 rounded-md text-xs font-mono whitespace-nowrap transition-colors cursor-pointer ${
-                  isSelected
-                    ? "bg-surface text-accent border border-border font-semibold"
-                    : "text-secondary hover:text-foreground"
-                }`}
-              >
-                {cat}
-              </button>
-            );
-          })}
-        </div>
+        {/* Dynamic Category Filters from Supabase */}
+        {categories.length > 1 && (
+          <div className="flex items-center gap-2 border-b border-border pb-2 overflow-x-auto">
+            {categories.map((cat) => {
+              const isSelected = selectedCategory === cat;
+              return (
+                <button
+                  key={cat}
+                  onClick={() => setSelectedCategory(cat)}
+                  className={`px-3 py-1.5 rounded-md text-xs font-mono whitespace-nowrap transition-colors cursor-pointer ${
+                    isSelected
+                      ? "bg-surface text-accent border border-border font-semibold"
+                      : "text-secondary hover:text-foreground"
+                  }`}
+                >
+                  {cat}
+                </button>
+              );
+            })}
+          </div>
+        )}
       </div>
 
       {/* Projects Editorial List */}
@@ -133,76 +119,90 @@ export default function ProjectsTab() {
         </div>
       ) : (
         <div className="divide-y divide-border">
-          {filteredProjects.map((item, idx) => (
-            <article
-              key={item.id}
-              className="py-6 first:pt-0 last:pb-0 grid grid-cols-1 md:grid-cols-[60px_1fr_auto] gap-4 items-start"
-            >
-              {/* Index Number */}
-              <span className="font-mono text-xs text-muted">
-                {String(idx + 1).padStart(2, "0")}
-              </span>
+          {filteredProjects.map((item, idx) => {
+            const githubUrl = item.githubUrl || item.link;
+            const liveUrl = item.liveUrl || item.url;
+            const detailUrl = `/projects/${item.slug || item.id}`;
 
-              {/* Core Info */}
-              <div className="space-y-2">
-                <div className="flex items-center gap-3">
-                  <h2
+            return (
+              <article
+                key={item.id}
+                className="py-6 first:pt-0 last:pb-0 grid grid-cols-1 md:grid-cols-[60px_1fr_auto] gap-4 items-start"
+              >
+                {/* Index Number */}
+                <span className="font-mono text-xs text-muted">
+                  {String(idx + 1).padStart(2, "0")}
+                </span>
+
+                {/* Core Info */}
+                <div className="space-y-2">
+                  <div className="flex items-center gap-3">
+                    <h2
+                      onClick={() => setSelectedProject(item)}
+                      className="text-base font-semibold text-foreground hover:text-accent transition-colors cursor-pointer"
+                    >
+                      {item.title}
+                    </h2>
+                    {item.category && (
+                      <span className="text-[11px] font-mono text-muted">
+                        [{item.category}]
+                      </span>
+                    )}
+                  </div>
+
+                  <p className="text-sm text-secondary leading-relaxed max-w-2xl">
+                    {item.description}
+                  </p>
+
+                  <div className="text-xs font-mono text-muted">
+                    {(item.tags || item.tech || []).join(" · ")}
+                  </div>
+                </div>
+
+                {/* Actions */}
+                <div className="flex flex-wrap items-center gap-3 text-xs font-mono self-start pt-1">
+                  <button
                     onClick={() => setSelectedProject(item)}
-                    className="text-base font-semibold text-foreground hover:text-accent transition-colors cursor-pointer"
+                    className="text-secondary hover:text-foreground transition-colors cursor-pointer"
                   >
-                    {item.title}
-                  </h2>
-                  {item.category && (
-                    <span className="text-[11px] font-mono text-muted">
-                      [{item.category}]
-                    </span>
-                  )}
-                </div>
+                    Quick View
+                  </button>
 
-                <p className="text-sm text-secondary leading-relaxed max-w-2xl">
-                  {item.description}
-                </p>
-
-                <div className="text-xs font-mono text-muted">
-                  {(item.tags || item.tech || []).join(" · ")}
-                </div>
-              </div>
-
-              {/* Actions */}
-              <div className="flex items-center gap-4 text-xs font-mono self-start pt-1">
-                <button
-                  onClick={() => setSelectedProject(item)}
-                  className="text-secondary hover:text-foreground transition-colors cursor-pointer"
-                >
-                  Details
-                </button>
-
-                {(item.githubUrl || item.link) && (
-                  <a
-                    href={item.githubUrl || item.link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-secondary hover:text-foreground inline-flex items-center gap-1 transition-colors"
-                  >
-                    <span>GitHub</span>
-                    <ArrowUpRight size={12} />
-                  </a>
-                )}
-
-                {(item.liveUrl || item.url) && (
-                  <a
-                    href={item.liveUrl || item.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
+                  <Link
+                    href={detailUrl}
                     className="text-accent hover:underline inline-flex items-center gap-1 transition-colors"
                   >
-                    <span>Live</span>
+                    <span>Page</span>
                     <ArrowUpRight size={12} />
-                  </a>
-                )}
-              </div>
-            </article>
-          ))}
+                  </Link>
+
+                  {githubUrl && (
+                    <a
+                      href={githubUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-secondary hover:text-foreground inline-flex items-center gap-1 transition-colors"
+                      title="GitHub Repository"
+                    >
+                      <Github size={13} />
+                    </a>
+                  )}
+
+                  {liveUrl && (
+                    <a
+                      href={liveUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-accent hover:underline inline-flex items-center gap-1 transition-colors"
+                      title="Live Production"
+                    >
+                      <ExternalLink size={13} />
+                    </a>
+                  )}
+                </div>
+              </article>
+            );
+          })}
         </div>
       )}
 
@@ -289,13 +289,22 @@ export default function ProjectsTab() {
             </div>
 
             {/* Modal Actions */}
-            <div className="flex items-center justify-end gap-3 pt-3 border-t border-border">
+            <div className="flex flex-wrap items-center justify-end gap-3 pt-3 border-t border-border">
               <button
                 onClick={() => setSelectedProject(null)}
                 className="px-3 py-2 rounded-md bg-surface-secondary hover:bg-border text-secondary text-xs font-mono cursor-pointer"
               >
                 Close
               </button>
+
+              <Link
+                href={`/projects/${selectedProject.slug || selectedProject.id}`}
+                className="px-3 py-2 rounded-md bg-surface-secondary hover:bg-border text-foreground text-xs font-mono inline-flex items-center gap-1.5 transition-colors"
+              >
+                <FileText size={13} />
+                <span>Full Project Page</span>
+                <ArrowUpRight size={13} />
+              </Link>
 
               {(selectedProject.githubUrl || selectedProject.link) && (
                 <a
@@ -304,6 +313,7 @@ export default function ProjectsTab() {
                   rel="noopener noreferrer"
                   className="px-3 py-2 rounded-md bg-surface-secondary hover:bg-border text-foreground text-xs font-mono inline-flex items-center gap-1.5"
                 >
+                  <Github size={13} />
                   <span>GitHub</span>
                   <ArrowUpRight size={13} />
                 </a>
@@ -317,7 +327,7 @@ export default function ProjectsTab() {
                   className="px-4 py-2 rounded-md bg-accent hover:bg-accent-hover text-accent-text text-xs font-mono font-semibold inline-flex items-center gap-1.5"
                 >
                   <span>Live Production</span>
-                  <ArrowUpRight size={13} />
+                  <ExternalLink size={13} />
                 </a>
               )}
             </div>
