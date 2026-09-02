@@ -26,7 +26,7 @@ import {
   RotateCcw,
   TrendingUp,
 } from "lucide-react";
-import { usePortfolio } from "@/context/PortfolioContext";
+import { usePortfolio, PortfolioState } from "@/context/PortfolioContext";
 import ThemeToggle from "@/components/ThemeToggle";
 
 // Modular Section Editor Components
@@ -79,13 +79,14 @@ import { Lock, Eye, EyeOff, ShieldCheck, KeyRound } from "lucide-react";
 import { verifyAdminPinFromSupabase } from "@/lib/supabase";
 
 export default function AdminDashboardPage() {
-  const { state, updateSection, resetAll } = usePortfolio();
+  const { state, saveEntirePortfolio, resetAll } = usePortfolio();
 
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [pinInput, setPinInput] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [pinError, setPinError] = useState(false);
   const [isLoggingIn, setIsLoggingIn] = useState(false);
+  const [isSaving, setIsSaving] = useState(false);
 
   const [activeTab, setActiveTab] = useState<SectionTab>("overview");
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -154,49 +155,60 @@ export default function AdminDashboardPage() {
   const [badgesData, setBadgesData] = useState(state.badges || []);
   const [seoData, setSeoData] = useState(state.seo);
 
+  const [hasInitializedState, setHasInitializedState] = useState(false);
+
   useEffect(() => {
-    setHeroData(state.hero);
-    setAboutData(state.about);
-    setExperienceData(state.experience);
-    setEducationData(state.education);
-    setSkillsData(state.skills);
-    setToolsData(state.tools);
-    setProcessData(state.process);
-    setProjectsData(state.projects);
-    setMusicData(state.music);
-    setStatsData(state.stats);
-    setGithubData(state.github);
-    setFaqData(state.faq);
-    setAwards(state.awards);
-    setTestimonialsData(state.testimonials);
-    setCtaData(state.cta);
-    setPipelineData(state.pipeline || []);
-    setProgressData(state.progress || []);
-    setBadgesData(state.badges || []);
-    setSeoData(state.seo);
-  }, [state]);
+    if (!hasInitializedState && state) {
+      setHeroData(state.hero);
+      setAboutData(state.about);
+      setExperienceData(state.experience);
+      setEducationData(state.education);
+      setSkillsData(state.skills);
+      setToolsData(state.tools);
+      setProcessData(state.process);
+      setProjectsData(state.projects);
+      setMusicData(state.music);
+      setStatsData(state.stats);
+      setGithubData(state.github);
+      setFaqData(state.faq);
+      setAwards(state.awards);
+      setTestimonialsData(state.testimonials);
+      setCtaData(state.cta);
+      setPipelineData(state.pipeline || []);
+      setProgressData(state.progress || []);
+      setBadgesData(state.badges || []);
+      setSeoData(state.seo);
+      setHasInitializedState(true);
+    }
+  }, [state, hasInitializedState]);
 
-  const triggerSave = () => {
-    updateSection("hero", heroData);
-    updateSection("about", aboutData);
-    updateSection("experience", experienceData);
-    updateSection("education", educationData);
-    updateSection("skills", skillsData);
-    updateSection("tools", toolsData);
-    updateSection("process", processData);
-    updateSection("projects", projectsData);
-    updateSection("music", musicData);
-    updateSection("stats", statsData);
-    updateSection("github", githubData);
-    updateSection("faq", faqData);
-    updateSection("awards", awards);
-    updateSection("testimonials", testimonialsData);
-    updateSection("cta", ctaData);
-    updateSection("pipeline", pipelineData);
-    updateSection("progress", progressData);
-    updateSection("badges", badgesData);
-    if (seoData) updateSection("seo", seoData);
+  const triggerSave = async () => {
+    setIsSaving(true);
+    const completeState: PortfolioState = {
+      ...state,
+      hero: heroData,
+      about: aboutData,
+      experience: experienceData,
+      education: educationData,
+      skills: skillsData,
+      tools: toolsData,
+      process: processData,
+      projects: projectsData,
+      music: musicData,
+      stats: statsData,
+      github: githubData,
+      faq: faqData,
+      awards: awards,
+      testimonials: testimonialsData,
+      cta: ctaData,
+      pipeline: pipelineData,
+      progress: progressData,
+      badges: badgesData,
+      seo: seoData,
+    };
 
+    await saveEntirePortfolio(completeState);
+    setIsSaving(false);
     setSaveToast(true);
     setTimeout(() => setSaveToast(false), 3000);
   };

@@ -382,6 +382,7 @@ interface PortfolioContextType {
   lang: Language;
   setLang: (lang: Language) => void;
   updateSection: <K extends keyof PortfolioState>(key: K, data: PortfolioState[K]) => void;
+  saveEntirePortfolio: (newState: PortfolioState) => Promise<boolean>;
   resetAll: () => void;
 }
 
@@ -537,8 +538,17 @@ export function PortfolioProvider({ children }: { children: React.ReactNode }) {
     savePortfolioToSupabase(DEFAULT_PORTFOLIO_STATE);
   };
 
+  const saveEntirePortfolio = async (newState: PortfolioState): Promise<boolean> => {
+    setState(newState);
+    try {
+      localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(newState));
+    } catch {}
+    const success = await savePortfolioToSupabase(newState);
+    return success;
+  };
+
   return (
-    <PortfolioContext.Provider value={{ state, lang, setLang, updateSection, resetAll }}>
+    <PortfolioContext.Provider value={{ state, lang, setLang, updateSection, saveEntirePortfolio, resetAll }}>
       {children}
     </PortfolioContext.Provider>
   );
