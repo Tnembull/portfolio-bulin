@@ -29,6 +29,9 @@ export const viewport: Viewport = {
   ],
 };
 
+export const dynamic = "force-dynamic";
+export const revalidate = 0;
+
 const DEFAULT_GA_ID = process.env.NEXT_PUBLIC_GA_ID || "G-FC0GRRZXY3";
 
 export async function generateMetadata(): Promise<Metadata> {
