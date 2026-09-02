@@ -18,15 +18,18 @@ const DEFAULT_SEO: SeoData = {
   ogTitle: "Muhammad Nur Ashiddiqi — DevOps & Backend Engineer",
   ogDescription:
     "DevOps & Backend Engineer creating high availability cloud infrastructure, automated pipelines, and containerized backend systems.",
-  ogImage: "https://bulindev.tech/opengraph-image",
+  ogImage: "https://media.bulindev.tech/uploads/1788351777889-34541.png",
   canonicalUrl: "https://bulindev.tech",
-  faviconUrl: "/favicon.ico",
-  appleTouchIconUrl: "/logo/logo.png",
+  faviconUrl: "https://media.bulindev.tech/uploads/1788351857850-34542.png",
+  appleTouchIconUrl: "https://media.bulindev.tech/uploads/1788351857850-34542.png",
   googleAnalyticsId: "G-FC0GRRZXY3",
 };
 
-export default function SeoEditor({ data = DEFAULT_SEO, onChange }: SeoEditorProps) {
-  const currentData: SeoData = { ...DEFAULT_SEO, ...data };
+export default function SeoEditor({ data, onChange }: SeoEditorProps) {
+  const currentData: SeoData = {
+    ...DEFAULT_SEO,
+    ...(data || {}),
+  };
   const [uploadingField, setUploadingField] = useState<string | null>(null);
   const [uploadError, setUploadError] = useState<string | null>(null);
 
@@ -188,7 +191,7 @@ export default function SeoEditor({ data = DEFAULT_SEO, onChange }: SeoEditorPro
                 type="text"
                 value={currentData.ogImage}
                 onChange={(e) => onChange({ ...currentData, ogImage: e.target.value })}
-                placeholder="https://bulindev.tech/opengraph-image atau URL Cloudflare R2"
+                placeholder="https://media.bulindev.tech/uploads/... atau https://bulindev.tech/opengraph-image"
                 className="flex-1 px-3.5 py-2.5 bg-surface border border-border rounded-lg text-foreground outline-none font-mono text-xs"
               />
               <label className="px-4 py-2.5 bg-accent hover:bg-accent-hover text-accent-text font-bold rounded-lg transition-all cursor-pointer inline-flex items-center justify-center gap-2 shrink-0">
@@ -227,7 +230,7 @@ export default function SeoEditor({ data = DEFAULT_SEO, onChange }: SeoEditorPro
                   type="text"
                   value={currentData.faviconUrl}
                   onChange={(e) => onChange({ ...currentData, faviconUrl: e.target.value })}
-                  placeholder="/favicon.ico"
+                  placeholder="/favicon.ico atau https://media.bulindev.tech/uploads/..."
                   className="flex-1 px-3.5 py-2 bg-surface border border-border rounded-lg text-foreground outline-none font-mono text-xs"
                 />
                 <label className="px-3 py-2 bg-surface-secondary hover:bg-border text-foreground font-bold rounded-lg border border-border cursor-pointer inline-flex items-center gap-1.5 shrink-0">
@@ -256,7 +259,7 @@ export default function SeoEditor({ data = DEFAULT_SEO, onChange }: SeoEditorPro
                   type="text"
                   value={currentData.appleTouchIconUrl}
                   onChange={(e) => onChange({ ...currentData, appleTouchIconUrl: e.target.value })}
-                  placeholder="/logo/logo.png"
+                  placeholder="/logo/logo.png atau https://media.bulindev.tech/uploads/..."
                   className="flex-1 px-3.5 py-2 bg-surface border border-border rounded-lg text-foreground outline-none font-mono text-xs"
                 />
                 <label className="px-3 py-2 bg-surface-secondary hover:bg-border text-foreground font-bold rounded-lg border border-border cursor-pointer inline-flex items-center gap-1.5 shrink-0">
