@@ -91,6 +91,7 @@ export default function HomeTab({ onNavigateTab }: HomeTabProps) {
                 height={128}
                 className="w-full h-full object-cover"
                 priority
+                sizes="(max-width: 768px) 96px, 128px"
                 unoptimized
               />
             </div>

@@ -1,6 +1,5 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import "./globals.css";
-import LenisProvider from "@/components/LenisProvider";
 import NavigationWrapper from "@/components/NavigationWrapper";
 import { PortfolioProvider } from "@/context/PortfolioContext";
 import JSONLDSchema from "@/components/JSONLDSchema";
@@ -19,29 +18,36 @@ const fontMono = JetBrains_Mono({
   display: "swap",
 });
 
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  themeColor: [
+    { media: "(prefers-color-scheme: dark)", color: "#0d1013" },
+    { media: "(prefers-color-scheme: light)", color: "#f8f9fa" },
+  ],
+};
+
 export const metadata: Metadata = {
   metadataBase: new URL("https://bulindev.tech"),
   title: {
-    default: "Muhammad Nur Ashiddiqi - DevOps Engineer",
+    default: "Muhammad Nur Ashiddiqi - DevOps & Backend Engineer",
     template: "%s | Muhammad Nur Ashiddiqi",
   },
   description:
-    "Official portfolio of Muhammad Nur Ashiddiqi. DevOps Engineer specializing in Kubernetes, CI/CD pipelines, Cloud Infrastructure (AWS/GCP), Terraform, and High Availability System Architecture.",
+    "Official portfolio of Muhammad Nur Ashiddiqi. DevOps & Backend Engineer specializing in REST APIs, PostgreSQL optimization, Kubernetes orchestration, Docker containerization, and automated CI/CD pipelines.",
   keywords: [
     "Muhammad Nur Ashiddiqi",
     "DevOps Engineer",
+    "Backend Developer",
     "Cloud Engineer",
     "Kubernetes",
     "Docker",
     "Terraform",
     "CI/CD",
     "GitHub Actions",
-    "AWS",
-    "GCP",
-    "Infrastructure as Code",
-    "Prometheus",
-    "Grafana",
-    "Site Reliability",
+    "Node.js",
+    "PostgreSQL",
+    "Linux Server",
   ],
   authors: [{ name: "Muhammad Nur Ashiddiqi" }],
   creator: "Muhammad Nur Ashiddiqi",
@@ -57,16 +63,16 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     url: "https://bulindev.tech",
-    siteName: "Muhammad Nur Ashiddiqi - DevOps Engineer",
-    title: "Muhammad Nur Ashiddiqi - DevOps Engineer",
+    siteName: "Muhammad Nur Ashiddiqi - DevOps & Backend Engineer",
+    title: "Muhammad Nur Ashiddiqi - DevOps & Backend Engineer",
     description:
-      "DevOps & Cloud Engineer creating high availability cloud infrastructure, automated pipelines, and Kubernetes container orchestration.",
+      "DevOps & Backend Engineer creating high availability cloud infrastructure, automated pipelines, and containerized backend systems.",
   },
   twitter: {
     card: "summary_large_image",
-    title: "Muhammad Nur Ashiddiqi - DevOps Engineer",
+    title: "Muhammad Nur Ashiddiqi - DevOps & Backend Engineer",
     description:
-      "DevOps & Cloud Engineer creating high availability cloud infrastructure, automated pipelines, and Kubernetes container orchestration.",
+      "DevOps & Backend Engineer creating high availability cloud infrastructure, automated pipelines, and containerized backend systems.",
   },
   robots: {
     index: true,
@@ -82,8 +88,6 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark scroll-smooth" suppressHydrationWarning>
       <head>
-        <link rel="preconnect" href="https://images.unsplash.com" />
-        <link rel="dns-prefetch" href="https://images.unsplash.com" />
         <link rel="preconnect" href="https://unavatar.io" />
         <link rel="dns-prefetch" href="https://unavatar.io" />
         <script
@@ -102,19 +106,17 @@ export default function RootLayout({
         />
       </head>
       <body
-        className={`${fontSans.variable} ${fontMono.variable} ${fontSans.className} antialiased bg-background text-foreground relative selection:bg-foreground selection:text-background min-h-screen`}
+        className={`${fontSans.variable} ${fontMono.variable} ${fontSans.className} antialiased bg-background text-foreground relative selection:bg-accent selection:text-background min-h-screen`}
       >
         <a
           href="#main-content"
-          className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-cyan-500 focus:text-slate-950 focus:font-mono focus:font-bold focus:rounded-lg focus:shadow-2xl"
+          className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-50 focus:px-4 focus:py-2 focus:bg-accent focus:text-accent-text focus:font-mono focus:font-bold focus:rounded-md"
         >
           Skip to main content
         </a>
         <JSONLDSchema />
         <PortfolioProvider>
-          <LenisProvider>
-            <NavigationWrapper>{children}</NavigationWrapper>
-          </LenisProvider>
+          <NavigationWrapper>{children}</NavigationWrapper>
         </PortfolioProvider>
       </body>
     </html>

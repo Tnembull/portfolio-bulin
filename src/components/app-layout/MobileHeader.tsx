@@ -32,6 +32,7 @@ export default function MobileHeader({ onAvatarClick }: MobileHeaderProps) {
             height={36}
             className="w-full h-full object-cover"
             priority
+            sizes="36px"
             unoptimized
           />
         </div>

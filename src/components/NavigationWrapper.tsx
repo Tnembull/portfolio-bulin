@@ -1,7 +1,6 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import CustomCursor from "@/components/CustomCursor";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
@@ -21,7 +20,6 @@ export default function NavigationWrapper({
 
   return (
     <>
-      <CustomCursor />
       {pathname !== "/" && <Navbar />}
       {children}
       {showFooter && <Footer />}

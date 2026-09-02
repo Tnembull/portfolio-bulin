@@ -34,6 +34,7 @@ import OverviewEditor from "@/components/admin/OverviewEditor";
 import HeroEditor from "@/components/admin/HeroEditor";
 import AboutEditor from "@/components/admin/AboutEditor";
 import ExperienceEditor from "@/components/admin/ExperienceEditor";
+import EducationEditor from "@/components/admin/EducationEditor";
 import SkillsEditor from "@/components/admin/SkillsEditor";
 import ToolsEditor from "@/components/admin/ToolsEditor";
 import ProcessEditor from "@/components/admin/ProcessEditor";
@@ -48,13 +49,14 @@ import CtaEditor from "@/components/admin/CtaEditor";
 import PipelineEditor from "@/components/admin/PipelineEditor";
 import ProgressEditor from "@/components/admin/ProgressEditor";
 import BadgesEditor from "@/components/admin/BadgesEditor";
-import { Mail } from "lucide-react";
+import { Mail, GraduationCap } from "lucide-react";
 
 type SectionTab =
   | "overview"
   | "hero"
   | "about"
   | "experience"
+  | "education"
   | "skills"
   | "tools"
   | "process"
@@ -133,6 +135,7 @@ export default function AdminDashboardPage() {
   const [heroData, setHeroData] = useState(state.hero);
   const [aboutData, setAboutData] = useState(state.about);
   const [experienceData, setExperienceData] = useState(state.experience);
+  const [educationData, setEducationData] = useState(state.education);
   const [skillsData, setSkillsData] = useState(state.skills);
   const [toolsData, setToolsData] = useState(state.tools);
   const [processData, setProcessData] = useState(state.process);
@@ -152,6 +155,7 @@ export default function AdminDashboardPage() {
     setHeroData(state.hero);
     setAboutData(state.about);
     setExperienceData(state.experience);
+    setEducationData(state.education);
     setSkillsData(state.skills);
     setToolsData(state.tools);
     setProcessData(state.process);
@@ -172,6 +176,7 @@ export default function AdminDashboardPage() {
     updateSection("hero", heroData);
     updateSection("about", aboutData);
     updateSection("experience", experienceData);
+    updateSection("education", educationData);
     updateSection("skills", skillsData);
     updateSection("tools", toolsData);
     updateSection("process", processData);
@@ -196,20 +201,21 @@ export default function AdminDashboardPage() {
     { id: "hero" as SectionTab, label: "01 / Hero Block", icon: Sparkles },
     { id: "about" as SectionTab, label: "02 / About & Bio", icon: User },
     { id: "experience" as SectionTab, label: "03 / Career Timeline", icon: Briefcase },
-    { id: "skills" as SectionTab, label: "04 / DevOps Capabilities", icon: Wrench },
-    { id: "tools" as SectionTab, label: "05 / Tech Toolbox", icon: Cpu },
-    { id: "process" as SectionTab, label: "06 / Pipeline Phases", icon: GitBranch },
-    { id: "projects" as SectionTab, label: "07 / Infrastructure Projects", icon: FolderKanban },
-    { id: "music" as SectionTab, label: "08 / Music Player", icon: Music },
-    { id: "stats" as SectionTab, label: "09 / Metrics & SLA", icon: BarChart3 },
-    { id: "github" as SectionTab, label: "10 / GitHub Activity", icon: Github },
-    { id: "faq" as SectionTab, label: "11 / FAQ Section", icon: HelpCircle },
-    { id: "awards" as SectionTab, label: "12 / Certifications", icon: Award },
-    { id: "testimonials" as SectionTab, label: "13 / Endorsements", icon: MessageSquareQuote },
-    { id: "cta" as SectionTab, label: "14 / Contact & CTA", icon: Mail },
-    { id: "pipeline" as SectionTab, label: "15 / DevOps Pipeline", icon: GitBranch },
-    { id: "progress" as SectionTab, label: "16 / Learning Progress", icon: TrendingUp },
-    { id: "badges" as SectionTab, label: "17 / Digital Badges", icon: ShieldCheck },
+    { id: "education" as SectionTab, label: "04 / Academic Education", icon: GraduationCap },
+    { id: "skills" as SectionTab, label: "05 / DevOps Capabilities", icon: Wrench },
+    { id: "tools" as SectionTab, label: "06 / Tech Toolbox", icon: Cpu },
+    { id: "process" as SectionTab, label: "07 / Pipeline Phases", icon: GitBranch },
+    { id: "projects" as SectionTab, label: "08 / Infrastructure Projects", icon: FolderKanban },
+    { id: "music" as SectionTab, label: "09 / Music Player", icon: Music },
+    { id: "stats" as SectionTab, label: "10 / Metrics & SLA", icon: BarChart3 },
+    { id: "github" as SectionTab, label: "11 / GitHub Activity", icon: Github },
+    { id: "faq" as SectionTab, label: "12 / FAQ Section", icon: HelpCircle },
+    { id: "awards" as SectionTab, label: "13 / Certifications", icon: Award },
+    { id: "testimonials" as SectionTab, label: "14 / Endorsements", icon: MessageSquareQuote },
+    { id: "cta" as SectionTab, label: "15 / Contact & CTA", icon: Mail },
+    { id: "pipeline" as SectionTab, label: "16 / DevOps Pipeline", icon: GitBranch },
+    { id: "progress" as SectionTab, label: "17 / Learning Progress", icon: TrendingUp },
+    { id: "badges" as SectionTab, label: "18 / Digital Badges", icon: ShieldCheck },
   ];
 
   // Render Admin Login Gate if not authenticated
@@ -442,6 +448,10 @@ export default function AdminDashboardPage() {
 
           {activeTab === "experience" && (
             <ExperienceEditor data={experienceData} onChange={(data) => setExperienceData(data)} />
+          )}
+
+          {activeTab === "education" && (
+            <EducationEditor data={educationData} onChange={(data) => setEducationData(data)} />
           )}
 
           {activeTab === "skills" && (
