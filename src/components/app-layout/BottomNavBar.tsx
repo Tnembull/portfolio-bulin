@@ -24,7 +24,7 @@ export default function BottomNavBar({
   return (
     <nav
       aria-label="Mobile navigation"
-      className="fixed bottom-0 left-0 right-0 z-40 md:hidden bg-[#0b0d0f] border-t border-[#252a30] px-1 sm:px-2 pt-1.5 pb-[max(0.4rem,env(safe-area-inset-bottom,0.4rem))]"
+      className="fixed bottom-0 left-0 right-0 z-40 md:hidden bg-background border-t border-border px-1 sm:px-2 pt-1.5 pb-[max(0.4rem,env(safe-area-inset-bottom,0.4rem))] transition-colors"
     >
       <div className="w-full max-w-md mx-auto flex items-center justify-around">
         {NAV_TABS.map((tab) => {
@@ -37,8 +37,8 @@ export default function BottomNavBar({
               onClick={() => onTabChange(tab.id)}
               className={`flex-1 flex flex-col items-center justify-center py-1 px-1 rounded-md transition-colors cursor-pointer select-none ${
                 isActive
-                  ? "text-[#00c896]"
-                  : "text-[#6f7781] hover:text-[#9aa1a9]"
+                  ? "text-accent"
+                  : "text-muted hover:text-secondary"
               }`}
             >
               <Icon size={17} strokeWidth={isActive ? 2.2 : 1.7} />

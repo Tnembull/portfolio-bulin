@@ -1,68 +1,84 @@
 @import "tailwindcss";
 
-@layer base {
-  :root {
-    /* Pure Solid Editorial Palette - Anti AI-Slop */
-    --background: #0b0d0f;
-    --foreground: #f2f4f5;
-    --surface: #111418;
-    --surface-secondary: #161a1f;
-    --border: #252a30;
-    --text-primary: #f2f4f5;
-    --text-secondary: #9aa1a9;
-    --text-muted: #6f7781;
-    --accent: #00c896;
-    --radius: 6px;
-  }
+@theme {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-surface: var(--surface);
+  --color-surface-secondary: var(--surface-secondary);
+  --color-border: var(--border);
+  --color-text-secondary: var(--text-secondary);
+  --color-text-muted: var(--text-muted);
+  --color-accent: var(--accent);
+  --color-accent-text: var(--accent-text);
+  --color-accent-hover: var(--accent-hover);
+}
 
-  .dark {
-    --background: #0b0d0f;
-    --foreground: #f2f4f5;
-    --surface: #111418;
-    --surface-secondary: #161a1f;
-    --border: #252a30;
-    --text-primary: #f2f4f5;
-    --text-secondary: #9aa1a9;
-    --text-muted: #6f7781;
-    --accent: #00c896;
-  }
+:root {
+  /* Bespoke Editorial Minimalist Light Mode */
+  --background: #f8f9fa;
+  --foreground: #111418;
+  --surface: #ffffff;
+  --surface-secondary: #f0f2f5;
+  --border: #e1e4e8;
+  --text-secondary: #57606a;
+  --text-muted: #8c959f;
+  --accent: #008764;
+  --accent-text: #ffffff;
+  --accent-hover: #007053;
+  --radius: 6px;
+}
+
+.dark {
+  /* Bespoke Deep Kurogane / Obsidian Dark Mode */
+  --background: #0d1013;
+  --foreground: #f0f2f5;
+  --surface: #14181d;
+  --surface-secondary: #1a2026;
+  --border: #262e37;
+  --text-secondary: #8e98a4;
+  --text-muted: #5e6874;
+  --accent: #00d29d;
+  --accent-text: #0d1013;
+  --accent-hover: #00b889;
 }
 
 body {
   font-family: var(--font-sans), ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  background-color: #0b0d0f;
-  color: #f2f4f5;
+  background-color: var(--background);
+  color: var(--foreground);
   font-weight: 400;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  transition: background-color 0.15s ease, color 0.15s ease;
 }
 
-/* Custom Scrollbar - Solid & Subtle */
+/* Custom Scrollbar */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #0b0d0f;
+  background: var(--background);
 }
 ::-webkit-scrollbar-thumb {
-  background: #252a30;
+  background: var(--border);
   border-radius: 3px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #383f47;
+  background: var(--text-muted);
 }
 
-/* Form Controls Styling - Solid and Clean */
+/* Form Controls Styling */
 input[type="text"],
 input[type="url"],
 input[type="email"],
 input[type="number"],
+input[type="password"],
 textarea,
 select {
-  background-color: #111418 !important;
-  border: 1px solid #252a30 !important;
-  color: #f2f4f5 !important;
+  background-color: var(--surface) !important;
+  border: 1px solid var(--border) !important;
+  color: var(--foreground) !important;
   border-radius: 6px !important;
 }
 
@@ -70,8 +86,9 @@ input[type="text"]:focus,
 input[type="url"]:focus,
 input[type="email"]:focus,
 input[type="number"]:focus,
+input[type="password"]:focus,
 textarea:focus,
 select:focus {
-  border-color: #00c896 !important;
+  border-color: var(--accent) !important;
   outline: none !important;
 }

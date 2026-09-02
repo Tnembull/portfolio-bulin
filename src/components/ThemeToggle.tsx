@@ -28,8 +28,8 @@ export default function ThemeToggle() {
   if (!mounted) {
     return (
       <button
-        aria-label="Toggle mode"
-        className="size-7 rounded-md flex items-center justify-center text-muted-foreground border border-line bg-muted/20 hover:bg-muted/50 hover:text-foreground transition-all"
+        aria-label="Toggle theme"
+        className="size-8 rounded-md flex items-center justify-center text-secondary border border-border bg-surface"
       >
         <Moon size={14} />
       </button>
@@ -39,9 +39,9 @@ export default function ThemeToggle() {
   return (
     <button
       onClick={toggleTheme}
-      aria-label="Toggle mode"
+      aria-label="Toggle theme"
       title={isDark ? "Switch to Light Mode" : "Switch to Dark Mode"}
-      className="size-7 rounded-md flex items-center justify-center text-muted-foreground border border-line bg-muted/20 hover:bg-muted/50 hover:text-foreground transition-all cursor-pointer"
+      className="size-8 rounded-md flex items-center justify-center text-secondary hover:text-foreground border border-border bg-surface hover:bg-surface-secondary transition-colors cursor-pointer"
     >
       {isDark ? <Sun size={14} /> : <Moon size={14} />}
     </button>

@@ -3,7 +3,7 @@
 import React, { useState, useMemo } from "react";
 import Image from "next/image";
 import { usePortfolio } from "@/context/PortfolioContext";
-import { PROJECTS as INITIAL_PROJECTS, Project } from "@/data/projects";
+import { Project } from "@/data/projects";
 import { Search, X, ArrowUpRight } from "lucide-react";
 
 export default function ProjectsTab() {
@@ -74,10 +74,10 @@ export default function ProjectsTab() {
       {/* Header, Search & Filter */}
       <div className="space-y-6">
         <div>
-          <h1 className="text-2xl sm:text-3xl font-semibold text-[#f2f4f5] tracking-tight">
+          <h1 className="text-2xl sm:text-3xl font-semibold text-foreground tracking-tight">
             Engineered Projects
           </h1>
-          <p className="text-sm text-[#9aa1a9] mt-1">
+          <p className="text-sm text-secondary mt-1">
             Production infrastructure, backend architectures, and automation systems.
           </p>
         </div>
@@ -86,19 +86,19 @@ export default function ProjectsTab() {
         <div className="relative">
           <Search
             size={16}
-            className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#6f7781]"
+            className="absolute left-3.5 top-1/2 -translate-y-1/2 text-muted"
           />
           <input
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
             placeholder="Search projects by name, keyword, or technology..."
-            className="w-full bg-[#111418] border border-[#252a30] text-[#f2f4f5] pl-10 pr-10 py-2.5 rounded-md text-sm outline-none placeholder:text-[#6f7781]"
+            className="w-full bg-surface border border-border text-foreground pl-10 pr-10 py-2.5 rounded-md text-sm outline-none placeholder:text-muted"
           />
           {searchQuery && (
             <button
               onClick={() => setSearchQuery("")}
-              className="absolute right-3.5 top-1/2 -translate-y-1/2 text-[#6f7781] hover:text-[#f2f4f5]"
+              className="absolute right-3.5 top-1/2 -translate-y-1/2 text-muted hover:text-foreground"
             >
               <X size={15} />
             </button>
@@ -106,7 +106,7 @@ export default function ProjectsTab() {
         </div>
 
         {/* Category Filters */}
-        <div className="flex items-center gap-2 border-b border-[#252a30] pb-2 overflow-x-auto">
+        <div className="flex items-center gap-2 border-b border-border pb-2 overflow-x-auto">
           {categories.map((cat) => {
             const isSelected = selectedCategory === cat;
             return (
@@ -115,8 +115,8 @@ export default function ProjectsTab() {
                 onClick={() => setSelectedCategory(cat)}
                 className={`px-3 py-1.5 rounded-md text-xs font-mono whitespace-nowrap transition-colors cursor-pointer ${
                   isSelected
-                    ? "bg-[#111418] text-[#00c896] border border-[#252a30] font-semibold"
-                    : "text-[#9aa1a9] hover:text-[#f2f4f5]"
+                    ? "bg-surface text-accent border border-border font-semibold"
+                    : "text-secondary hover:text-foreground"
                 }`}
               >
                 {cat}
@@ -128,18 +128,18 @@ export default function ProjectsTab() {
 
       {/* Projects Editorial List */}
       {filteredProjects.length === 0 ? (
-        <div className="py-12 text-center text-sm text-[#9aa1a9]">
+        <div className="py-12 text-center text-sm text-secondary">
           No projects found matching &ldquo;{searchQuery}&rdquo;.
         </div>
       ) : (
-        <div className="divide-y divide-[#252a30]">
+        <div className="divide-y divide-border">
           {filteredProjects.map((item, idx) => (
             <article
               key={item.id}
               className="py-6 first:pt-0 last:pb-0 grid grid-cols-1 md:grid-cols-[60px_1fr_auto] gap-4 items-start"
             >
               {/* Index Number */}
-              <span className="font-mono text-xs text-[#6f7781]">
+              <span className="font-mono text-xs text-muted">
                 {String(idx + 1).padStart(2, "0")}
               </span>
 
@@ -148,22 +148,22 @@ export default function ProjectsTab() {
                 <div className="flex items-center gap-3">
                   <h2
                     onClick={() => setSelectedProject(item)}
-                    className="text-base font-semibold text-[#f2f4f5] hover:text-[#00c896] transition-colors cursor-pointer"
+                    className="text-base font-semibold text-foreground hover:text-accent transition-colors cursor-pointer"
                   >
                     {item.title}
                   </h2>
                   {item.category && (
-                    <span className="text-[11px] font-mono text-[#6f7781]">
+                    <span className="text-[11px] font-mono text-muted">
                       [{item.category}]
                     </span>
                   )}
                 </div>
 
-                <p className="text-sm text-[#9aa1a9] leading-relaxed max-w-2xl">
+                <p className="text-sm text-secondary leading-relaxed max-w-2xl">
                   {item.description}
                 </p>
 
-                <div className="text-xs font-mono text-[#6f7781]">
+                <div className="text-xs font-mono text-muted">
                   {(item.tags || item.tech || []).join(" · ")}
                 </div>
               </div>
@@ -172,7 +172,7 @@ export default function ProjectsTab() {
               <div className="flex items-center gap-4 text-xs font-mono self-start pt-1">
                 <button
                   onClick={() => setSelectedProject(item)}
-                  className="text-[#9aa1a9] hover:text-[#f2f4f5] transition-colors cursor-pointer"
+                  className="text-secondary hover:text-foreground transition-colors cursor-pointer"
                 >
                   Details
                 </button>
@@ -182,7 +182,7 @@ export default function ProjectsTab() {
                     href={item.githubUrl || item.link}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-[#9aa1a9] hover:text-[#f2f4f5] inline-flex items-center gap-1 transition-colors"
+                    className="text-secondary hover:text-foreground inline-flex items-center gap-1 transition-colors"
                   >
                     <span>GitHub</span>
                     <ArrowUpRight size={12} />
@@ -194,7 +194,7 @@ export default function ProjectsTab() {
                     href={item.liveUrl || item.url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="text-[#00c896] hover:underline inline-flex items-center gap-1 transition-colors"
+                    className="text-accent hover:underline inline-flex items-center gap-1 transition-colors"
                   >
                     <span>Live</span>
                     <ArrowUpRight size={12} />
@@ -209,20 +209,20 @@ export default function ProjectsTab() {
       {/* Project Detail Modal */}
       {selectedProject && (
         <div className="fixed inset-0 z-50 bg-black/70 p-4 flex items-center justify-center">
-          <div className="bg-[#111418] border border-[#252a30] rounded-lg max-w-2xl w-full p-6 space-y-5 max-h-[90vh] overflow-y-auto">
+          <div className="bg-surface border border-border rounded-lg max-w-2xl w-full p-6 space-y-5 max-h-[90vh] overflow-y-auto">
             {/* Modal Header */}
-            <div className="flex items-start justify-between gap-4 pb-3 border-b border-[#252a30]">
+            <div className="flex items-start justify-between gap-4 pb-3 border-b border-border">
               <div>
-                <span className="text-xs font-mono text-[#00c896]">
+                <span className="text-xs font-mono text-accent">
                   {selectedProject.category || "Project Spec"}
                 </span>
-                <h2 className="text-lg font-semibold text-[#f2f4f5] mt-0.5">
+                <h2 className="text-lg font-semibold text-foreground mt-0.5">
                   {selectedProject.title}
                 </h2>
               </div>
               <button
                 onClick={() => setSelectedProject(null)}
-                className="p-1.5 rounded-md hover:bg-[#161a1f] text-[#9aa1a9] hover:text-[#f2f4f5] cursor-pointer"
+                className="p-1.5 rounded-md hover:bg-surface-secondary text-secondary hover:text-foreground cursor-pointer"
               >
                 <X size={18} />
               </button>
@@ -230,7 +230,7 @@ export default function ProjectsTab() {
 
             {/* Image (if any) */}
             {selectedProject.image && (
-              <div className="relative aspect-video w-full rounded-md overflow-hidden border border-[#252a30] bg-[#0b0d0f]">
+              <div className="relative aspect-video w-full rounded-md overflow-hidden border border-border bg-background">
                 <Image
                   src={selectedProject.image}
                   alt={selectedProject.title}
@@ -243,10 +243,10 @@ export default function ProjectsTab() {
 
             {/* Description */}
             <div className="space-y-1.5 text-sm">
-              <h3 className="text-xs font-mono font-semibold uppercase text-[#6f7781]">
+              <h3 className="text-xs font-mono font-semibold uppercase text-muted">
                 Overview
               </h3>
-              <p className="text-[#9aa1a9] leading-relaxed">
+              <p className="text-secondary leading-relaxed">
                 {selectedProject.longDescription || selectedProject.description}
               </p>
             </div>
@@ -254,10 +254,10 @@ export default function ProjectsTab() {
             {/* Challenges & Solutions */}
             {selectedProject.challenges && selectedProject.challenges.length > 0 && (
               <div className="space-y-1.5 text-sm">
-                <h3 className="text-xs font-mono font-semibold uppercase text-[#6f7781]">
+                <h3 className="text-xs font-mono font-semibold uppercase text-muted">
                   Challenges & Architecture
                 </h3>
-                <ul className="space-y-1 text-xs text-[#9aa1a9] list-disc list-inside">
+                <ul className="space-y-1 text-xs text-secondary list-disc list-inside">
                   {selectedProject.challenges.map((c, i) => (
                     <li key={i}>{c}</li>
                   ))}
@@ -267,10 +267,10 @@ export default function ProjectsTab() {
 
             {selectedProject.solutions && selectedProject.solutions.length > 0 && (
               <div className="space-y-1.5 text-sm">
-                <h3 className="text-xs font-mono font-semibold uppercase text-[#00c896]">
+                <h3 className="text-xs font-mono font-semibold uppercase text-accent">
                   Engineering Solutions
                 </h3>
-                <ul className="space-y-1 text-xs text-[#9aa1a9] list-disc list-inside">
+                <ul className="space-y-1 text-xs text-secondary list-disc list-inside">
                   {selectedProject.solutions.map((s, i) => (
                     <li key={i}>{s}</li>
                   ))}
@@ -280,19 +280,19 @@ export default function ProjectsTab() {
 
             {/* Tech Stack */}
             <div className="space-y-1.5 text-xs font-mono">
-              <h3 className="text-xs font-mono font-semibold uppercase text-[#6f7781]">
+              <h3 className="text-xs font-mono font-semibold uppercase text-muted">
                 Stack
               </h3>
-              <p className="text-[#9aa1a9]">
+              <p className="text-secondary">
                 {(selectedProject.tags || selectedProject.tech || []).join(" · ")}
               </p>
             </div>
 
             {/* Modal Actions */}
-            <div className="flex items-center justify-end gap-3 pt-3 border-t border-[#252a30]">
+            <div className="flex items-center justify-end gap-3 pt-3 border-t border-border">
               <button
                 onClick={() => setSelectedProject(null)}
-                className="px-3 py-2 rounded-md bg-[#161a1f] hover:bg-[#252a30] text-[#9aa1a9] text-xs font-mono cursor-pointer"
+                className="px-3 py-2 rounded-md bg-surface-secondary hover:bg-border text-secondary text-xs font-mono cursor-pointer"
               >
                 Close
               </button>
@@ -302,7 +302,7 @@ export default function ProjectsTab() {
                   href={selectedProject.githubUrl || selectedProject.link}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="px-3 py-2 rounded-md bg-[#161a1f] hover:bg-[#252a30] text-[#f2f4f5] text-xs font-mono inline-flex items-center gap-1.5"
+                  className="px-3 py-2 rounded-md bg-surface-secondary hover:bg-border text-foreground text-xs font-mono inline-flex items-center gap-1.5"
                 >
                   <span>GitHub</span>
                   <ArrowUpRight size={13} />
@@ -314,7 +314,7 @@ export default function ProjectsTab() {
                   href={selectedProject.liveUrl || selectedProject.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="px-4 py-2 rounded-md bg-[#00c896] hover:bg-[#00b084] text-[#0b0d0f] text-xs font-mono font-semibold inline-flex items-center gap-1.5"
+                  className="px-4 py-2 rounded-md bg-accent hover:bg-accent-hover text-accent-text text-xs font-mono font-semibold inline-flex items-center gap-1.5"
                 >
                   <span>Live Production</span>
                   <ArrowUpRight size={13} />

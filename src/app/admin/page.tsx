@@ -107,6 +107,7 @@ export default function AdminDashboardPage() {
       if (isValid) {
         try {
           sessionStorage.setItem("admin_authenticated", "true");
+          document.cookie = "porto_admin_auth=true; path=/; max-age=86400; SameSite=Strict";
         } catch {}
         setIsAuthenticated(true);
         setPinError(false);
@@ -214,28 +215,26 @@ export default function AdminDashboardPage() {
   // Render Admin Login Gate if not authenticated
   if (!isAuthenticated) {
     return (
-      <div className="dark min-h-screen bg-[#19131a] text-[#e7e9db] font-mono flex items-center justify-center p-4">
-        <div className="w-full max-w-md bg-[#2f1e2e] border border-[#483145] rounded-2xl p-6 sm:p-8 space-y-6 shadow-2xl relative overflow-hidden">
-          <div className="scanline-overlay absolute inset-0 pointer-events-none" />
-
+      <div className="min-h-screen bg-[#0b0d0f] text-[#f2f4f5] flex items-center justify-center p-4">
+        <div className="w-full max-w-md bg-[#111418] border border-[#252a30] rounded-lg p-6 sm:p-8 space-y-6">
           {/* Header */}
-          <div className="text-center space-y-2 relative z-10">
-            <div className="size-12 rounded-2xl bg-[#48b685]/15 border border-[#48b685]/40 text-[#48b685] mx-auto flex items-center justify-center font-bold">
-              <Lock size={22} />
+          <div className="text-center space-y-2">
+            <div className="size-10 rounded-md bg-[#161a1f] border border-[#252a30] text-[#00c896] mx-auto flex items-center justify-center font-bold">
+              <Lock size={18} />
             </div>
-            <h1 className="text-xl font-extrabold tracking-tight text-[#e7e9db]">
-              [ ADMIN CONSOLE ]
+            <h1 className="text-lg font-semibold tracking-tight text-[#f2f4f5]">
+              Admin Authentication
             </h1>
-            <p className="text-xs text-[#a392a3]">
-              Restricted Area • Authentication Required
+            <p className="text-xs text-[#9aa1a9]">
+              Enter security PIN to access the console
             </p>
           </div>
 
           {/* Form */}
-          <form onSubmit={handleLogin} className="space-y-4 relative z-10">
+          <form onSubmit={handleLogin} className="space-y-4">
             <div className="space-y-1.5">
-              <label className="text-[10px] uppercase font-bold text-[#48b685] tracking-wider block">
-                SECURITY PIN / ACCESS KEY
+              <label className="text-xs font-mono text-[#9aa1a9] block">
+                Security PIN
               </label>
               <div className="relative">
                 <input
@@ -246,13 +245,13 @@ export default function AdminDashboardPage() {
                     if (pinError) setPinError(false);
                   }}
                   placeholder="Enter Security PIN"
-                  className="w-full bg-[#19131a] border border-[#483145] focus:border-[#48b685] text-[#e7e9db] px-3.5 py-2.5 rounded-xl text-sm font-mono outline-none transition-all pr-10"
+                  className="w-full bg-[#0b0d0f] border border-[#252a30] focus:border-[#00c896] text-[#f2f4f5] px-3.5 py-2.5 rounded-md text-sm outline-none transition-all pr-10"
                   autoFocus
                 />
                 <button
                   type="button"
                   onClick={() => setShowPassword((prev) => !prev)}
-                  className="absolute right-3 top-1/2 -translate-y-1/2 text-[#a392a3] hover:text-[#48b685] transition-colors"
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-[#9aa1a9] hover:text-[#f2f4f5] transition-colors"
                 >
                   {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
                 </button>
@@ -260,26 +259,27 @@ export default function AdminDashboardPage() {
             </div>
 
             {pinError && (
-              <div className="p-3 rounded-lg border border-[#ef6155]/40 bg-[#ef6155]/10 text-[#ef6155] text-xs font-bold flex items-center gap-2">
-                <X size={15} />
-                <span>Access Denied: Invalid Security PIN.</span>
+              <div className="p-2.5 rounded-md border border-rose-500/30 bg-rose-500/10 text-rose-400 text-xs font-medium flex items-center gap-2">
+                <X size={14} />
+                <span>Invalid Security PIN.</span>
               </div>
             )}
 
             <button
               type="submit"
-              className="w-full py-2.5 rounded-xl border border-[#48b685] bg-[#48b685] text-[#19131a] font-extrabold text-xs uppercase tracking-wider hover:bg-[#48b685]/90 transition-all cursor-pointer shadow-[0_0_15px_rgba(72,182,133,0.3)] flex items-center justify-center gap-2"
+              disabled={isLoggingIn}
+              className="w-full py-2.5 rounded-md bg-[#00c896] hover:bg-[#00b084] text-[#0b0d0f] font-semibold text-sm transition-all cursor-pointer disabled:opacity-50 flex items-center justify-center gap-2"
             >
               <ShieldCheck size={16} />
-              <span>Authenticate & Enter Console</span>
+              <span>{isLoggingIn ? "Verifying..." : "Authenticate & Enter Console"}</span>
             </button>
           </form>
 
           {/* Footer Back */}
-          <div className="pt-2 text-center border-t border-[#483145] relative z-10">
+          <div className="pt-2 text-center border-t border-[#252a30]">
             <Link
               href="/"
-              className="text-xs text-[#a392a3] hover:text-[#48b685] transition-colors font-bold inline-flex items-center gap-1.5"
+              className="text-xs text-[#9aa1a9] hover:text-[#f2f4f5] transition-colors inline-flex items-center gap-1.5"
             >
               ➔ Return to Public Site
             </Link>

@@ -47,7 +47,7 @@ function AppShellContent() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0b0d0f] text-[#f2f4f5] flex flex-col md:flex-row antialiased selection:bg-[#00c896] selection:text-[#0b0d0f]">
+    <div className="min-h-screen bg-background text-foreground flex flex-col md:flex-row antialiased selection:bg-accent selection:text-background">
       {/* 1. Desktop Left Sidebar Rail (Fixed on md: screens) */}
       <DesktopSidebar activeTab={activeTab} onTabChange={handleTabChange} />
 
@@ -79,7 +79,7 @@ export default function AppShell() {
   return (
     <Suspense
       fallback={
-        <div className="min-h-screen bg-[#0b0d0f] flex items-center justify-center text-[#9aa1a9] font-mono text-xs">
+        <div className="min-h-screen bg-background flex items-center justify-center text-secondary font-mono text-xs">
           Loading...
         </div>
       }
