@@ -36,7 +36,7 @@ export default function DesktopSidebar({
   const { state } = usePortfolio();
   const { hero } = state;
 
-  const avatarSrc = hero.avatarOff || hero.avatarOn || "/avatar.jpg";
+  const avatarSrc = hero.avatarOff || hero.avatarOn || "/logo/logo.png";
   const name = hero.name || "Muhammad Nur Ashiddiqi";
   const role = hero.role || "DevOps & Backend Engineer";
 

@@ -18,7 +18,7 @@ export default function HomeTab({ onNavigateTab }: HomeTabProps) {
   const name = hero?.name || "Muhammad Nur Ashiddiqi";
   const role = hero?.role || "DevOps & Backend Engineer";
   const bio = hero?.bio || "";
-  const avatarSrc = hero?.avatarOff || hero?.avatarOn || "/avatar.jpg";
+  const avatarSrc = hero?.avatarOff || hero?.avatarOn || "/logo/logo.png";
 
   const featuredProjects: Project[] = projects?.items?.slice(0, 3) || [];
   const capabilityList = skills?.items || [];
