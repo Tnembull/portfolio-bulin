@@ -344,7 +344,7 @@ export default function AdminDashboardPage() {
 
       {/* Sidebar Navigation */}
       <aside
-        className={`fixed inset-y-0 left-0 z-40 w-72 bg-surface border-r border-border flex flex-col justify-between transition-transform duration-300 lg:static lg:translate-x-0 ${
+        className={`fixed inset-y-0 left-0 z-40 w-72 max-w-[85vw] bg-surface border-r border-border flex flex-col justify-between transition-transform duration-300 lg:static lg:translate-x-0 ${
           sidebarOpen ? "translate-x-0" : "-translate-x-full"
         }`}
       >
@@ -441,8 +441,8 @@ export default function AdminDashboardPage() {
       {/* Main Content */}
       <div className="flex-1 flex flex-col min-w-0 overflow-hidden">
         {/* Header Bar */}
-        <header className="h-14 border-b border-border bg-surface px-3 sm:px-6 flex items-center justify-between gap-2 shrink-0">
-          <div className="flex items-center gap-2 sm:gap-3 min-w-0">
+        <header className="h-14 border-b border-border bg-surface px-2.5 sm:px-6 flex items-center justify-between gap-2 shrink-0">
+          <div className="flex items-center gap-1.5 sm:gap-3 min-w-0">
             <button
               onClick={() => setSidebarOpen(true)}
               className="lg:hidden text-secondary hover:text-foreground p-1 cursor-pointer shrink-0"
@@ -452,7 +452,7 @@ export default function AdminDashboardPage() {
             </button>
             <div className="text-xs font-semibold text-foreground uppercase tracking-wide truncate flex items-center gap-1.5 min-w-0">
               <span className="hidden sm:inline text-muted font-mono">SECTION:</span>
-              <span className="bg-surface-secondary border border-border px-2 py-0.5 rounded-md text-accent font-mono text-[11px] truncate max-w-[130px] sm:max-w-none">
+              <span className="bg-surface-secondary border border-border px-2 py-0.5 rounded-md text-accent font-mono text-[10px] sm:text-[11px] truncate max-w-[95px] min-[360px]:max-w-[140px] sm:max-w-none">
                 {navMenuItems.find((m) => m.id === activeTab)?.label}
               </span>
             </div>
@@ -472,7 +472,7 @@ export default function AdminDashboardPage() {
         </header>
 
         {/* Modular Canvas */}
-        <main data-lenis-prevent className="flex-1 overflow-y-auto p-4 sm:p-8 space-y-6 bg-background">
+        <main data-lenis-prevent className="flex-1 overflow-y-auto p-2.5 sm:p-6 md:p-8 space-y-5 sm:space-y-6 bg-background">
           {activeTab === "overview" && (
             <OverviewEditor
               items={navMenuItems.slice(1)}

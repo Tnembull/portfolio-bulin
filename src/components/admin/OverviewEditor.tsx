@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
-import { LucideIcon, ArrowRight, FolderKanban, Building2, Briefcase, Award, Cpu, ShieldCheck, CheckCircle2, Search } from "lucide-react";
+import { LucideIcon, ArrowRight, FolderKanban, Building2, Briefcase, Award, Cpu, Search } from "lucide-react";
 import { PortfolioState } from "@/context/PortfolioContext";
 
 interface MenuItem {
@@ -44,7 +44,7 @@ export default function OverviewEditor({ items, onSelectTab, state }: OverviewEd
         };
       case "experience":
         return {
-          count: `${totalExperience} Riwayat Karir`,
+          count: `${totalExperience} Karir`,
           subtitle: totalExperience > 0 ? `${state.experience.items[0]?.role || "Posisi Terakhir"}` : "Belum ada entri",
         };
       case "education":
@@ -54,18 +54,18 @@ export default function OverviewEditor({ items, onSelectTab, state }: OverviewEd
         };
       case "skills":
         return {
-          count: `${totalSkills} Capabilities`,
+          count: `${totalSkills} Skills`,
           subtitle: "Arsitektur & Keahlian",
         };
       case "tools":
         return {
-          count: `${totalTools} Tech Tools`,
-          subtitle: "DevOps & Infrastructure Stack",
+          count: `${totalTools} Tools`,
+          subtitle: "DevOps & Cloud Stack",
         };
       case "process":
         return {
-          count: `${state.process?.items?.length || 0} Tahapan`,
-          subtitle: "Workflow & Engineering Flow",
+          count: `${state.process?.items?.length || 0} Phases`,
+          subtitle: "Engineering Workflow",
         };
       case "projects":
         return {
@@ -74,13 +74,13 @@ export default function OverviewEditor({ items, onSelectTab, state }: OverviewEd
         };
       case "music":
         return {
-          count: state.music?.enabled ? "Aktif" : "Non-aktif",
+          count: state.music?.enabled ? "Aktif" : "Muted",
           subtitle: state.music?.title || "Audio Background Player",
         };
       case "stats":
         return {
-          count: `${state.stats?.length || 0} Metrik SLA`,
-          subtitle: "Statistik Uptime & Performance",
+          count: `${state.stats?.length || 0} SLA`,
+          subtitle: "Uptime & Metrics SLA",
         };
       case "github":
         return {
@@ -89,8 +89,8 @@ export default function OverviewEditor({ items, onSelectTab, state }: OverviewEd
         };
       case "faq":
         return {
-          count: `${state.faq?.items?.length || 0} Pertanyaan`,
-          subtitle: "Frequently Asked Questions",
+          count: `${state.faq?.items?.length || 0} FAQ`,
+          subtitle: "Pertanyaan & Jawaban",
         };
       case "awards":
         return {
@@ -104,7 +104,7 @@ export default function OverviewEditor({ items, onSelectTab, state }: OverviewEd
         };
       case "cta":
         return {
-          count: "Get in Touch",
+          count: "Active",
           subtitle: state.cta?.email || "Saluran Komunikasi",
         };
       case "pipeline":
@@ -124,12 +124,12 @@ export default function OverviewEditor({ items, onSelectTab, state }: OverviewEd
         };
       case "clients":
         return {
-          count: `${totalClients} Klien & Rekanan`,
-          subtitle: "Organisasi & Kolaborasi",
+          count: `${totalClients} Klien`,
+          subtitle: "Organisasi & Rekanan",
         };
       case "seo":
         return {
-          count: "Configured",
+          count: "Ready",
           subtitle: state.seo?.metaTitle || "SEO, OG Meta & Analytics",
         };
       default:
@@ -157,140 +157,150 @@ export default function OverviewEditor({ items, onSelectTab, state }: OverviewEd
   });
 
   return (
-    <div className="w-full space-y-8 font-sans">
-      {/* 1. Header Banner */}
-      <div className="p-6 sm:p-7 rounded-2xl border border-border bg-surface shadow-xs space-y-3">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-          <div className="space-y-1">
-            <span className="text-[11px] font-mono text-accent font-bold uppercase tracking-wider block">
+    <div className="w-full space-y-5 sm:space-y-7 font-sans">
+      {/* 1. Header Banner - Responsive from 320px */}
+      <div className="p-3.5 sm:p-6 md:p-7 rounded-xl sm:rounded-2xl border border-border bg-surface shadow-xs space-y-2.5 sm:space-y-3">
+        <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-2 sm:gap-3">
+          <div className="space-y-1 min-w-0">
+            <span className="text-[10px] sm:text-[11px] font-mono text-accent font-bold uppercase tracking-wider block">
               [ EXECUTIVE CONTROL CENTER ]
             </span>
-            <h1 className="text-2xl sm:text-3xl font-bold text-foreground tracking-tight">
+            <h1 className="text-lg sm:text-2xl md:text-3xl font-bold text-foreground tracking-tight break-words">
               Pusat Kontrol & Metrik Portofolio
             </h1>
           </div>
-          <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg border border-border bg-surface-secondary text-xs font-mono text-foreground self-start sm:self-auto">
-            <span className="size-2 rounded-full bg-accent animate-pulse" />
-            <span className="font-semibold">Supabase Database: Online</span>
+          <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-md sm:rounded-lg border border-border bg-surface-secondary text-[10px] sm:text-xs font-mono text-foreground shrink-0 self-start">
+            <span className="size-1.5 rounded-full bg-accent animate-pulse" />
+            <span className="font-semibold whitespace-nowrap">Supabase: Online</span>
           </div>
         </div>
-        <p className="text-sm text-secondary leading-relaxed max-w-3xl">
-          Pantau ringkasan metrik real-time dan kelola 20 modul portofolio Anda secara terpusat. Setiap perubahan akan langsung tersinkronisasi dengan database produksi.
+        <p className="text-xs sm:text-sm text-secondary leading-relaxed max-w-3xl">
+          Pantau ringkasan metrik real-time dan kelola 20 modul portofolio Anda secara terpusat. Setiap perubahan tersinkronisasi otomatis.
         </p>
       </div>
 
-      {/* 2. Numerical KPI Counters Bar */}
-      <div className="space-y-3">
-        <h2 className="text-xs font-mono uppercase tracking-wider text-muted font-bold">
-          RINGKASAN METRIK PORTFOLIO (REAL-TIME KPIS)
+      {/* 2. Numerical KPI Counters Bar - Fitted for 320px+ */}
+      <div className="space-y-2.5">
+        <h2 className="text-[11px] sm:text-xs font-mono uppercase tracking-wider text-muted font-bold">
+          METRIK UTAMA (REAL-TIME KPIS)
         </h2>
-        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-3.5">
+        <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-2 sm:gap-3.5">
           {/* Projects Metric */}
           <div
             onClick={() => onSelectTab("projects")}
-            className="p-4 rounded-xl border border-border bg-surface hover:border-accent/50 hover:bg-surface-secondary transition-all cursor-pointer group shadow-xs"
+            className="p-2.5 sm:p-4 rounded-lg sm:rounded-xl border border-border bg-surface hover:border-accent/50 hover:bg-surface-secondary transition-all cursor-pointer group shadow-xs min-w-0"
           >
-            <div className="flex items-center justify-between mb-2">
-              <span className="text-[11px] font-mono text-secondary uppercase font-semibold">Projects</span>
-              <div className="size-7 rounded-md bg-accent/10 border border-accent/30 flex items-center justify-center text-accent group-hover:scale-110 transition-transform">
-                <FolderKanban size={15} />
+            <div className="flex items-center justify-between mb-1.5">
+              <span className="text-[10px] sm:text-[11px] font-mono text-secondary uppercase font-semibold truncate mr-1">
+                Projects
+              </span>
+              <div className="size-6 sm:size-7 rounded-md bg-accent/10 border border-accent/30 flex items-center justify-center text-accent group-hover:scale-110 transition-transform shrink-0">
+                <FolderKanban size={13} className="sm:w-3.5 sm:h-3.5" />
               </div>
             </div>
-            <div className="text-2xl sm:text-3xl font-extrabold text-foreground tracking-tight font-mono">
+            <div className="text-xl sm:text-2xl lg:text-3xl font-extrabold text-foreground tracking-tight font-mono">
               {totalProjects}
             </div>
-            <p className="text-[11px] text-secondary mt-1 truncate">
-              {totalProjects > 0 ? "Active Builds" : "Belum ada proyek"}
+            <p className="text-[10px] sm:text-[11px] text-secondary mt-0.5 truncate">
+              {totalProjects > 0 ? "Active Builds" : "Kosong"}
             </p>
           </div>
 
           {/* Clients Metric */}
           <div
             onClick={() => onSelectTab("clients")}
-            className="p-4 rounded-xl border border-border bg-surface hover:border-accent/50 hover:bg-surface-secondary transition-all cursor-pointer group shadow-xs"
+            className="p-2.5 sm:p-4 rounded-lg sm:rounded-xl border border-border bg-surface hover:border-accent/50 hover:bg-surface-secondary transition-all cursor-pointer group shadow-xs min-w-0"
           >
-            <div className="flex items-center justify-between mb-2">
-              <span className="text-[11px] font-mono text-secondary uppercase font-semibold">Clients</span>
-              <div className="size-7 rounded-md bg-accent/10 border border-accent/30 flex items-center justify-center text-accent group-hover:scale-110 transition-transform">
-                <Building2 size={15} />
+            <div className="flex items-center justify-between mb-1.5">
+              <span className="text-[10px] sm:text-[11px] font-mono text-secondary uppercase font-semibold truncate mr-1">
+                Clients
+              </span>
+              <div className="size-6 sm:size-7 rounded-md bg-accent/10 border border-accent/30 flex items-center justify-center text-accent group-hover:scale-110 transition-transform shrink-0">
+                <Building2 size={13} className="sm:w-3.5 sm:h-3.5" />
               </div>
             </div>
-            <div className="text-2xl sm:text-3xl font-extrabold text-foreground tracking-tight font-mono">
+            <div className="text-xl sm:text-2xl lg:text-3xl font-extrabold text-foreground tracking-tight font-mono">
               {totalClients}
             </div>
-            <p className="text-[11px] text-secondary mt-1 truncate">
-              {totalClients > 0 ? "Partners & Klien" : "Belum ada klien"}
+            <p className="text-[10px] sm:text-[11px] text-secondary mt-0.5 truncate">
+              {totalClients > 0 ? "Partners" : "Kosong"}
             </p>
           </div>
 
           {/* Experience Metric */}
           <div
             onClick={() => onSelectTab("experience")}
-            className="p-4 rounded-xl border border-border bg-surface hover:border-accent/50 hover:bg-surface-secondary transition-all cursor-pointer group shadow-xs"
+            className="p-2.5 sm:p-4 rounded-lg sm:rounded-xl border border-border bg-surface hover:border-accent/50 hover:bg-surface-secondary transition-all cursor-pointer group shadow-xs min-w-0"
           >
-            <div className="flex items-center justify-between mb-2">
-              <span className="text-[11px] font-mono text-secondary uppercase font-semibold">Experience</span>
-              <div className="size-7 rounded-md bg-accent/10 border border-accent/30 flex items-center justify-center text-accent group-hover:scale-110 transition-transform">
-                <Briefcase size={15} />
+            <div className="flex items-center justify-between mb-1.5">
+              <span className="text-[10px] sm:text-[11px] font-mono text-secondary uppercase font-semibold truncate mr-1">
+                Experience
+              </span>
+              <div className="size-6 sm:size-7 rounded-md bg-accent/10 border border-accent/30 flex items-center justify-center text-accent group-hover:scale-110 transition-transform shrink-0">
+                <Briefcase size={13} className="sm:w-3.5 sm:h-3.5" />
               </div>
             </div>
-            <div className="text-2xl sm:text-3xl font-extrabold text-foreground tracking-tight font-mono">
+            <div className="text-xl sm:text-2xl lg:text-3xl font-extrabold text-foreground tracking-tight font-mono">
               {totalExperience}
             </div>
-            <p className="text-[11px] text-secondary mt-1 truncate">
-              Milestones Karir
+            <p className="text-[10px] sm:text-[11px] text-secondary mt-0.5 truncate">
+              Milestones
             </p>
           </div>
 
           {/* Credentials Metric */}
           <div
             onClick={() => onSelectTab("awards")}
-            className="p-4 rounded-xl border border-border bg-surface hover:border-accent/50 hover:bg-surface-secondary transition-all cursor-pointer group shadow-xs"
+            className="p-2.5 sm:p-4 rounded-lg sm:rounded-xl border border-border bg-surface hover:border-accent/50 hover:bg-surface-secondary transition-all cursor-pointer group shadow-xs min-w-0"
           >
-            <div className="flex items-center justify-between mb-2">
-              <span className="text-[11px] font-mono text-secondary uppercase font-semibold">Credentials</span>
-              <div className="size-7 rounded-md bg-accent/10 border border-accent/30 flex items-center justify-center text-accent group-hover:scale-110 transition-transform">
-                <Award size={15} />
+            <div className="flex items-center justify-between mb-1.5">
+              <span className="text-[10px] sm:text-[11px] font-mono text-secondary uppercase font-semibold truncate mr-1">
+                Credentials
+              </span>
+              <div className="size-6 sm:size-7 rounded-md bg-accent/10 border border-accent/30 flex items-center justify-center text-accent group-hover:scale-110 transition-transform shrink-0">
+                <Award size={13} className="sm:w-3.5 sm:h-3.5" />
               </div>
             </div>
-            <div className="text-2xl sm:text-3xl font-extrabold text-foreground tracking-tight font-mono">
+            <div className="text-xl sm:text-2xl lg:text-3xl font-extrabold text-foreground tracking-tight font-mono">
               {totalCertificates + totalBadges}
             </div>
-            <p className="text-[11px] text-secondary mt-1 truncate">
-              {totalCertificates} Sertif · {totalBadges} Badges
+            <p className="text-[10px] sm:text-[11px] text-secondary mt-0.5 truncate">
+              {totalCertificates} Cert · {totalBadges} Badge
             </p>
           </div>
 
           {/* Tools & Capabilities Metric */}
           <div
             onClick={() => onSelectTab("tools")}
-            className="p-4 rounded-xl border border-border bg-surface hover:border-accent/50 hover:bg-surface-secondary transition-all cursor-pointer group shadow-xs col-span-2 sm:col-span-1"
+            className="p-2.5 sm:p-4 rounded-lg sm:rounded-xl border border-border bg-surface hover:border-accent/50 hover:bg-surface-secondary transition-all cursor-pointer group shadow-xs col-span-2 sm:col-span-1 min-w-0"
           >
-            <div className="flex items-center justify-between mb-2">
-              <span className="text-[11px] font-mono text-secondary uppercase font-semibold">Tech Ecosystem</span>
-              <div className="size-7 rounded-md bg-accent/10 border border-accent/30 flex items-center justify-center text-accent group-hover:scale-110 transition-transform">
-                <Cpu size={15} />
+            <div className="flex items-center justify-between mb-1.5">
+              <span className="text-[10px] sm:text-[11px] font-mono text-secondary uppercase font-semibold truncate mr-1">
+                Ecosystem
+              </span>
+              <div className="size-6 sm:size-7 rounded-md bg-accent/10 border border-accent/30 flex items-center justify-center text-accent group-hover:scale-110 transition-transform shrink-0">
+                <Cpu size={13} className="sm:w-3.5 sm:h-3.5" />
               </div>
             </div>
-            <div className="text-2xl sm:text-3xl font-extrabold text-foreground tracking-tight font-mono">
+            <div className="text-xl sm:text-2xl lg:text-3xl font-extrabold text-foreground tracking-tight font-mono">
               {totalTools + totalSkills}
             </div>
-            <p className="text-[11px] text-secondary mt-1 truncate">
-              {totalTools} Tools · {totalSkills} Skills
+            <p className="text-[10px] sm:text-[11px] text-secondary mt-0.5 truncate">
+              {totalTools} Tool · {totalSkills} Skill
             </p>
           </div>
         </div>
       </div>
 
-      {/* 3. Module Filter & Search Bar */}
-      <div className="space-y-4 pt-2">
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 border-b border-border pb-4">
-          <div className="flex flex-wrap items-center gap-1.5">
+      {/* 3. Module Filter & Search Bar - Horizontal Scroll on 320px */}
+      <div className="space-y-3.5 pt-1">
+        <div className="flex flex-col md:flex-row md:items-center justify-between gap-2.5 sm:gap-3 border-b border-border pb-3 sm:pb-4">
+          <div className="flex items-center gap-1.5 overflow-x-auto pb-1.5 md:pb-0 -mx-1 px-1 scrollbar-none">
             {categories.map((cat) => (
               <button
                 key={cat}
                 onClick={() => setSelectedFilter(cat)}
-                className={`px-3 py-1.5 rounded-md text-xs font-mono transition-colors cursor-pointer ${
+                className={`px-2.5 py-1 sm:px-3 sm:py-1.5 rounded-md text-[10px] sm:text-xs font-mono whitespace-nowrap transition-colors cursor-pointer shrink-0 ${
                   selectedFilter === cat
                     ? "bg-surface-secondary text-accent border border-border font-bold shadow-xs"
                     : "text-secondary hover:text-foreground hover:bg-surface-secondary/60 border border-transparent"
@@ -301,20 +311,20 @@ export default function OverviewEditor({ items, onSelectTab, state }: OverviewEd
             ))}
           </div>
 
-          <div className="relative w-full md:w-64">
-            <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted" />
+          <div className="relative w-full md:w-60">
+            <Search size={13} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted" />
             <input
               type="text"
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              placeholder="Cari modul atau data..."
-              className="w-full pl-9 pr-3 py-1.5 bg-surface border border-border rounded-md text-xs text-foreground outline-none"
+              placeholder="Cari modul..."
+              className="w-full pl-8 pr-3 py-1.5 bg-surface border border-border rounded-md text-xs text-foreground outline-none"
             />
           </div>
         </div>
 
         {/* 4. Categorized Module Cards Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3.5">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5 sm:gap-3.5">
           {filteredItems.map((item) => {
             const Icon = item.icon;
             const summary = getModuleSummary(item.id);
@@ -323,23 +333,23 @@ export default function OverviewEditor({ items, onSelectTab, state }: OverviewEd
               <div
                 key={item.id}
                 onClick={() => onSelectTab(item.id)}
-                className="p-4 rounded-xl border border-border bg-surface hover:border-accent hover:bg-surface-secondary transition-all cursor-pointer space-y-3 group shadow-xs transform hover:-translate-y-0.5"
+                className="p-3 sm:p-4 rounded-lg sm:rounded-xl border border-border bg-surface hover:border-accent hover:bg-surface-secondary transition-all cursor-pointer space-y-2.5 group shadow-xs transform hover:-translate-y-0.5 min-w-0"
               >
-                <div className="flex items-center justify-between">
-                  <div className="size-9 rounded-lg border border-border bg-surface-secondary flex items-center justify-center text-accent group-hover:scale-105 group-hover:border-accent/40 transition-all font-bold">
-                    <Icon size={16} />
+                <div className="flex items-center justify-between gap-2">
+                  <div className="size-8 sm:size-9 rounded-lg border border-border bg-surface-secondary flex items-center justify-center text-accent group-hover:scale-105 group-hover:border-accent/40 transition-all font-bold shrink-0">
+                    <Icon size={15} />
                   </div>
-                  <div className="flex items-center gap-1 text-xs font-mono text-accent font-semibold">
-                    <span>{summary.count}</span>
-                    <ArrowRight size={13} className="group-hover:translate-x-1 transition-transform" />
+                  <div className="flex items-center gap-1 text-[11px] sm:text-xs font-mono text-accent font-semibold truncate">
+                    <span className="truncate">{summary.count}</span>
+                    <ArrowRight size={12} className="group-hover:translate-x-1 transition-transform shrink-0" />
                   </div>
                 </div>
 
-                <div className="space-y-1">
-                  <h3 className="text-sm font-bold text-foreground group-hover:text-accent transition-colors">
+                <div className="space-y-0.5 min-w-0">
+                  <h3 className="text-xs sm:text-sm font-bold text-foreground group-hover:text-accent transition-colors truncate">
                     {item.label}
                   </h3>
-                  <p className="text-xs text-secondary truncate">
+                  <p className="text-[11px] sm:text-xs text-secondary truncate">
                     {summary.subtitle}
                   </p>
                 </div>
@@ -349,7 +359,7 @@ export default function OverviewEditor({ items, onSelectTab, state }: OverviewEd
         </div>
 
         {filteredItems.length === 0 && (
-          <div className="py-12 text-center text-sm text-secondary border border-border rounded-xl">
+          <div className="py-10 text-center text-xs sm:text-sm text-secondary border border-border rounded-xl">
             Tidak ada modul yang cocok dengan pencarian &ldquo;{searchQuery}&rdquo;.
           </div>
         )}
