@@ -1,14 +1,16 @@
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { getPresignedUrlFromR2 } from "@/lib/r2";
+import { verifySessionToken } from "@/lib/auth";
 
 export async function GET(request: Request) {
   try {
-    // 1. Authenticate Request
+    // 1. Authenticate Request (Check cryptographic admin session)
     const cookieStore = await cookies();
-    const authCookie = cookieStore.get("porto_admin_auth")?.value;
+    const sessionToken = cookieStore.get("admin_session")?.value;
+    const isAuthenticated = await verifySessionToken(sessionToken);
 
-    if (authCookie !== "true") {
+    if (!isAuthenticated) {
       return NextResponse.json(
         { error: "Unauthorized: Admin session required to generate presigned URLs." },
         { status: 401 }

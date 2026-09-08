@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { uploadToR2 } from "@/lib/r2";
+import { verifySessionToken } from "@/lib/auth";
 
 const ALLOWED_MIME_TYPES = new Set([
   "image/png",
@@ -20,11 +21,12 @@ const MAX_FILE_SIZE_BYTES = 10 * 1024 * 1024; // 10 Megabytes
 
 export async function POST(request: Request) {
   try {
-    // 1. Authenticate Request (Check admin auth cookie)
+    // 1. Authenticate Request (Check cryptographic admin session)
     const cookieStore = await cookies();
-    const authCookie = cookieStore.get("porto_admin_auth")?.value;
+    const sessionToken = cookieStore.get("admin_session")?.value;
+    const isAuthenticated = await verifySessionToken(sessionToken);
 
-    if (authCookie !== "true") {
+    if (!isAuthenticated) {
       return NextResponse.json(
         { error: "Unauthorized: Admin session required to upload files." },
         { status: 401 }
