@@ -1,7 +1,8 @@
 "use client";
 
+import Image from "next/image";
 import { usePortfolio, EducationItem } from "@/context/PortfolioContext";
-import { GraduationCap, Calendar} from "lucide-react";
+import { GraduationCap, Calendar } from "lucide-react";
 
 export default function Education() {
   const { state } = usePortfolio();
@@ -47,8 +48,19 @@ export default function Education() {
             >
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-line pb-3">
                 <div className="flex items-center gap-3">
-                  <div className="size-10 rounded-xl bg-[#48b685]/15 border border-[#48b685]/40 flex items-center justify-center text-[#48b685] shrink-0">
-                    <GraduationCap size={18} />
+                  <div className="size-10 rounded-xl bg-[#48b685]/15 border border-[#48b685]/40 flex items-center justify-center text-[#48b685] shrink-0 overflow-hidden relative">
+                    {item.logo && item.logo.trim() !== "" ? (
+                      <Image
+                        src={item.logo}
+                        alt={item.institution}
+                        width={40}
+                        height={40}
+                        className="w-full h-full object-contain p-1"
+                        unoptimized
+                      />
+                    ) : (
+                      <GraduationCap size={18} />
+                    )}
                   </div>
                   <div className="space-y-0.5">
                     <h3 className="font-bold text-foreground text-sm sm:text-base tracking-tight">

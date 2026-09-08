@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { usePortfolio } from "@/context/PortfolioContext";
 import { Briefcase, MapPin, Calendar, Terminal } from "lucide-react";
 
@@ -45,8 +46,19 @@ export default function ExperienceTimeline() {
               {/* Header row: Company badge + Company name + Location */}
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-line pb-3 font-sans">
                 <div className="flex items-center gap-3">
-                  <div className="size-9 rounded-xl border border-[#48b685]/40 bg-[#48b685]/15 flex items-center justify-center text-[#48b685] shrink-0 font-bold">
-                    <Briefcase size={16} />
+                  <div className="size-9 rounded-xl border border-[#48b685]/40 bg-[#48b685]/15 flex items-center justify-center text-[#48b685] shrink-0 font-bold overflow-hidden relative">
+                    {item.logo && item.logo.trim() !== "" ? (
+                      <Image
+                        src={item.logo}
+                        alt={item.company}
+                        width={36}
+                        height={36}
+                        className="w-full h-full object-contain p-1"
+                        unoptimized
+                      />
+                    ) : (
+                      <Briefcase size={16} />
+                    )}
                   </div>
                   <div>
                     <h3 className="font-bold text-base text-foreground tracking-tight flex items-center gap-2 font-sans">

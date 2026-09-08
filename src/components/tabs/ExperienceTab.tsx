@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState } from "react";
+import Image from "next/image";
 import { usePortfolio, ExperienceItem, EducationItem, AwardItem } from "@/context/PortfolioContext";
 import { ArrowUpRight } from "lucide-react";
 
@@ -86,14 +87,28 @@ export default function ExperienceTab() {
 
                 {/* Content column */}
                 <div className="space-y-3">
-                  <div>
-                    <h2 className="text-base font-semibold text-foreground">
-                      {item.role}
-                    </h2>
-                    <div className="text-sm font-medium text-secondary">
-                      {item.company}
-                      {item.location && <span> · {item.location}</span>}
-                      {item.jobType && <span className="text-xs text-muted"> ({item.jobType})</span>}
+                  <div className="flex items-start gap-3">
+                    {item.logo && item.logo.trim() !== "" && (
+                      <div className="size-10 rounded-md border border-border bg-surface-secondary flex items-center justify-center shrink-0 overflow-hidden relative mt-0.5">
+                        <Image
+                          src={item.logo}
+                          alt={item.company}
+                          width={40}
+                          height={40}
+                          className="w-full h-full object-contain p-1"
+                          unoptimized
+                        />
+                      </div>
+                    )}
+                    <div>
+                      <h2 className="text-base font-semibold text-foreground">
+                        {item.role}
+                      </h2>
+                      <div className="text-sm font-medium text-secondary">
+                        {item.company}
+                        {item.location && <span> · {item.location}</span>}
+                        {item.jobType && <span className="text-xs text-muted"> ({item.jobType})</span>}
+                      </div>
                     </div>
                   </div>
 
@@ -133,13 +148,27 @@ export default function ExperienceTab() {
 
                 {/* Degree & School */}
                 <div className="space-y-2">
-                  <div>
-                    <h2 className="text-base font-semibold text-foreground">
-                      {item.degree}
-                    </h2>
-                    <div className="text-sm text-secondary">
-                      {item.institution}
-                      {item.gpa && <span> · GPA {item.gpa}</span>}
+                  <div className="flex items-start gap-3">
+                    {item.logo && item.logo.trim() !== "" && (
+                      <div className="size-10 rounded-md border border-border bg-surface-secondary flex items-center justify-center shrink-0 overflow-hidden relative mt-0.5">
+                        <Image
+                          src={item.logo}
+                          alt={item.institution}
+                          width={40}
+                          height={40}
+                          className="w-full h-full object-contain p-1"
+                          unoptimized
+                        />
+                      </div>
+                    )}
+                    <div>
+                      <h2 className="text-base font-semibold text-foreground">
+                        {item.degree}
+                      </h2>
+                      <div className="text-sm text-secondary">
+                        {item.institution}
+                        {item.gpa && <span> · GPA {item.gpa}</span>}
+                      </div>
                     </div>
                   </div>
 
