@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { ArrowLeft, Eye, EyeOff, Lock, ShieldCheck } from "lucide-react";
 import ThemeToggle from "@/components/ThemeToggle";
+import Recaptcha from "@/components/Recaptcha";
 
 function LoginForm() {
   const router = useRouter();
@@ -13,6 +14,7 @@ function LoginForm() {
 
   const [pin, setPin] = useState("");
   const [showPin, setShowPin] = useState(false);
+  const [recaptchaToken, setRecaptchaToken] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -25,13 +27,18 @@ function LoginForm() {
       return;
     }
 
+    if (!recaptchaToken) {
+      setError("Harap selesaikan verifikasi reCAPTCHA terlebih dahulu.");
+      return;
+    }
+
     setLoading(true);
 
     try {
       const res = await fetch("/api/admin/auth", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ pin: pin.trim() }),
+        body: JSON.stringify({ pin: pin.trim(), recaptchaToken }),
       });
 
       const data = await res.json();
@@ -82,10 +89,19 @@ function LoginForm() {
         </div>
       </div>
 
+      {/* Google reCAPTCHA Verification */}
+      <div className="pt-2 flex justify-center">
+        <Recaptcha
+          onVerify={(token) => setRecaptchaToken(token)}
+          onExpire={() => setRecaptchaToken("")}
+          theme="dark"
+        />
+      </div>
+
       <button
         type="submit"
-        disabled={loading}
-        className="w-full py-3 mt-2 bg-[#48b685] text-[#19131a] rounded-xl font-mono text-xs font-extrabold uppercase tracking-wider hover:bg-[#48b685]/90 hover:scale-[1.01] active:scale-[0.98] transition-all cursor-pointer disabled:opacity-50 shadow-lg"
+        disabled={loading || !recaptchaToken}
+        className="w-full py-3 mt-2 bg-[#48b685] text-[#19131a] rounded-xl font-mono text-xs font-extrabold uppercase tracking-wider hover:bg-[#48b685]/90 hover:scale-[1.01] active:scale-[0.98] transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed shadow-lg"
       >
         {loading ? "Verifying Credentials..." : "Authorize Admin Session"}
       </button>

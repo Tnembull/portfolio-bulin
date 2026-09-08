@@ -78,6 +78,7 @@ type SectionTab =
   | "seo";
 
 import { Lock, Eye, EyeOff, ShieldCheck, KeyRound } from "lucide-react";
+import Recaptcha from "@/components/Recaptcha";
 
 export default function AdminDashboardPage() {
   const { state, initialized, saveEntirePortfolio, resetAll } = usePortfolio();
@@ -85,6 +86,7 @@ export default function AdminDashboardPage() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [pinInput, setPinInput] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [recaptchaToken, setRecaptchaToken] = useState("");
   const [pinError, setPinError] = useState(false);
   const [isLoggingIn, setIsLoggingIn] = useState(false);
   const [isSaving, setIsSaving] = useState(false);
@@ -118,7 +120,7 @@ export default function AdminDashboardPage() {
       const res = await fetch("/api/admin/auth", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ pin: pinInput }),
+        body: JSON.stringify({ pin: pinInput, recaptchaToken }),
       });
       const data = await res.json();
       if (res.ok && data.success) {
@@ -310,14 +312,23 @@ export default function AdminDashboardPage() {
             {pinError && (
               <div className="p-2.5 rounded-md border border-rose-500/30 bg-rose-500/10 text-rose-400 text-xs font-medium flex items-center gap-2">
                 <X size={14} />
-                <span>Invalid Security PIN.</span>
+                <span>Invalid Security PIN or reCAPTCHA verification failed.</span>
               </div>
             )}
 
+            {/* Google reCAPTCHA Verification */}
+            <div className="pt-2 flex justify-center">
+              <Recaptcha
+                onVerify={(token) => setRecaptchaToken(token)}
+                onExpire={() => setRecaptchaToken("")}
+                theme="dark"
+              />
+            </div>
+
             <button
               type="submit"
-              disabled={isLoggingIn}
-              className="w-full py-2.5 rounded-md bg-[#00c896] hover:bg-[#00b084] text-[#0b0d0f] font-semibold text-sm transition-all cursor-pointer disabled:opacity-50 flex items-center justify-center gap-2"
+              disabled={isLoggingIn || !recaptchaToken}
+              className="w-full py-2.5 rounded-md bg-[#00c896] hover:bg-[#00b084] text-[#0b0d0f] font-semibold text-sm transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
             >
               <ShieldCheck size={16} />
               <span>{isLoggingIn ? "Verifying..." : "Authenticate & Enter Console"}</span>

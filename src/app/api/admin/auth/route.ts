@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { signSessionToken, verifySessionToken } from "@/lib/auth";
+import { verifyRecaptchaToken } from "@/lib/recaptcha";
 
 // Constant-time string comparison to prevent timing attacks
 function timingSafeEqual(a: string, b: string): boolean {
@@ -17,6 +18,25 @@ export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
     const pin = typeof body.pin === "string" ? body.pin.trim() : "";
+    const recaptchaToken = typeof body.recaptchaToken === "string" ? body.recaptchaToken.trim() : "";
+
+    // 1. Enforce Google reCAPTCHA verification if secret key is configured
+    if (process.env.RECAPTCHA_SECRET_KEY) {
+      if (!recaptchaToken) {
+        return NextResponse.json(
+          { success: false, error: "Harap selesaikan verifikasi reCAPTCHA terlebih dahulu." },
+          { status: 400 }
+        );
+      }
+
+      const isValidRecaptcha = await verifyRecaptchaToken(recaptchaToken);
+      if (!isValidRecaptcha) {
+        return NextResponse.json(
+          { success: false, error: "Verifikasi reCAPTCHA tidak valid atau telah kedaluwarsa." },
+          { status: 400 }
+        );
+      }
+    }
 
     const expectedPin = (process.env.ADMIN_MASTER_PIN || "@Dikidiki224").trim();
 

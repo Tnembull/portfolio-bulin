@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { usePortfolio } from "@/context/PortfolioContext";
 import { Copy, Check, ArrowUpRight } from "lucide-react";
+import Recaptcha from "@/components/Recaptcha";
 
 export default function ContactTab() {
   const { state } = usePortfolio();
@@ -11,6 +12,7 @@ export default function ContactTab() {
   const [copiedEmail, setCopiedEmail] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
+  const [recaptchaToken, setRecaptchaToken] = useState("");
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -30,7 +32,7 @@ export default function ContactTab() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formData.name || !formData.email || !formData.message) return;
+    if (!formData.name || !formData.email || !formData.message || !recaptchaToken) return;
 
     setIsSubmitting(true);
     setTimeout(() => {
@@ -196,10 +198,19 @@ export default function ContactTab() {
               />
             </div>
 
+            {/* Google reCAPTCHA Verification */}
+            <div className="pt-2 flex justify-start">
+              <Recaptcha
+                onVerify={(token) => setRecaptchaToken(token)}
+                onExpire={() => setRecaptchaToken("")}
+                theme="dark"
+              />
+            </div>
+
             <button
               type="submit"
-              disabled={isSubmitting}
-              className="px-5 py-2.5 rounded-md bg-accent hover:bg-accent-hover text-accent-text font-semibold text-sm transition-colors cursor-pointer disabled:opacity-50"
+              disabled={isSubmitting || !recaptchaToken}
+              className="px-5 py-2.5 rounded-md bg-accent hover:bg-accent-hover text-accent-text font-semibold text-sm transition-colors cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {isSubmitting ? "Sending..." : "Send Message"}
             </button>
