@@ -18,6 +18,7 @@ export default function EducationEditor({ data, onChange }: EducationEditorProps
       year: "2020 — 2024",
       degree: "Sarjana Ilmu Komputer (S.Kom)",
       institution: "Universitas Lampung",
+      logo: "",
       gpa: "IPK 3.50",
       details: "Fokus Rekayasa Perangkat Lunak, Arsitektur Sistem Backend...",
     };
@@ -201,6 +202,33 @@ export default function EducationEditor({ data, onChange }: EducationEditorProps
                         placeholder="e.g. Fokus Rekayasa Perangkat Lunak & Sistem Backend..."
                         className="w-full px-3 py-2 bg-surface border border-border rounded-md text-foreground outline-none"
                       />
+                    </div>
+
+                    <div className="sm:col-span-3 space-y-1">
+                      <label className="text-[10px] text-secondary uppercase font-bold block">
+                        Logo Institusi / Universitas URL (Opsional)
+                      </label>
+                      <div className="flex items-center gap-2">
+                        <input
+                          type="text"
+                          value={item.logo || ""}
+                          onChange={(e) => handleItemUpdate(idx, "logo", e.target.value)}
+                          placeholder="e.g. https://domain.com/unila-logo.png"
+                          className="w-full px-3 py-2 bg-surface border border-border rounded-md text-foreground outline-none"
+                        />
+                        {item.logo && (
+                          <div className="size-8 rounded border border-border bg-surface shrink-0 overflow-hidden flex items-center justify-center p-0.5">
+                            <img
+                              src={item.logo}
+                              alt="Logo preview"
+                              className="w-full h-full object-contain"
+                              onError={(e) => {
+                                (e.target as HTMLElement).style.display = "none";
+                              }}
+                            />
+                          </div>
+                        )}
+                      </div>
                     </div>
                   </div>
                 </div>

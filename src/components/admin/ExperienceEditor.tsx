@@ -15,6 +15,7 @@ export default function ExperienceEditor({ data, onChange }: ExperienceEditorPro
       year: "2026",
       role: "Backend & DevOps Engineer",
       company: "Nama Perusahaan",
+      logo: "",
       description: "Deskripsi tanggung jawab pekerjaan...",
       tags: ["Node.js", "Docker", "PostgreSQL"],
     };
@@ -159,6 +160,28 @@ export default function ExperienceEditor({ data, onChange }: ExperienceEditorPro
                       placeholder="Tipe Pekerjaan (misal: Full-time)"
                       className="w-full px-3 py-2 bg-[#2f1e2e] border border-[#483145] focus:border-[#48b685] rounded-lg text-[#a392a3] text-xs outline-none"
                     />
+                  </div>
+
+                  <div className="flex items-center gap-2">
+                    <input
+                      type="text"
+                      value={item.logo || ""}
+                      onChange={(e) => handleItemUpdate(idx, "logo", e.target.value)}
+                      placeholder="Logo Perusahaan / Klien URL (opsional, SVG/PNG/WebP)"
+                      className="w-full px-3 py-2 bg-[#2f1e2e] border border-[#483145] focus:border-[#48b685] rounded-lg text-[#a392a3] text-xs outline-none"
+                    />
+                    {item.logo && (
+                      <div className="size-8 rounded border border-[#483145] bg-[#2f1e2e] shrink-0 overflow-hidden flex items-center justify-center p-0.5">
+                        <img
+                          src={item.logo}
+                          alt="Logo preview"
+                          className="w-full h-full object-contain"
+                          onError={(e) => {
+                            (e.target as HTMLElement).style.display = "none";
+                          }}
+                        />
+                      </div>
+                    )}
                   </div>
 
                   <textarea

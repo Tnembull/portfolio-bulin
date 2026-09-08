@@ -25,6 +25,7 @@ import {
   LogOut,
   RotateCcw,
   TrendingUp,
+  Building2,
 } from "lucide-react";
 import { usePortfolio, PortfolioState } from "@/context/PortfolioContext";
 import ThemeToggle from "@/components/ThemeToggle";
@@ -50,6 +51,7 @@ import PipelineEditor from "@/components/admin/PipelineEditor";
 import ProgressEditor from "@/components/admin/ProgressEditor";
 import BadgesEditor from "@/components/admin/BadgesEditor";
 import SeoEditor from "@/components/admin/SeoEditor";
+import ClientsEditor from "@/components/admin/ClientsEditor";
 import { Mail, GraduationCap, Globe } from "lucide-react";
 
 type SectionTab =
@@ -72,6 +74,7 @@ type SectionTab =
   | "pipeline"
   | "progress"
   | "badges"
+  | "clients"
   | "seo";
 
 import { Lock, Eye, EyeOff, ShieldCheck, KeyRound } from "lucide-react";
@@ -153,6 +156,13 @@ export default function AdminDashboardPage() {
   const [pipelineData, setPipelineData] = useState(state.pipeline || []);
   const [progressData, setProgressData] = useState(state.progress || []);
   const [badgesData, setBadgesData] = useState(state.badges || []);
+  const [clientsData, setClientsData] = useState(state.clients || {
+    sectionBadge: "COLLABORATIONS // CLIENTS",
+    titleMain: "Organizations &",
+    titleHighlight: "Clients",
+    subText: "Selected companies, startups, and initiatives I've engineered solutions for.",
+    items: [],
+  });
   const [seoData, setSeoData] = useState(state.seo);
 
   const [hasInitializedState, setHasInitializedState] = useState(false);
@@ -177,6 +187,13 @@ export default function AdminDashboardPage() {
       setPipelineData(state.pipeline || []);
       setProgressData(state.progress || []);
       setBadgesData(state.badges || []);
+      setClientsData(state.clients || {
+        sectionBadge: "COLLABORATIONS // CLIENTS",
+        titleMain: "Organizations &",
+        titleHighlight: "Clients",
+        subText: "Selected companies, startups, and initiatives I've engineered solutions for.",
+        items: [],
+      });
       setSeoData(state.seo);
       setHasInitializedState(true);
     }
@@ -204,6 +221,7 @@ export default function AdminDashboardPage() {
       pipeline: pipelineData,
       progress: progressData,
       badges: badgesData,
+      clients: clientsData,
       seo: seoData,
     };
 
@@ -233,7 +251,8 @@ export default function AdminDashboardPage() {
     { id: "pipeline" as SectionTab, label: "16 / DevOps Pipeline", icon: GitBranch },
     { id: "progress" as SectionTab, label: "17 / Learning Progress", icon: TrendingUp },
     { id: "badges" as SectionTab, label: "18 / Digital Badges", icon: ShieldCheck },
-    { id: "seo" as SectionTab, label: "19 / SEO, OG & Favicon", icon: Globe },
+    { id: "clients" as SectionTab, label: "19 / Clients & Partners", icon: Building2 },
+    { id: "seo" as SectionTab, label: "20 / SEO & Analytics", icon: Globe },
   ];
 
   // Render Admin Login Gate if not authenticated
@@ -528,6 +547,10 @@ export default function AdminDashboardPage() {
 
           {activeTab === "badges" && (
             <BadgesEditor items={badgesData} onChange={(items) => setBadgesData(items)} />
+          )}
+
+          {activeTab === "clients" && (
+            <ClientsEditor data={clientsData} onChange={(data) => setClientsData(data)} />
           )}
 
           {activeTab === "seo" && (
