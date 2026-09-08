@@ -80,14 +80,27 @@ export default function TopNavbar({
           </div>
         </Link>
 
-        {/* Center: Navigation Tabs (Desktop & Tablet) */}
+        {/* Center: Navigation Tabs (Desktop & Tablet) - Clean Text Navigation without Card */}
         <nav
           aria-label="Top Navigation Tabs"
-          className="hidden md:flex items-center gap-1 bg-surface/60 border border-border p-1 rounded-lg"
+          className="hidden md:flex items-center gap-1 sm:gap-2"
         >
           {NAV_TABS.map((tab) => {
             const Icon = ICON_MAP[tab.iconName];
             const isActive = getIsActive(tab.id, tab.href);
+
+            const content = (
+              <>
+                <Icon size={15} strokeWidth={isActive ? 2.2 : 1.7} />
+                <span>{tab.label}</span>
+              </>
+            );
+
+            const itemClass = `flex items-center gap-2 px-3 py-1.5 rounded-md text-sm font-medium transition-colors cursor-pointer ${
+              isActive
+                ? "text-accent font-semibold"
+                : "text-secondary hover:text-foreground hover:bg-surface/40"
+            }`;
 
             if (onTabChange) {
               return (
@@ -95,14 +108,9 @@ export default function TopNavbar({
                   key={tab.id}
                   onClick={() => onTabChange(tab.id)}
                   aria-current={isActive ? "page" : undefined}
-                  className={`flex items-center gap-2 px-3.5 py-1.5 rounded-md text-xs font-medium transition-all cursor-pointer ${
-                    isActive
-                      ? "bg-background text-accent border border-border shadow-xs font-semibold"
-                      : "text-secondary hover:text-foreground hover:bg-surface border border-transparent"
-                  }`}
+                  className={itemClass}
                 >
-                  <Icon size={14} strokeWidth={isActive ? 2.2 : 1.7} />
-                  <span>{tab.label}</span>
+                  {content}
                 </button>
               );
             }
@@ -112,14 +120,9 @@ export default function TopNavbar({
                 key={tab.id}
                 href={tab.href}
                 aria-current={isActive ? "page" : undefined}
-                className={`flex items-center gap-2 px-3.5 py-1.5 rounded-md text-xs font-medium transition-all cursor-pointer ${
-                  isActive
-                    ? "bg-background text-accent border border-border shadow-xs font-semibold"
-                    : "text-secondary hover:text-foreground hover:bg-surface border border-transparent"
-                }`}
+                className={itemClass}
               >
-                <Icon size={14} strokeWidth={isActive ? 2.2 : 1.7} />
-                <span>{tab.label}</span>
+                {content}
               </Link>
             );
           })}
