@@ -55,36 +55,38 @@ export default function HomeTab({ onNavigateTab }: HomeTabProps = {}) {
               </p>
             )}
 
-            {/* Action Buttons */}
-            <div className="flex flex-wrap items-center gap-3 pt-2">
+            {/* Action Buttons: 3 columns in 1 single row */}
+            <div className="grid grid-cols-3 gap-2 sm:gap-3 pt-2 w-full max-w-md">
               <Link
                 href="/contact"
-                className="px-4 py-2.5 rounded-md bg-accent hover:bg-accent-hover text-accent-text font-semibold text-sm transition-colors cursor-pointer inline-flex items-center justify-center"
+                className="px-2 sm:px-4 py-2 sm:py-2.5 rounded-md bg-accent hover:bg-accent-hover text-accent-text font-semibold text-xs sm:text-sm transition-colors cursor-pointer inline-flex items-center justify-center text-center truncate"
               >
-                Get in Touch
+                <span className="hidden min-[360px]:inline">Get in Touch</span>
+                <span className="min-[360px]:hidden">Contact</span>
               </Link>
 
               <Link
                 href="/projects"
-                className="px-4 py-2.5 rounded-md bg-surface hover:bg-surface-secondary text-foreground border border-border text-sm font-medium transition-colors cursor-pointer inline-flex items-center justify-center"
+                className="px-2 sm:px-4 py-2 sm:py-2.5 rounded-md bg-surface hover:bg-surface-secondary text-foreground border border-border text-xs sm:text-sm font-medium transition-colors cursor-pointer inline-flex items-center justify-center text-center truncate"
               >
-                View Projects
+                <span className="hidden min-[360px]:inline">View Projects</span>
+                <span className="min-[360px]:hidden">Projects</span>
               </Link>
 
               <a
                 href={state.github?.profileUrl || "https://github.com/Tnembull"}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 px-4 py-2.5 text-sm font-medium text-secondary hover:text-foreground transition-colors"
+                className="px-2 sm:px-4 py-2 sm:py-2.5 rounded-md bg-surface hover:bg-surface-secondary text-foreground border border-border text-xs sm:text-sm font-medium transition-colors inline-flex items-center justify-center gap-1 text-center truncate"
               >
                 <span>GitHub</span>
-                <ArrowUpRight size={14} />
+                <ArrowUpRight size={13} className="shrink-0" />
               </a>
             </div>
           </div>
 
-          {/* Right: Clean Profile Image */}
-          <div className="shrink-0 self-start">
+          {/* Right: Clean Profile Image (Hidden on Mobile) */}
+          <div className="hidden md:block shrink-0 self-start">
             <div className="size-24 sm:size-32 rounded-lg overflow-hidden border border-border bg-surface">
               <Image
                 src={avatarSrc}
