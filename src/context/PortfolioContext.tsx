@@ -51,6 +51,7 @@ export interface ExperienceItem {
   year: string;
   role: string;
   company: string;
+  logo?: string;
   description: string;
   tags?: string[];
   location?: string;
@@ -205,8 +206,25 @@ export interface EducationItem {
   year: string;
   degree: string;
   institution: string;
+  logo?: string;
   gpa?: string;
   details?: string;
+}
+
+export interface ClientItem {
+  id: string;
+  name: string;
+  logoSrc?: string;
+  industry?: string;
+  url?: string;
+}
+
+export interface ClientsData {
+  sectionBadge?: string;
+  titleMain?: string;
+  titleHighlight?: string;
+  subText?: string;
+  items: ClientItem[];
 }
 
 export interface EducationData {
@@ -245,6 +263,7 @@ export interface PortfolioState {
   awards: AwardItem[];
   testimonials: TestimonialsData;
   cta: CtaData;
+  clients?: ClientsData;
   seo?: SeoData;
   pipeline?: PipelineStage[];
   progress?: LearningProgress[];
@@ -357,6 +376,13 @@ const DEFAULT_PORTFOLIO_STATE: PortfolioState = {
     email: "muhammadnurashiddiqi@gmail.com",
     linkedinUrl: "https://www.linkedin.com/in/muhammadnurashiddiqi",
     githubUrl: "https://github.com/Tnembull",
+  },
+  clients: {
+    sectionBadge: "COLLABORATIONS // CLIENTS",
+    titleMain: "Organizations &",
+    titleHighlight: "Partners",
+    subText: "Selected companies, startups, and initiatives I've engineered solutions for.",
+    items: [],
   },
   seo: {
     metaTitle: "Muhammad Nur Ashiddiqi — DevOps & Backend Engineer",
