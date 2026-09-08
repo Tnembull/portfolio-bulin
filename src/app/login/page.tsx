@@ -1,12 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { ArrowLeft, Eye, EyeOff, Lock, ShieldCheck } from "lucide-react";
 import ThemeToggle from "@/components/ThemeToggle";
 
-export default function LoginPage() {
+function LoginForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const from = searchParams.get("from") || "/admin";
@@ -51,6 +51,50 @@ export default function LoginPage() {
   };
 
   return (
+    <form onSubmit={handleSubmit} className="space-y-4 font-mono text-xs">
+      {error && (
+        <div className="p-3 bg-rose-500/10 border border-rose-500/30 rounded-lg text-rose-400 text-center font-bold">
+          {error}
+        </div>
+      )}
+
+      <div className="space-y-1.5">
+        <label className="text-[#48b685] block font-semibold text-[11px] tracking-wider">
+          MASTER SECURITY PIN
+        </label>
+        <div className="relative">
+          <input
+            type={showPin ? "text" : "password"}
+            value={pin}
+            onChange={(e) => setPin(e.target.value)}
+            placeholder="Enter admin security PIN..."
+            required
+            autoFocus
+            className="w-full pl-3.5 pr-10 py-2.5 bg-[#19131a] border border-[#483145] rounded-lg text-foreground focus:outline-none focus:border-[#48b685] focus:shadow-[0_0_15px_rgba(72,182,133,0.2)] transition-all font-mono"
+          />
+          <button
+            type="button"
+            onClick={() => setShowPin(!showPin)}
+            className="absolute right-3 top-1/2 -translate-y-1/2 text-[#a392a3] hover:text-[#48b685] transition-colors cursor-pointer"
+          >
+            {showPin ? <EyeOff size={15} /> : <Eye size={15} />}
+          </button>
+        </div>
+      </div>
+
+      <button
+        type="submit"
+        disabled={loading}
+        className="w-full py-3 mt-2 bg-[#48b685] text-[#19131a] rounded-xl font-mono text-xs font-extrabold uppercase tracking-wider hover:bg-[#48b685]/90 hover:scale-[1.01] active:scale-[0.98] transition-all cursor-pointer disabled:opacity-50 shadow-lg"
+      >
+        {loading ? "Verifying Credentials..." : "Authorize Admin Session"}
+      </button>
+    </form>
+  );
+}
+
+export default function LoginPage() {
+  return (
     <div className="min-h-screen bg-background text-foreground flex flex-col justify-between p-4 sm:p-8 font-sans">
       {/* Top Header */}
       <header className="max-w-3xl mx-auto w-full flex items-center justify-between py-2 border-b border-border">
@@ -85,45 +129,9 @@ export default function LoginPage() {
           </p>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-4 font-mono text-xs">
-          {error && (
-            <div className="p-3 bg-rose-500/10 border border-rose-500/30 rounded-lg text-rose-400 text-center font-bold">
-              {error}
-            </div>
-          )}
-
-          <div className="space-y-1.5">
-            <label className="text-[#48b685] block font-semibold text-[11px] tracking-wider">
-              MASTER SECURITY PIN
-            </label>
-            <div className="relative">
-              <input
-                type={showPin ? "text" : "password"}
-                value={pin}
-                onChange={(e) => setPin(e.target.value)}
-                placeholder="Enter admin security PIN..."
-                required
-                autoFocus
-                className="w-full pl-3.5 pr-10 py-2.5 bg-[#19131a] border border-[#483145] rounded-lg text-foreground focus:outline-none focus:border-[#48b685] focus:shadow-[0_0_15px_rgba(72,182,133,0.2)] transition-all font-mono"
-              />
-              <button
-                type="button"
-                onClick={() => setShowPin(!showPin)}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-[#a392a3] hover:text-[#48b685] transition-colors cursor-pointer"
-              >
-                {showPin ? <EyeOff size={15} /> : <Eye size={15} />}
-              </button>
-            </div>
-          </div>
-
-          <button
-            type="submit"
-            disabled={loading}
-            className="w-full py-3 mt-2 bg-[#48b685] text-[#19131a] rounded-xl font-mono text-xs font-extrabold uppercase tracking-wider hover:bg-[#48b685]/90 hover:scale-[1.01] active:scale-[0.98] transition-all cursor-pointer disabled:opacity-50 shadow-lg"
-          >
-            {loading ? "Verifying Credentials..." : "Authorize Admin Session"}
-          </button>
-        </form>
+        <Suspense fallback={<div className="p-4 text-center font-mono text-xs text-muted-foreground">Loading authentication interface...</div>}>
+          <LoginForm />
+        </Suspense>
       </main>
 
       {/* Footer */}
