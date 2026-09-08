@@ -60,7 +60,7 @@ export async function POST(req: NextRequest) {
     res.cookies.set("admin_session", token, {
       httpOnly: true,
       secure: isProd,
-      sameSite: "strict",
+      sameSite: "lax",
       path: "/",
       maxAge: 60 * 60 * 24, // 24 hours
     });

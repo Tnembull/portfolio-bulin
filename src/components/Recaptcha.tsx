@@ -40,15 +40,22 @@ export default function Recaptcha({
   const widgetIdRef = useRef<number | null>(null);
   const [isLoaded, setIsLoaded] = useState(false);
 
+  // Keep latest callback references to avoid re-triggering effects
+  const onVerifyRef = useRef(onVerify);
+  onVerifyRef.current = onVerify;
+
+  const onExpireRef = useRef(onExpire);
+  onExpireRef.current = onExpire;
+
   const siteKey =
     process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY ||
     "6LfQyrAtAAAAAA8x65G7GT9jbkSucU1FZ8F-RFVK";
 
   useEffect(() => {
-    let isMounted = true;
+    let active = true;
 
     const renderWidget = () => {
-      if (!isMounted || !containerRef.current || !window.grecaptcha) return;
+      if (!active || !containerRef.current || !window.grecaptcha) return;
 
       // Avoid re-rendering if already rendered
       if (widgetIdRef.current !== null) {
@@ -60,14 +67,10 @@ export default function Recaptcha({
           sitekey: siteKey,
           theme: theme,
           callback: (token: string) => {
-            if (isMounted) {
-              onVerify(token);
-            }
+            onVerifyRef.current(token);
           },
           "expired-callback": () => {
-            if (isMounted && onExpire) {
-              onExpire();
-            }
+            onExpireRef.current?.();
           },
         });
         widgetIdRef.current = id;
@@ -77,33 +80,30 @@ export default function Recaptcha({
       }
     };
 
-    // If script already loaded
     if (typeof window !== "undefined" && typeof window.grecaptcha?.render === "function") {
       renderWidget();
-      return;
+    } else {
+      const scriptId = "google-recaptcha-v2-script";
+      let script = document.getElementById(scriptId) as HTMLScriptElement | null;
+
+      if (!script) {
+        script = document.createElement("script");
+        script.id = scriptId;
+        script.src = "https://www.google.com/recaptcha/api.js?onload=onRecaptchaLoaded&render=explicit";
+        script.async = true;
+        script.defer = true;
+        document.body.appendChild(script);
+      }
+
+      window.onRecaptchaLoaded = () => {
+        renderWidget();
+      };
     }
-
-    // Check if script tag exists
-    const scriptId = "google-recaptcha-v2-script";
-    let script = document.getElementById(scriptId) as HTMLScriptElement | null;
-
-    if (!script) {
-      script = document.createElement("script");
-      script.id = scriptId;
-      script.src = "https://www.google.com/recaptcha/api.js?onload=onRecaptchaLoaded&render=explicit";
-      script.async = true;
-      script.defer = true;
-      document.body.appendChild(script);
-    }
-
-    window.onRecaptchaLoaded = () => {
-      renderWidget();
-    };
 
     return () => {
-      isMounted = false;
+      active = false;
     };
-  }, [siteKey, theme, onVerify, onExpire]);
+  }, [siteKey, theme]);
 
   return (
     <div className={`flex flex-col items-center justify-center my-2 ${className}`}>

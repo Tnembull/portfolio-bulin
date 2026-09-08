@@ -2,13 +2,12 @@
 
 import { useState, Suspense } from "react";
 import Link from "next/link";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { ArrowLeft, Eye, EyeOff, Lock, ShieldCheck } from "lucide-react";
 import ThemeToggle from "@/components/ThemeToggle";
 import Recaptcha from "@/components/Recaptcha";
 
 function LoginForm() {
-  const router = useRouter();
   const searchParams = useSearchParams();
   const from = searchParams.get("from") || "/admin";
 
@@ -27,8 +26,14 @@ function LoginForm() {
       return;
     }
 
-    if (!recaptchaToken) {
-      setError("Harap selesaikan verifikasi reCAPTCHA terlebih dahulu.");
+    // Try state token, or query window.grecaptcha directly
+    let activeToken = recaptchaToken;
+    if (!activeToken && typeof window !== "undefined" && window.grecaptcha?.getResponse) {
+      activeToken = window.grecaptcha.getResponse();
+    }
+
+    if (!activeToken) {
+      setError("Harap selesaikan verifikasi 'I'm not a robot' pada reCAPTCHA terlebih dahulu.");
       return;
     }
 
@@ -38,17 +43,23 @@ function LoginForm() {
       const res = await fetch("/api/admin/auth", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ pin: pin.trim(), recaptchaToken }),
+        body: JSON.stringify({ pin: pin.trim(), recaptchaToken: activeToken }),
       });
 
       const data = await res.json();
 
       if (res.ok && data.success) {
-        // Redirection to target admin page
-        router.push(from);
-        router.refresh();
+        // Full document navigation ensures the signed cookie is transmitted cleanly to middleware
+        window.location.href = from;
       } else {
         setError(data.error || "PIN verifikasi tidak valid. Akses ditolak.");
+        // Reset captcha on failure if available
+        if (typeof window !== "undefined" && window.grecaptcha?.reset) {
+          try {
+            window.grecaptcha.reset();
+            setRecaptchaToken("");
+          } catch {}
+        }
       }
     } catch {
       setError("Gagal terhubung ke server autentikasi.");
@@ -92,7 +103,10 @@ function LoginForm() {
       {/* Google reCAPTCHA Verification */}
       <div className="pt-2 flex justify-center">
         <Recaptcha
-          onVerify={(token) => setRecaptchaToken(token)}
+          onVerify={(token) => {
+            setRecaptchaToken(token);
+            if (error) setError("");
+          }}
           onExpire={() => setRecaptchaToken("")}
           theme="dark"
         />
@@ -100,8 +114,8 @@ function LoginForm() {
 
       <button
         type="submit"
-        disabled={loading || !recaptchaToken}
-        className="w-full py-3 mt-2 bg-[#48b685] text-[#19131a] rounded-xl font-mono text-xs font-extrabold uppercase tracking-wider hover:bg-[#48b685]/90 hover:scale-[1.01] active:scale-[0.98] transition-all cursor-pointer disabled:opacity-50 disabled:cursor-not-allowed shadow-lg"
+        disabled={loading}
+        className="w-full py-3 mt-2 bg-[#48b685] text-[#19131a] rounded-xl font-mono text-xs font-extrabold uppercase tracking-wider hover:bg-[#48b685]/90 hover:scale-[1.01] active:scale-[0.98] transition-all cursor-pointer disabled:opacity-50 shadow-lg"
       >
         {loading ? "Verifying Credentials..." : "Authorize Admin Session"}
       </button>
