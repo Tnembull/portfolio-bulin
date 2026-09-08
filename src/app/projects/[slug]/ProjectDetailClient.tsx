@@ -16,8 +16,7 @@ import { useState } from "react";
 import { Project } from "@/data/projects";
 import { usePortfolio } from "@/context/PortfolioContext";
 import { TabType } from "@/components/app-layout/types";
-import FloatingNav from "@/components/app-layout/FloatingNav";
-import BottomNavBar from "@/components/app-layout/BottomNavBar";
+import PageLayout from "@/components/app-layout/PageLayout";
 import ImageLightbox from "@/components/ImageLightbox";
 
 interface ProjectDetailClientProps {
@@ -37,20 +36,18 @@ export default function ProjectDetailClient({ project }: ProjectDetailClientProp
 
   if (!project) {
     return (
-      <div className="min-h-screen bg-background text-foreground flex flex-col antialiased selection:bg-accent selection:text-background relative">
-        <FloatingNav activeTab="projects" onTabChange={handleTabChange} />
-        <main className="flex-1 flex flex-col items-center justify-center text-center p-6 font-mono pt-24 pb-24">
+      <PageLayout>
+        <div className="flex flex-col items-center justify-center text-center p-6 font-mono py-16">
           <h1 className="text-xl font-bold font-sans mb-3 text-foreground">Project Not Found</h1>
           <p className="text-xs text-secondary mb-5">The requested engineering case study does not exist or has been removed.</p>
           <Link
-            href="/?tab=projects"
+            href="/projects"
             className="px-4 py-2 rounded-md bg-surface border border-border text-xs text-accent hover:underline font-mono"
           >
             ← Back to All Projects
           </Link>
-        </main>
-        <BottomNavBar activeTab="projects" onTabChange={handleTabChange} />
-      </div>
+        </div>
+      </PageLayout>
     );
   }
 
@@ -69,10 +66,7 @@ export default function ProjectDetailClient({ project }: ProjectDetailClientProp
   const liveUrl = project.liveUrl || project.url;
 
   return (
-    <div className="min-h-screen bg-background text-foreground flex flex-col antialiased selection:bg-accent selection:text-background relative">
-      {/* 1. Centered Floating Island Navigation */}
-      <FloatingNav activeTab="projects" onTabChange={handleTabChange} />
-
+    <PageLayout>
       {/* Lightbox Modal */}
       {isLightboxOpen && project.image && (
         <ImageLightbox
@@ -84,19 +78,16 @@ export default function ProjectDetailClient({ project }: ProjectDetailClientProp
       )}
 
       {/* Project Case Study Main Body */}
-      <main
-        id="main-content"
-        className="flex-1 w-full max-w-5xl mx-auto px-4 sm:px-8 lg:px-12 pt-20 sm:pt-24 pb-24 md:pb-16 space-y-10"
-      >
-          {/* Navigation Bar */}
-          <div className="flex items-center justify-between gap-4 pb-4 border-b border-border">
-            <button
-              onClick={() => router.push("/?tab=projects")}
-              className="inline-flex items-center gap-1.5 font-mono text-xs text-secondary hover:text-foreground transition-colors cursor-pointer"
-            >
-              <ArrowLeft size={14} />
-              <span>Back to Projects</span>
-            </button>
+      <div className="space-y-10">
+        {/* Navigation Bar */}
+        <div className="flex items-center justify-between gap-4 pb-4 border-b border-border">
+          <Link
+            href="/projects"
+            className="inline-flex items-center gap-1.5 font-mono text-xs text-secondary hover:text-foreground transition-colors cursor-pointer"
+          >
+            <ArrowLeft size={14} />
+            <span>Back to Projects</span>
+          </Link>
 
             <div className="flex items-center gap-2 font-mono text-xs">
               {githubUrl && (
@@ -287,10 +278,7 @@ export default function ProjectDetailClient({ project }: ProjectDetailClientProp
               )}
             </nav>
           )}
-        </main>
-
-      {/* Mobile Fixed Bottom Navigation */}
-      <BottomNavBar activeTab="projects" onTabChange={handleTabChange} />
-    </div>
+      </div>
+    </PageLayout>
   );
 }

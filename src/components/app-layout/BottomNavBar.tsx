@@ -1,12 +1,14 @@
 "use client";
 
 import React from "react";
+import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { TabType, NAV_TABS } from "./types";
 import { Home, Briefcase, FolderGit2, Cpu, Send } from "lucide-react";
 
 interface BottomNavBarProps {
-  activeTab: TabType;
-  onTabChange: (tab: TabType) => void;
+  activeTab?: TabType;
+  onTabChange?: (tab: TabType) => void;
 }
 
 const ICON_MAP = {
@@ -20,7 +22,15 @@ const ICON_MAP = {
 export default function BottomNavBar({
   activeTab,
   onTabChange,
-}: BottomNavBarProps) {
+}: BottomNavBarProps = {}) {
+  const pathname = usePathname();
+
+  const getIsActive = (tabId: TabType, tabHref: string) => {
+    if (activeTab) return activeTab === tabId;
+    if (tabHref === "/") return pathname === "/";
+    return pathname.startsWith(tabHref);
+  };
+
   return (
     <nav
       aria-label="Mobile navigation"
@@ -29,23 +39,38 @@ export default function BottomNavBar({
       <div className="w-full max-w-md mx-auto flex items-center justify-around">
         {NAV_TABS.map((tab) => {
           const Icon = ICON_MAP[tab.iconName];
-          const isActive = activeTab === tab.id;
+          const isActive = getIsActive(tab.id, tab.href);
+
+          if (onTabChange) {
+            return (
+              <button
+                key={tab.id}
+                onClick={() => onTabChange(tab.id)}
+                className={`flex-1 flex flex-col items-center justify-center py-1 px-1 rounded-md transition-colors cursor-pointer select-none ${
+                  isActive ? "text-accent" : "text-muted hover:text-secondary"
+                }`}
+              >
+                <Icon size={17} strokeWidth={isActive ? 2.2 : 1.7} />
+                <span className="text-[10px] mt-0.5 font-medium tracking-tight truncate max-w-[60px]">
+                  {tab.shortLabel}
+                </span>
+              </button>
+            );
+          }
 
           return (
-            <button
+            <Link
               key={tab.id}
-              onClick={() => onTabChange(tab.id)}
+              href={tab.href}
               className={`flex-1 flex flex-col items-center justify-center py-1 px-1 rounded-md transition-colors cursor-pointer select-none ${
-                isActive
-                  ? "text-accent"
-                  : "text-muted hover:text-secondary"
+                isActive ? "text-accent" : "text-muted hover:text-secondary"
               }`}
             >
               <Icon size={17} strokeWidth={isActive ? 2.2 : 1.7} />
               <span className="text-[10px] mt-0.5 font-medium tracking-tight truncate max-w-[60px]">
                 {tab.shortLabel}
               </span>
-            </button>
+            </Link>
           );
         })}
       </div>

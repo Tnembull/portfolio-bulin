@@ -2,16 +2,17 @@
 
 import React from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { usePortfolio } from "@/context/PortfolioContext";
 import { Project } from "@/data/projects";
 import { TabType } from "@/components/app-layout/types";
 import { ArrowUpRight } from "lucide-react";
 
 interface HomeTabProps {
-  onNavigateTab: (tab: TabType) => void;
+  onNavigateTab?: (tab: TabType) => void;
 }
 
-export default function HomeTab({ onNavigateTab }: HomeTabProps) {
+export default function HomeTab({ onNavigateTab }: HomeTabProps = {}) {
   const { state } = usePortfolio();
   const { hero, projects, skills } = state;
 
@@ -55,19 +56,19 @@ export default function HomeTab({ onNavigateTab }: HomeTabProps) {
 
             {/* Action Buttons */}
             <div className="flex flex-wrap items-center gap-3 pt-2">
-              <button
-                onClick={() => onNavigateTab("contact")}
-                className="px-4 py-2.5 rounded-md bg-accent hover:bg-accent-hover text-accent-text font-semibold text-sm transition-colors cursor-pointer"
+              <Link
+                href="/contact"
+                className="px-4 py-2.5 rounded-md bg-accent hover:bg-accent-hover text-accent-text font-semibold text-sm transition-colors cursor-pointer inline-flex items-center justify-center"
               >
                 Get in Touch
-              </button>
+              </Link>
 
-              <button
-                onClick={() => onNavigateTab("projects")}
-                className="px-4 py-2.5 rounded-md bg-surface hover:bg-surface-secondary text-foreground border border-border text-sm font-medium transition-colors cursor-pointer"
+              <Link
+                href="/projects"
+                className="px-4 py-2.5 rounded-md bg-surface hover:bg-surface-secondary text-foreground border border-border text-sm font-medium transition-colors cursor-pointer inline-flex items-center justify-center"
               >
                 View Projects
-              </button>
+              </Link>
 
               <a
                 href={state.github?.profileUrl || "https://github.com/Tnembull"}
@@ -108,12 +109,12 @@ export default function HomeTab({ onNavigateTab }: HomeTabProps) {
               <h2 className="text-xs font-mono uppercase tracking-wider text-muted">
                 Selected Projects
               </h2>
-              <button
-                onClick={() => onNavigateTab("projects")}
+              <Link
+                href="/projects"
                 className="text-xs text-secondary hover:text-accent transition-colors cursor-pointer"
               >
                 View all ({projects?.items?.length || 0}) ↗
-              </button>
+              </Link>
             </div>
 
             <div className="divide-y divide-border">
@@ -181,12 +182,12 @@ export default function HomeTab({ onNavigateTab }: HomeTabProps) {
               <h2 className="text-xs font-mono uppercase tracking-wider text-muted">
                 {skills?.sectionBadge || "Technical Capabilities"}
               </h2>
-              <button
-                onClick={() => onNavigateTab("skills")}
+              <Link
+                href="/skills"
                 className="text-xs text-secondary hover:text-accent transition-colors cursor-pointer font-mono"
               >
                 View all ({capabilityList.length}) ↗
-              </button>
+              </Link>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 text-xs">
