@@ -7,6 +7,7 @@ import { usePortfolio } from "@/context/PortfolioContext";
 import { Project } from "@/data/projects";
 import { TabType } from "@/components/app-layout/types";
 import { ArrowUpRight } from "lucide-react";
+import ClientsMarquee from "@/components/ClientsMarquee";
 
 interface HomeTabProps {
   onNavigateTab?: (tab: TabType) => void;
@@ -99,6 +100,9 @@ export default function HomeTab({ onNavigateTab }: HomeTabProps = {}) {
           </div>
         </div>
       </section>
+
+      {/* Clients & Organizations Marquee */}
+      <ClientsMarquee />
 
       {/* 2. Selected Projects Section - Editorial List (Only if projects exist) */}
       {featuredProjects.length > 0 && (
