@@ -7,29 +7,12 @@ import { usePathname } from "next/navigation";
 import { TabType, NAV_TABS } from "./types";
 import { usePortfolio } from "@/context/PortfolioContext";
 import ThemeToggle from "@/components/ThemeToggle";
-import {
-  Home,
-  Briefcase,
-  FolderGit2,
-  Cpu,
-  Send,
-  Github,
-  Linkedin,
-  Mail,
-} from "lucide-react";
+import { Github, Linkedin, Mail } from "lucide-react";
 
 interface TopNavbarProps {
   activeTab?: TabType;
   onTabChange?: (tab: TabType) => void;
 }
-
-const ICON_MAP = {
-  Home: Home,
-  Briefcase: Briefcase,
-  FolderGit2: FolderGit2,
-  Cpu: Cpu,
-  Send: Send,
-};
 
 export default function TopNavbar({
   activeTab,
@@ -80,23 +63,15 @@ export default function TopNavbar({
           </div>
         </Link>
 
-        {/* Center: Navigation Tabs (Desktop & Tablet) - Clean Text Navigation without Card */}
+        {/* Center: Navigation Tabs (Desktop & Tablet) - Clean Text Navigation without Card or Icons */}
         <nav
           aria-label="Top Navigation Tabs"
           className="hidden md:flex items-center gap-1 sm:gap-2"
         >
           {NAV_TABS.map((tab) => {
-            const Icon = ICON_MAP[tab.iconName];
             const isActive = getIsActive(tab.id, tab.href);
 
-            const content = (
-              <>
-                <Icon size={15} strokeWidth={isActive ? 2.2 : 1.7} />
-                <span>{tab.label}</span>
-              </>
-            );
-
-            const itemClass = `flex items-center gap-2 px-3 py-1.5 rounded-md text-sm font-medium transition-colors cursor-pointer ${
+            const itemClass = `px-3 py-1.5 rounded-md text-sm font-medium transition-colors cursor-pointer ${
               isActive
                 ? "text-accent font-semibold"
                 : "text-secondary hover:text-foreground hover:bg-surface/40"
@@ -110,7 +85,7 @@ export default function TopNavbar({
                   aria-current={isActive ? "page" : undefined}
                   className={itemClass}
                 >
-                  {content}
+                  {tab.label}
                 </button>
               );
             }
@@ -122,7 +97,7 @@ export default function TopNavbar({
                 aria-current={isActive ? "page" : undefined}
                 className={itemClass}
               >
-                {content}
+                {tab.label}
               </Link>
             );
           })}

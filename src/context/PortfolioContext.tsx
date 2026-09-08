@@ -256,8 +256,8 @@ const DEFAULT_PORTFOLIO_STATE: PortfolioState = {
     name: "Muhammad Nur Ashiddiqi",
     role: "DevOps & Backend Engineer",
     bio: "",
-    avatarOff: "/avatar.jpg",
-    avatarOn: "/avatar.jpg",
+    avatarOff: "https://avatars.githubusercontent.com/u/43430326?v=4",
+    avatarOn: "https://avatars.githubusercontent.com/u/43430326?v=4",
     statusText: "Available for collaboration",
     company: "",
     companyLink: "",
@@ -400,7 +400,7 @@ export function PortfolioProvider({ children }: { children: React.ReactNode }) {
     setLangState(newLang);
     try {
       localStorage.setItem("porto_lang", newLang);
-    } catch {}
+    } catch { }
   };
 
   useEffect(() => {
@@ -495,7 +495,7 @@ export function PortfolioProvider({ children }: { children: React.ReactNode }) {
         setState(cleanData);
         try {
           localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(cleanData));
-        } catch {}
+        } catch { }
         setInitialized(true);
         return;
       }
@@ -524,7 +524,7 @@ export function PortfolioProvider({ children }: { children: React.ReactNode }) {
       const updated = { ...prev, [key]: data };
       try {
         localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(updated));
-      } catch {}
+      } catch { }
       // Sync to Supabase in background
       savePortfolioToSupabase(updated);
       return updated;
@@ -535,7 +535,7 @@ export function PortfolioProvider({ children }: { children: React.ReactNode }) {
     setState(DEFAULT_PORTFOLIO_STATE);
     try {
       localStorage.removeItem(LOCAL_STORAGE_KEY);
-    } catch {}
+    } catch { }
     savePortfolioToSupabase(DEFAULT_PORTFOLIO_STATE);
   };
 
@@ -543,7 +543,7 @@ export function PortfolioProvider({ children }: { children: React.ReactNode }) {
     setState(newState);
     try {
       localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(newState));
-    } catch {}
+    } catch { }
     const success = await savePortfolioToSupabase(newState);
     return success;
   };
