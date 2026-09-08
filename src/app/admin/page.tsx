@@ -474,7 +474,11 @@ export default function AdminDashboardPage() {
         {/* Modular Canvas */}
         <main data-lenis-prevent className="flex-1 overflow-y-auto p-4 sm:p-8 space-y-6 bg-background">
           {activeTab === "overview" && (
-            <OverviewEditor items={navMenuItems.slice(1)} onSelectTab={(tab) => setActiveTab(tab as SectionTab)} />
+            <OverviewEditor
+              items={navMenuItems.slice(1)}
+              onSelectTab={(tab) => setActiveTab(tab as SectionTab)}
+              state={state}
+            />
           )}
 
           {activeTab === "hero" && (
