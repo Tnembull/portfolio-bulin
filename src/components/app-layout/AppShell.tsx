@@ -3,9 +3,8 @@
 import React, { useState, useEffect, Suspense } from "react";
 import { useSearchParams, useRouter } from "next/navigation";
 import { TabType } from "./types";
-import MobileHeader from "./MobileHeader";
+import FloatingNav from "./FloatingNav";
 import BottomNavBar from "./BottomNavBar";
-import DesktopSidebar from "./DesktopSidebar";
 import HomeTab from "@/components/tabs/HomeTab";
 import ExperienceTab from "@/components/tabs/ExperienceTab";
 import ProjectsTab from "@/components/tabs/ProjectsTab";
@@ -47,30 +46,24 @@ function AppShellContent() {
   };
 
   return (
-    <div className="min-h-screen bg-background text-foreground flex flex-col md:flex-row antialiased selection:bg-accent selection:text-background">
-      {/* 1. Desktop Left Sidebar Rail (Fixed on md: screens) */}
-      <DesktopSidebar activeTab={activeTab} onTabChange={handleTabChange} />
+    <div className="min-h-screen bg-background text-foreground flex flex-col antialiased selection:bg-accent selection:text-background relative">
+      {/* 1. Centered Floating Island Navigation */}
+      <FloatingNav activeTab={activeTab} onTabChange={handleTabChange} />
 
-      {/* 2. Main Content Area */}
-      <div className="flex-1 flex flex-col min-w-0">
-        {/* Mobile Sticky Top App Bar */}
-        <MobileHeader onAvatarClick={() => handleTabChange("home")} />
+      {/* 2. Main Content Viewport (Expanded full-width) */}
+      <main
+        id="main-content"
+        className="flex-1 w-full max-w-5xl mx-auto px-4 sm:px-8 lg:px-12 pt-20 sm:pt-24 pb-24 md:pb-16"
+      >
+        {activeTab === "home" && <HomeTab onNavigateTab={handleTabChange} />}
+        {activeTab === "experience" && <ExperienceTab />}
+        {activeTab === "projects" && <ProjectsTab />}
+        {activeTab === "skills" && <SkillsTab />}
+        {activeTab === "contact" && <ContactTab />}
+      </main>
 
-        {/* Dynamic Tab Screen Viewport */}
-        <main
-          id="main-content"
-          className="flex-1 w-full max-w-4xl mx-auto px-4 sm:px-8 lg:px-12 py-8 sm:py-12 pb-24 md:pb-16"
-        >
-          {activeTab === "home" && <HomeTab onNavigateTab={handleTabChange} />}
-          {activeTab === "experience" && <ExperienceTab />}
-          {activeTab === "projects" && <ProjectsTab />}
-          {activeTab === "skills" && <SkillsTab />}
-          {activeTab === "contact" && <ContactTab />}
-        </main>
-
-        {/* Mobile Fixed Bottom Navigation Bar */}
-        <BottomNavBar activeTab={activeTab} onTabChange={handleTabChange} />
-      </div>
+      {/* 3. Mobile Fixed Bottom Navigation Bar */}
+      <BottomNavBar activeTab={activeTab} onTabChange={handleTabChange} />
     </div>
   );
 }
