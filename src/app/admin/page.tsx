@@ -79,8 +79,6 @@ type SectionTab =
 
 import { Lock, Eye, EyeOff, ShieldCheck, KeyRound } from "lucide-react";
 
-import { verifyAdminPinFromSupabase } from "@/lib/supabase";
-
 export default function AdminDashboardPage() {
   const { state, initialized, saveEntirePortfolio, resetAll } = usePortfolio();
 
@@ -95,14 +93,20 @@ export default function AdminDashboardPage() {
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [saveToast, setSaveToast] = useState(false);
 
-  // Check auth session on mount
+  // Check auth session with server on mount
   useEffect(() => {
-    try {
-      const isAuth = sessionStorage.getItem("admin_authenticated");
-      if (isAuth === "true") {
-        setIsAuthenticated(true);
-      }
-    } catch {}
+    let mounted = true;
+    fetch("/api/admin/auth")
+      .then((res) => res.json())
+      .then((data) => {
+        if (mounted && data?.authenticated) {
+          setIsAuthenticated(true);
+        }
+      })
+      .catch(() => {});
+    return () => {
+      mounted = false;
+    };
   }, []);
 
   const handleLogin = async (e: React.FormEvent) => {
@@ -111,12 +115,13 @@ export default function AdminDashboardPage() {
     setPinError(false);
 
     try {
-      const isValid = await verifyAdminPinFromSupabase(pinInput);
-      if (isValid) {
-        try {
-          sessionStorage.setItem("admin_authenticated", "true");
-          document.cookie = "porto_admin_auth=true; path=/; max-age=86400; SameSite=Strict";
-        } catch {}
+      const res = await fetch("/api/admin/auth", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ pin: pinInput }),
+      });
+      const data = await res.json();
+      if (res.ok && data.success) {
         setIsAuthenticated(true);
         setPinError(false);
       } else {
@@ -129,12 +134,13 @@ export default function AdminDashboardPage() {
     }
   };
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
     try {
-      sessionStorage.removeItem("admin_authenticated");
+      await fetch("/api/admin/auth", { method: "DELETE" });
     } catch {}
     setIsAuthenticated(false);
     setPinInput("");
+    window.location.href = "/login";
   };
 
   // SECTION STATES

@@ -2,13 +2,17 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { ArrowLeft, Eye, EyeOff, Lock } from "lucide-react";
+import { useRouter, useSearchParams } from "next/navigation";
+import { ArrowLeft, Eye, EyeOff, Lock, ShieldCheck } from "lucide-react";
 import ThemeToggle from "@/components/ThemeToggle";
 
 export default function LoginPage() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [showPassword, setShowPassword] = useState(false);
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const from = searchParams.get("from") || "/admin";
+
+  const [pin, setPin] = useState("");
+  const [showPin, setShowPin] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -16,20 +20,31 @@ export default function LoginPage() {
     e.preventDefault();
     setError("");
 
-    if (!email || !password) {
-      setError("Email dan password wajib diisi.");
+    if (!pin.trim()) {
+      setError("Master Security PIN wajib diisi.");
       return;
     }
 
     setLoading(true);
 
     try {
-      await new Promise((resolve) => setTimeout(resolve, 600));
-      document.cookie = "porto_admin_auth=true; path=/; max-age=86400; SameSite=Strict";
-      const secretPath = process.env.NEXT_PUBLIC_ADMIN_SECRET_PATH || "mna-system-control-secret";
-      window.location.href = `/${secretPath}/dashboard`;
+      const res = await fetch("/api/admin/auth", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ pin: pin.trim() }),
+      });
+
+      const data = await res.json();
+
+      if (res.ok && data.success) {
+        // Redirection to target admin page
+        router.push(from);
+        router.refresh();
+      } else {
+        setError(data.error || "PIN verifikasi tidak valid. Akses ditolak.");
+      }
     } catch {
-      setError("Email atau password tidak sesuai.");
+      setError("Gagal terhubung ke server autentikasi.");
     } finally {
       setLoading(false);
     }
@@ -48,8 +63,9 @@ export default function LoginPage() {
         </Link>
 
         <div className="flex items-center gap-3">
-          <span className="font-mono text-xs text-muted-foreground font-bold tracking-widest uppercase">
-            MNA // ADMIN
+          <span className="font-mono text-xs text-muted-foreground font-bold tracking-widest uppercase flex items-center gap-1.5">
+            <ShieldCheck size={14} className="text-[#48b685]" />
+            MNA // VAULT AUTH
           </span>
           <ThemeToggle />
         </div>
@@ -65,7 +81,7 @@ export default function LoginPage() {
             Admin Authentication
           </h1>
           <p className="text-xs font-mono text-[#a392a3]">
-            Muhammad Nur Ashiddiqi — DevOps Portfolio Control
+            Muhammad Nur Ashiddiqi — DevOps Control Vault
           </p>
         </div>
 
@@ -78,35 +94,24 @@ export default function LoginPage() {
 
           <div className="space-y-1.5">
             <label className="text-[#48b685] block font-semibold text-[11px] tracking-wider">
-              ADMIN EMAIL
-            </label>
-            <input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              required
-              className="w-full px-3.5 py-2.5 bg-[#19131a] border border-[#483145] rounded-lg text-foreground focus:outline-none focus:border-[#48b685] focus:shadow-[0_0_15px_rgba(72,182,133,0.2)] transition-all font-mono"
-            />
-          </div>
-
-          <div className="space-y-1.5">
-            <label className="text-[#48b685] block font-semibold text-[11px] tracking-wider">
-              PASSWORD
+              MASTER SECURITY PIN
             </label>
             <div className="relative">
               <input
-                type={showPassword ? "text" : "password"}
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                type={showPin ? "text" : "password"}
+                value={pin}
+                onChange={(e) => setPin(e.target.value)}
+                placeholder="Enter admin security PIN..."
                 required
+                autoFocus
                 className="w-full pl-3.5 pr-10 py-2.5 bg-[#19131a] border border-[#483145] rounded-lg text-foreground focus:outline-none focus:border-[#48b685] focus:shadow-[0_0_15px_rgba(72,182,133,0.2)] transition-all font-mono"
               />
               <button
                 type="button"
-                onClick={() => setShowPassword(!showPassword)}
+                onClick={() => setShowPin(!showPin)}
                 className="absolute right-3 top-1/2 -translate-y-1/2 text-[#a392a3] hover:text-[#48b685] transition-colors cursor-pointer"
               >
-                {showPassword ? <EyeOff size={15} /> : <Eye size={15} />}
+                {showPin ? <EyeOff size={15} /> : <Eye size={15} />}
               </button>
             </div>
           </div>
@@ -116,7 +121,7 @@ export default function LoginPage() {
             disabled={loading}
             className="w-full py-3 mt-2 bg-[#48b685] text-[#19131a] rounded-xl font-mono text-xs font-extrabold uppercase tracking-wider hover:bg-[#48b685]/90 hover:scale-[1.01] active:scale-[0.98] transition-all cursor-pointer disabled:opacity-50 shadow-lg"
           >
-            {loading ? "Authenticating System..." : "Sign In to Admin Terminal"}
+            {loading ? "Verifying Credentials..." : "Authorize Admin Session"}
           </button>
         </form>
       </main>

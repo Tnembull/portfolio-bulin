@@ -72,6 +72,21 @@ export async function fetchPortfolioFromSupabase(): Promise<Partial<PortfolioSta
  * Save portfolio state to Supabase table `portfolio_data`
  */
 export async function savePortfolioToSupabase(state: PortfolioState): Promise<boolean> {
+  // If running on browser, route through server-side authenticated endpoint
+  if (typeof window !== "undefined") {
+    try {
+      const res = await fetch("/api/admin/save", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(state),
+      });
+      return res.ok;
+    } catch {
+      return false;
+    }
+  }
+
+  // Server-side direct upsert
   try {
     const { error } = await supabase.from("portfolio_data").upsert(
       {
@@ -108,50 +123,19 @@ export async function getProjectBySlugOrId(slugOrId: string): Promise<Project | 
 }
 
 /**
- * Verify Admin Security PIN via Supabase / Environment
+ * Verify Admin Security PIN via server auth API
  */
 export async function verifyAdminPinFromSupabase(inputPin: string): Promise<boolean> {
   const trimmed = inputPin.trim();
   if (!trimmed) return false;
 
-  // 1. Check against Environment Variable if defined
-  const envPin = process.env.ADMIN_MASTER_PIN || process.env.NEXT_PUBLIC_ADMIN_PIN;
-  if (envPin && envPin.trim() === trimmed) {
-    return true;
-  }
-
-  // 2. Check against Supabase admin_credentials
   try {
-    const { data, error } = await supabase
-      .from("admin_credentials")
-      .select("pin_code")
-      .eq("id", "master_pin")
-      .single();
-
-    if (!error && data && data.pin_code) {
-      return data.pin_code === trimmed;
-    }
-  } catch {}
-
-  // 3. Built-in setup fallback PIN
-  const defaultFallbackPins = ["@Dikidiki224", "Dikidiki##224", "BulinDev**!!", "BulinDev!###2026"];
-  return defaultFallbackPins.includes(trimmed);
-}
-
-/**
- * Update Admin Security PIN in Supabase
- */
-export async function updateAdminPinInSupabase(newPin: string): Promise<boolean> {
-  try {
-    const { error } = await supabase.from("admin_credentials").upsert(
-      {
-        id: "master_pin",
-        pin_code: newPin.trim(),
-        updated_at: new Date().toISOString(),
-      },
-      { onConflict: "id" }
-    );
-    return !error;
+    const res = await fetch("/api/admin/auth", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ pin: trimmed }),
+    });
+    return res.ok;
   } catch {
     return false;
   }
