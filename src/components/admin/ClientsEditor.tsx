@@ -1,8 +1,9 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { ClientsData, ClientItem } from "@/context/PortfolioContext";
-import { Building2, Plus, Trash2, ExternalLink } from "lucide-react";
+import { Building2, Plus, Trash2, ExternalLink, Upload, Loader2 } from "lucide-react";
+import { compressImage } from "@/lib/image-compressor";
 
 interface ClientsEditorProps {
   data?: ClientsData;
@@ -19,6 +20,36 @@ export default function ClientsEditor({ data, onChange }: ClientsEditorProps) {
   };
 
   const items = currentData.items || [];
+  const [uploadingIndex, setUploadingIndex] = useState<number | null>(null);
+
+  const handleFileUpload = async (index: number, file: File) => {
+    setUploadingIndex(index);
+    try {
+      const fileToUpload = await compressImage(file, {
+        maxWidth: 800,
+        maxHeight: 800,
+        quality: 0.9,
+        targetFormat: "image/webp",
+      });
+      const formData = new FormData();
+      formData.append("file", fileToUpload);
+
+      const res = await fetch("/api/upload", {
+        method: "POST",
+        body: formData,
+      });
+      const resData = await res.json();
+      if (resData.url) {
+        handleItemUpdate(index, "logoSrc", resData.url);
+      } else {
+        alert(resData.error || "Gagal mengunggah logo klien.");
+      }
+    } catch {
+      alert("Terjadi kesalahan koneksi saat mengunggah logo.");
+    } finally {
+      setUploadingIndex(null);
+    }
+  };
 
   const handleAdd = () => {
     const newItem: ClientItem = {
@@ -192,9 +223,29 @@ export default function ClientsEditor({ data, onChange }: ClientsEditorProps) {
 
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <div className="space-y-1">
-                      <label className="text-[10px] text-secondary uppercase font-bold block">
-                        Logo Klien URL (SVG/PNG/WebP, Opsional)
-                      </label>
+                      <div className="flex items-center justify-between">
+                        <label className="text-[10px] text-secondary uppercase font-bold block">
+                          Logo Klien (URL / Upload)
+                        </label>
+                        <label className="text-[10px] text-accent bg-accent/15 border border-accent/40 hover:bg-accent/30 px-2 py-0.5 rounded font-bold cursor-pointer transition-colors flex items-center gap-1">
+                          {uploadingIndex === idx ? (
+                            <Loader2 size={11} className="animate-spin" />
+                          ) : (
+                            <Upload size={11} />
+                          )}
+                          <span>{uploadingIndex === idx ? "Uploading..." : "Upload Logo"}</span>
+                          <input
+                            type="file"
+                            accept="image/*,.svg"
+                            className="hidden"
+                            disabled={uploadingIndex === idx}
+                            onChange={(e) => {
+                              const file = e.target.files?.[0];
+                              if (file) handleFileUpload(idx, file);
+                            }}
+                          />
+                        </label>
+                      </div>
                       <div className="flex items-center gap-2">
                         <input
                           type="text"

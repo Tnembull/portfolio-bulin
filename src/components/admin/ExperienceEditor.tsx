@@ -1,7 +1,9 @@
 "use client";
 
+import React, { useState } from "react";
 import { ExperienceData } from "@/context/PortfolioContext";
-import { Briefcase, Plus, Trash2 } from "lucide-react";
+import { Briefcase, Plus, Trash2, Upload, Loader2 } from "lucide-react";
+import { compressImage } from "@/lib/image-compressor";
 
 interface ExperienceEditorProps {
   data: ExperienceData;
@@ -9,6 +11,36 @@ interface ExperienceEditorProps {
 }
 
 export default function ExperienceEditor({ data, onChange }: ExperienceEditorProps) {
+  const [uploadingIndex, setUploadingIndex] = useState<number | null>(null);
+
+  const handleFileUpload = async (index: number, file: File) => {
+    setUploadingIndex(index);
+    try {
+      const fileToUpload = await compressImage(file, {
+        maxWidth: 800,
+        maxHeight: 800,
+        quality: 0.9,
+        targetFormat: "image/webp",
+      });
+      const formData = new FormData();
+      formData.append("file", fileToUpload);
+
+      const res = await fetch("/api/upload", {
+        method: "POST",
+        body: formData,
+      });
+      const resData = await res.json();
+      if (resData.url) {
+        handleItemUpdate(index, "logo", resData.url);
+      } else {
+        alert(resData.error || "Gagal mengunggah logo perusahaan.");
+      }
+    } catch {
+      alert("Terjadi kesalahan koneksi saat mengunggah logo.");
+    } finally {
+      setUploadingIndex(null);
+    }
+  };
   const handleAdd = () => {
     const newItem = {
       id: `exp-${Date.now()}`,
@@ -162,26 +194,51 @@ export default function ExperienceEditor({ data, onChange }: ExperienceEditorPro
                     />
                   </div>
 
-                  <div className="flex items-center gap-2">
-                    <input
-                      type="text"
-                      value={item.logo || ""}
-                      onChange={(e) => handleItemUpdate(idx, "logo", e.target.value)}
-                      placeholder="Logo Perusahaan / Klien URL (opsional, SVG/PNG/WebP)"
-                      className="w-full px-3 py-2 bg-[#2f1e2e] border border-[#483145] focus:border-[#48b685] rounded-lg text-[#a392a3] text-xs outline-none"
-                    />
-                    {item.logo && (
-                      <div className="size-8 rounded border border-[#483145] bg-[#2f1e2e] shrink-0 overflow-hidden flex items-center justify-center p-0.5">
-                        <img
-                          src={item.logo}
-                          alt="Logo preview"
-                          className="w-full h-full object-contain"
-                          onError={(e) => {
-                            (e.target as HTMLElement).style.display = "none";
+                  <div className="space-y-1">
+                    <div className="flex items-center justify-between">
+                      <label className="text-[10px] text-[#a392a3] uppercase font-bold">
+                        Logo Perusahaan / Klien (URL / Upload)
+                      </label>
+                      <label className="text-[10px] text-[#48b685] bg-[#48b685]/15 border border-[#48b685]/40 hover:bg-[#48b685]/30 px-2 py-0.5 rounded font-bold cursor-pointer transition-colors flex items-center gap-1">
+                        {uploadingIndex === idx ? (
+                          <Loader2 size={11} className="animate-spin" />
+                        ) : (
+                          <Upload size={11} />
+                        )}
+                        <span>{uploadingIndex === idx ? "Uploading..." : "Upload Logo"}</span>
+                        <input
+                          type="file"
+                          accept="image/*,.svg"
+                          className="hidden"
+                          disabled={uploadingIndex === idx}
+                          onChange={(e) => {
+                            const file = e.target.files?.[0];
+                            if (file) handleFileUpload(idx, file);
                           }}
                         />
-                      </div>
-                    )}
+                      </label>
+                    </div>
+                    <div className="flex items-center gap-2">
+                      <input
+                        type="text"
+                        value={item.logo || ""}
+                        onChange={(e) => handleItemUpdate(idx, "logo", e.target.value)}
+                        placeholder="Logo Perusahaan / Klien URL (opsional, SVG/PNG/WebP)"
+                        className="w-full px-3 py-2 bg-[#2f1e2e] border border-[#483145] focus:border-[#48b685] rounded-lg text-[#a392a3] text-xs outline-none"
+                      />
+                      {item.logo && (
+                        <div className="size-8 rounded border border-[#483145] bg-[#2f1e2e] shrink-0 overflow-hidden flex items-center justify-center p-0.5">
+                          <img
+                            src={item.logo}
+                            alt="Logo preview"
+                            className="w-full h-full object-contain"
+                            onError={(e) => {
+                              (e.target as HTMLElement).style.display = "none";
+                            }}
+                          />
+                        </div>
+                      )}
+                    </div>
                   </div>
 
                   <textarea
