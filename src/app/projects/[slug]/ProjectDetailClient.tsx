@@ -16,9 +16,8 @@ import { useState } from "react";
 import { Project } from "@/data/projects";
 import { usePortfolio } from "@/context/PortfolioContext";
 import { TabType } from "@/components/app-layout/types";
-import MobileHeader from "@/components/app-layout/MobileHeader";
+import FloatingNav from "@/components/app-layout/FloatingNav";
 import BottomNavBar from "@/components/app-layout/BottomNavBar";
-import DesktopSidebar from "@/components/app-layout/DesktopSidebar";
 import ImageLightbox from "@/components/ImageLightbox";
 
 interface ProjectDetailClientProps {
@@ -38,22 +37,19 @@ export default function ProjectDetailClient({ project }: ProjectDetailClientProp
 
   if (!project) {
     return (
-      <div className="min-h-screen bg-background text-foreground flex flex-col md:flex-row antialiased selection:bg-accent selection:text-background">
-        <DesktopSidebar activeTab="projects" onTabChange={handleTabChange} />
-        <div className="flex-1 flex flex-col min-w-0">
-          <MobileHeader onAvatarClick={() => handleTabChange("home")} />
-          <main className="flex-1 flex flex-col items-center justify-center text-center p-6 font-mono">
-            <h1 className="text-xl font-bold font-sans mb-3 text-foreground">Project Not Found</h1>
-            <p className="text-xs text-secondary mb-5">The requested engineering case study does not exist or has been removed.</p>
-            <Link
-              href="/?tab=projects"
-              className="px-4 py-2 rounded-md bg-surface border border-border text-xs text-accent hover:underline font-mono"
-            >
-              ← Back to All Projects
-            </Link>
-          </main>
-          <BottomNavBar activeTab="projects" onTabChange={handleTabChange} />
-        </div>
+      <div className="min-h-screen bg-background text-foreground flex flex-col antialiased selection:bg-accent selection:text-background relative">
+        <FloatingNav activeTab="projects" onTabChange={handleTabChange} />
+        <main className="flex-1 flex flex-col items-center justify-center text-center p-6 font-mono pt-24 pb-24">
+          <h1 className="text-xl font-bold font-sans mb-3 text-foreground">Project Not Found</h1>
+          <p className="text-xs text-secondary mb-5">The requested engineering case study does not exist or has been removed.</p>
+          <Link
+            href="/?tab=projects"
+            className="px-4 py-2 rounded-md bg-surface border border-border text-xs text-accent hover:underline font-mono"
+          >
+            ← Back to All Projects
+          </Link>
+        </main>
+        <BottomNavBar activeTab="projects" onTabChange={handleTabChange} />
       </div>
     );
   }
@@ -73,30 +69,25 @@ export default function ProjectDetailClient({ project }: ProjectDetailClientProp
   const liveUrl = project.liveUrl || project.url;
 
   return (
-    <div className="min-h-screen bg-background text-foreground flex flex-col md:flex-row antialiased selection:bg-accent selection:text-background">
-      {/* 1. Desktop Left Sidebar Rail */}
-      <DesktopSidebar activeTab="projects" onTabChange={handleTabChange} />
+    <div className="min-h-screen bg-background text-foreground flex flex-col antialiased selection:bg-accent selection:text-background relative">
+      {/* 1. Centered Floating Island Navigation */}
+      <FloatingNav activeTab="projects" onTabChange={handleTabChange} />
 
-      {/* 2. Main Content Stage */}
-      <div className="flex-1 flex flex-col min-w-0">
-        {/* Mobile Sticky Top Header */}
-        <MobileHeader onAvatarClick={() => handleTabChange("home")} />
+      {/* Lightbox Modal */}
+      {isLightboxOpen && project.image && (
+        <ImageLightbox
+          src={project.image}
+          alt={project.title}
+          category={project.category}
+          onClose={() => setIsLightboxOpen(false)}
+        />
+      )}
 
-        {/* Lightbox Modal */}
-        {isLightboxOpen && project.image && (
-          <ImageLightbox
-            src={project.image}
-            alt={project.title}
-            category={project.category}
-            onClose={() => setIsLightboxOpen(false)}
-          />
-        )}
-
-        {/* Project Case Study Main Body */}
-        <main
-          id="main-content"
-          className="flex-1 w-full max-w-4xl mx-auto px-4 sm:px-8 lg:px-12 py-8 sm:py-12 pb-24 md:pb-16 space-y-10"
-        >
+      {/* Project Case Study Main Body */}
+      <main
+        id="main-content"
+        className="flex-1 w-full max-w-5xl mx-auto px-4 sm:px-8 lg:px-12 pt-20 sm:pt-24 pb-24 md:pb-16 space-y-10"
+      >
           {/* Navigation Bar */}
           <div className="flex items-center justify-between gap-4 pb-4 border-b border-border">
             <button
@@ -298,9 +289,8 @@ export default function ProjectDetailClient({ project }: ProjectDetailClientProp
           )}
         </main>
 
-        {/* Mobile Fixed Bottom Navigation */}
-        <BottomNavBar activeTab="projects" onTabChange={handleTabChange} />
-      </div>
+      {/* Mobile Fixed Bottom Navigation */}
+      <BottomNavBar activeTab="projects" onTabChange={handleTabChange} />
     </div>
   );
 }
