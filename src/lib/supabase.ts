@@ -40,10 +40,14 @@ export interface CertificationBadge {
   updated_at?: string;
 }
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || "https://suvppsdiekwqccgrcnem.supabase.co";
-const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY || "sb_publishable_xzUlqjxHa9MvsBsCNRYxDg_dbT0ybvH";
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || "";
+const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY || "";
 
-export const supabase = createClient(supabaseUrl, supabaseKey);
+// Initialize Supabase client cleanly with safe placeholders during static compilation
+export const supabase = createClient(
+  supabaseUrl || "https://placeholder-project.supabase.co",
+  supabaseKey || "placeholder-anon-key"
+);
 
 export const PORTFOLIO_ROW_ID = "main-portfolio";
 
@@ -109,17 +113,16 @@ export async function savePortfolioToSupabase(state: PortfolioState): Promise<bo
 export async function getProjectBySlugOrId(slugOrId: string): Promise<Project | null> {
   try {
     const portfolio = await fetchPortfolioFromSupabase();
-    if (!portfolio || !portfolio.projects || !portfolio.projects.items) {
-      return null;
-    }
-    return (
-      portfolio.projects.items.find(
+    if (portfolio?.projects?.items?.length) {
+      const match = portfolio.projects.items.find(
         (p) => p.slug === slugOrId || p.id === slugOrId
-      ) || null
-    );
-  } catch {
-    return null;
-  }
+      );
+      if (match) return match;
+    }
+  } catch { }
+
+  const { PROJECTS } = await import("@/data/projects");
+  return PROJECTS.find((p) => p.slug === slugOrId || p.id === slugOrId) || null;
 }
 
 /**

@@ -1,7 +1,12 @@
 // Google reCAPTCHA server verification helper
 
 export async function verifyRecaptchaToken(token: string | undefined | null): Promise<boolean> {
-  const secretKey = process.env.RECAPTCHA_SECRET_KEY || "6LfQyrAtAAAAAEMII4etP27BunJCERHwi5JjMovo";
+  const secretKey = process.env.RECAPTCHA_SECRET_KEY;
+
+  if (!secretKey) {
+    console.warn("[RECAPTCHA] RECAPTCHA_SECRET_KEY is not configured in environment.");
+    return process.env.NODE_ENV !== "production";
+  }
 
   if (!token || typeof token !== "string" || !token.trim()) {
     return false;

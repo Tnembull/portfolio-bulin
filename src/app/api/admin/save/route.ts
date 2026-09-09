@@ -1,6 +1,17 @@
 import { NextRequest, NextResponse } from "next/server";
+import { createClient } from "@supabase/supabase-js";
 import { verifySessionToken } from "@/lib/auth";
-import { supabase, PORTFOLIO_ROW_ID } from "@/lib/supabase";
+import { supabase as defaultSupabase, PORTFOLIO_ROW_ID } from "@/lib/supabase";
+
+function getSupabaseServerClient() {
+  const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
+
+  if (serviceRoleKey && supabaseUrl) {
+    return createClient(supabaseUrl, serviceRoleKey);
+  }
+  return defaultSupabase;
+}
 
 export async function POST(req: NextRequest) {
   try {
@@ -22,7 +33,8 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const { error } = await supabase.from("portfolio_data").upsert(
+    const dbClient = getSupabaseServerClient();
+    const { error } = await dbClient.from("portfolio_data").upsert(
       {
         id: PORTFOLIO_ROW_ID,
         content: state,

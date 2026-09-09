@@ -50,8 +50,8 @@
 - Consumes: `signSessionToken`, `verifySessionToken` from `@/lib/auth`
 
 - [ ] **Step 1: Update `.env.local`**
-  - Add `ADMIN_MASTER_PIN=@Dikidiki224`
-  - Add `SESSION_SECRET=mna_devops_portfolio_super_secure_vault_key_2026`
+  - Add `ADMIN_MASTER_PIN=<your-secure-admin-pin>`
+  - Add `SESSION_SECRET=<your-cryptographic-random-secret-key>`
 
 - [ ] **Step 2: Create `src/app/api/admin/auth/route.ts`**
   - `POST`: Validates `pin` against `process.env.ADMIN_MASTER_PIN` in constant time.
@@ -104,7 +104,7 @@
 - Modify: `src/context/PortfolioContext.tsx`
 
 - [ ] **Step 1: Sanitize `src/lib/supabase.ts`**
-  - Delete `defaultFallbackPins = ["@Dikidiki224", ...]` completely from client code.
+  - Delete `defaultFallbackPins = [...]` completely from client code.
   - Remove direct client PIN checking.
 
 - [ ] **Step 2: Update `src/app/login/page.tsx` & `src/app/admin/page.tsx`**

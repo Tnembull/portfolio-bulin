@@ -1,6 +1,14 @@
-// Cryptographic session utility using Web Crypto API (supported in Node.js 18+ and Edge Runtime)
+function getSessionSecret(): string {
+  const secret = process.env.SESSION_SECRET;
+  if (secret && secret.trim().length >= 16) {
+    return secret.trim();
+  }
+  if (process.env.NODE_ENV === "production") {
+    throw new Error("[SECURITY] SESSION_SECRET environment variable is missing or insecure in production.");
+  }
+  return "dev_ephemeral_fallback_session_key_never_for_production";
+}
 
-const SESSION_SECRET = process.env.SESSION_SECRET || "mna_devops_portfolio_super_secure_vault_key_2026";
 const DEFAULT_EXPIRY_SECONDS = 60 * 60 * 24; // 24 hours
 
 function base64UrlEncode(buffer: Uint8Array | ArrayBuffer): string {
@@ -62,7 +70,7 @@ export async function signSessionToken(
   const payloadStr = JSON.stringify(payload);
   const encodedPayload = base64UrlEncode(enc.encode(payloadStr));
 
-  const key = await getCryptoKey(SESSION_SECRET);
+  const key = await getCryptoKey(getSessionSecret());
   const signature = await crypto.subtle.sign(
     "HMAC",
     key,
@@ -83,7 +91,7 @@ export async function verifySessionToken(token: string | undefined | null): Prom
 
   try {
     const enc = new TextEncoder();
-    const key = await getCryptoKey(SESSION_SECRET);
+    const key = await getCryptoKey(getSessionSecret());
     const signature = base64UrlDecode(encodedSignature);
 
     const isValidSig = await crypto.subtle.verify(

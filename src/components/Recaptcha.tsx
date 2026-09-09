@@ -47,12 +47,17 @@ export default function Recaptcha({
   const onExpireRef = useRef(onExpire);
   onExpireRef.current = onExpire;
 
-  const siteKey =
-    process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY ||
-    "6LfQyrAtAAAAAA8x65G7GT9jbkSucU1FZ8F-RFVK";
+  const siteKey = (process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY || "").trim();
 
   useEffect(() => {
     let active = true;
+
+    if (!siteKey) {
+      // In dev or if key is omitted, bypass silently without failing
+      onVerifyRef.current("dev-bypass-token");
+      setIsLoaded(true);
+      return;
+    }
 
     const renderWidget = () => {
       if (!active || !containerRef.current || !window.grecaptcha) return;

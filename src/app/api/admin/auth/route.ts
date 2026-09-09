@@ -38,7 +38,15 @@ export async function POST(req: NextRequest) {
       }
     }
 
-    const expectedPin = (process.env.ADMIN_MASTER_PIN || "@Dikidiki224").trim();
+    const expectedPin = (process.env.ADMIN_MASTER_PIN || "").trim();
+
+    if (!expectedPin) {
+      console.error("[AUTH_API] Error: ADMIN_MASTER_PIN environment variable is not configured.");
+      return NextResponse.json(
+        { success: false, error: "Konfigurasi keamanan server belum lengkap (ADMIN_MASTER_PIN)." },
+        { status: 500 }
+      );
+    }
 
     if (!pin || !timingSafeEqual(pin, expectedPin)) {
       return NextResponse.json(
