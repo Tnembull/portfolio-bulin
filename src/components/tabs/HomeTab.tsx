@@ -87,21 +87,21 @@ export default function HomeTab({ onNavigateTab }: HomeTabProps = {}) {
             </div>
           </div>
 
-          {/* Right: Prominent Hero Portrait Photo */}
-          <div className="shrink-0 self-center md:self-center flex justify-center w-full md:w-auto">
+          {/* Right: Seamless Transparent Portrait */}
+          <div className="shrink-0 self-center md:self-end flex justify-center w-full md:w-auto">
             <div className="relative group">
-              {/* Subtle ambient glow behind portrait */}
-              <div className="absolute -inset-2 bg-gradient-to-br from-accent/25 via-accent/10 to-transparent rounded-2xl blur-xl opacity-40 group-hover:opacity-75 transition duration-500" />
+              {/* Subtle ambient accent aura behind portrait */}
+              <div className="absolute -inset-4 bg-gradient-to-tr from-accent/20 to-transparent rounded-full blur-2xl opacity-40 group-hover:opacity-75 transition duration-500 pointer-events-none" />
 
-              <div className="relative w-48 sm:w-56 md:w-64 lg:w-72 aspect-[4/5] rounded-2xl overflow-hidden border border-border/80 bg-surface shadow-2xl">
+              <div className="relative w-52 sm:w-60 md:w-72 lg:w-80 h-auto">
                 <Image
                   src={avatarSrc}
                   alt={name}
-                  width={640}
-                  height={800}
-                  className="w-full h-full object-cover object-top group-hover:scale-[1.02] transition-transform duration-500"
+                  width={720}
+                  height={720}
+                  className="w-full h-auto object-contain drop-shadow-[0_15px_30px_rgba(0,0,0,0.18)] dark:drop-shadow-[0_15px_30px_rgba(0,0,0,0.5)] group-hover:scale-[1.02] transition-transform duration-500"
                   priority
-                  sizes="(max-width: 640px) 192px, (max-width: 768px) 224px, 288px"
+                  sizes="(max-width: 640px) 208px, (max-width: 768px) 240px, 320px"
                   unoptimized
                 />
               </div>
