@@ -81,19 +81,19 @@ export default function SkillsEditor({ data, onChange }: SkillsEditorProps) {
 
   return (
     <div className="w-full space-y-6 font-mono text-xs">
-      <div className="p-6 rounded-2xl border border-[#483145] bg-[#2f1e2e] space-y-6 shadow-md">
+      <div className="p-6 rounded-2xl border border-border bg-surface space-y-6 shadow-md">
         {/* Header */}
-        <div className="flex items-center justify-between border-b border-[#483145] pb-4">
+        <div className="flex items-center justify-between border-b border-border pb-4">
           <div>
-            <h3 className="font-extrabold text-slate-100 uppercase tracking-wide text-sm flex items-center gap-2">
-              <Wrench size={16} className="text-[#48b685]" />
+            <h3 className="font-extrabold text-foreground uppercase tracking-wide text-sm flex items-center gap-2">
+              <Wrench size={16} className="text-accent" />
               <span>05 // KELOLA KEAHLIAN (TECH BADGES PILLS)</span>
             </h3>
-            <p className="text-[#a392a3] text-[11px] mt-0.5">
+            <p className="text-secondary text-[11px] mt-0.5">
               Atur pill badge keahlian dengan logo resmi (Next.js, Docker, Python, AWS, dll).
             </p>
           </div>
-          <span className="text-[10px] text-[#48b685] bg-[#48b685]/10 border border-[#48b685]/30 px-2.5 py-1 rounded-md font-extrabold">
+          <span className="text-[10px] text-accent bg-accent/10 border border-accent/30 px-2.5 py-1 rounded-md font-extrabold">
             PILLS_MATRIX
           </span>
         </div>
@@ -102,31 +102,31 @@ export default function SkillsEditor({ data, onChange }: SkillsEditorProps) {
         <div className="space-y-4">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
             <div className="space-y-1.5">
-              <label className="text-[10px] text-[#a392a3] uppercase font-bold block">
+              <label className="text-[10px] text-secondary uppercase font-bold block">
                 BADGE SEKSI (SECTION BADGE)
               </label>
               <input
                 type="text"
                 value={data.sectionBadge || "SKILLS"}
                 onChange={(e) => onChange({ ...data, sectionBadge: e.target.value })}
-                className="w-full px-3.5 py-2.5 bg-[#19131a] border border-[#483145] focus:border-[#48b685] rounded-xl text-slate-100 outline-none"
+                className="w-full px-3.5 py-2.5 bg-surface border border-border focus:border-accent rounded-xl text-foreground outline-none"
               />
             </div>
 
             <div className="space-y-1.5">
-              <label className="text-[10px] text-[#a392a3] uppercase font-bold block">
+              <label className="text-[10px] text-secondary uppercase font-bold block">
                 JUDUL UTAMA (MAIN TITLE)
               </label>
               <input
                 type="text"
                 value={data.titleMain || "Keahlian"}
                 onChange={(e) => onChange({ ...data, titleMain: e.target.value })}
-                className="w-full px-3.5 py-2.5 bg-[#19131a] border border-[#483145] focus:border-[#48b685] rounded-xl text-slate-100 outline-none font-bold"
+                className="w-full px-3.5 py-2.5 bg-surface border border-border focus:border-accent rounded-xl text-foreground outline-none font-bold"
               />
             </div>
 
             <div className="space-y-1.5">
-              <label className="text-[10px] text-[#a392a3] uppercase font-bold block">
+              <label className="text-[10px] text-secondary uppercase font-bold block">
                 JUDUL HIGHLIGHT
               </label>
               <input
@@ -134,35 +134,35 @@ export default function SkillsEditor({ data, onChange }: SkillsEditorProps) {
                 value={data.titleHighlight || ""}
                 placeholder="(Opsional)"
                 onChange={(e) => onChange({ ...data, titleHighlight: e.target.value })}
-                className="w-full px-3.5 py-2.5 bg-[#19131a] border border-[#483145] focus:border-[#48b685] rounded-xl text-[#48b685] font-bold outline-none"
+                className="w-full px-3.5 py-2.5 bg-surface border border-border focus:border-accent rounded-xl text-accent font-bold outline-none"
               />
             </div>
           </div>
         </div>
 
         {/* 1. TECH PILL BADGES SECTION */}
-        <div className="pt-6 border-t border-[#483145] space-y-4">
+        <div className="pt-6 border-t border-border space-y-4">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
             <div>
-              <h4 className="font-extrabold uppercase tracking-wider text-slate-100 text-xs flex items-center gap-2">
-                <Sparkles size={14} className="text-[#48b685]" />
+              <h4 className="font-extrabold uppercase tracking-wider text-foreground text-xs flex items-center gap-2">
+                <Sparkles size={14} className="text-accent" />
                 <span>DAFTAR PILL KEAHLIAN BERLOGO ({pills.length})</span>
               </h4>
-              <p className="text-[11px] text-[#a392a3] mt-0.5">
+              <p className="text-[11px] text-secondary mt-0.5">
                 Pill badge dengan logo resmi teknologi yang tampil rapi di halaman Keahlian.
               </p>
             </div>
             <button
               onClick={handleResetDefaultPills}
-              className="text-[11px] text-[#a392a3] hover:text-slate-100 underline cursor-pointer self-start sm:self-auto"
+              className="text-[11px] text-secondary hover:text-foreground underline cursor-pointer self-start sm:self-auto"
             >
               Reset ke 17 Badge Bawaan
             </button>
           </div>
 
           {/* Live Preview Box */}
-          <div className="p-4 rounded-xl border border-[#483145] bg-[#19131a] space-y-2">
-            <span className="text-[10px] text-[#a392a3] uppercase font-bold block">
+          <div className="p-4 rounded-xl border border-border bg-surface-secondary space-y-2">
+            <span className="text-[10px] text-secondary uppercase font-bold block">
               PREVIEW TAMPILAN:
             </span>
             <div className="flex flex-wrap gap-2 pt-1">
@@ -193,18 +193,18 @@ export default function SkillsEditor({ data, onChange }: SkillsEditorProps) {
           </div>
 
           {/* Add New Pill Form */}
-          <div className="p-4 rounded-xl border border-[#483145] bg-[#19131a] space-y-3">
+          <div className="p-4 rounded-xl border border-border bg-surface-secondary space-y-3">
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-              <span className="text-[10px] text-[#48b685] font-extrabold uppercase block">
+              <span className="text-[10px] text-accent font-extrabold uppercase block">
                 + TAMBAH PILL KEAHLIAN BARU
               </span>
               <button
                 type="button"
                 onClick={() => setIsTechPickerOpen(true)}
-                className="px-3 py-1.5 bg-[#483145] hover:bg-[#48b685] hover:text-[#19131a] text-slate-100 text-xs font-bold rounded-lg transition-all flex items-center gap-1.5 self-start sm:self-auto cursor-pointer shadow-xs"
+                className="px-3 py-1.5 bg-surface hover:bg-surface-secondary border border-border hover:border-accent text-foreground text-xs font-bold rounded-lg transition-all flex items-center gap-1.5 self-start sm:self-auto cursor-pointer shadow-xs"
               >
-                <Search size={13} />
-                <span>🔍 Cari & Pilih Logo Tech</span>
+                <Search size={13} className="text-accent" />
+                <span>Cari & Pilih Logo Tech</span>
               </button>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-12 gap-2">
@@ -220,7 +220,7 @@ export default function SkillsEditor({ data, onChange }: SkillsEditorProps) {
                     }
                   }}
                   placeholder="Contoh: Next.js, Docker, Python, Rust..."
-                  className="w-full px-3.5 py-2 bg-[#2f1e2e] border border-[#483145] focus:border-[#48b685] rounded-lg text-slate-100 outline-none"
+                  className="w-full px-3.5 py-2 bg-surface border border-border focus:border-accent rounded-lg text-foreground outline-none"
                 />
               </div>
               <div className="sm:col-span-4">
@@ -229,7 +229,7 @@ export default function SkillsEditor({ data, onChange }: SkillsEditorProps) {
                   value={newPillIcon}
                   onChange={(e) => setNewPillIcon(e.target.value)}
                   placeholder="Icon override / URL (opsional)"
-                  className="w-full px-3.5 py-2 bg-[#2f1e2e] border border-[#483145] focus:border-[#48b685] rounded-lg text-slate-100 outline-none"
+                  className="w-full px-3.5 py-2 bg-surface border border-border focus:border-accent rounded-lg text-foreground outline-none"
                 />
               </div>
               <div className="sm:col-span-2">
@@ -237,14 +237,14 @@ export default function SkillsEditor({ data, onChange }: SkillsEditorProps) {
                   type="button"
                   onClick={handleAddPill}
                   disabled={!newPillName.trim()}
-                  className="w-full h-full py-2 bg-[#48b685] text-[#19131a] font-extrabold rounded-lg hover:bg-[#48b685]/90 transition-all flex items-center justify-center gap-1.5 cursor-pointer disabled:opacity-50"
+                  className="w-full h-full py-2 bg-accent text-accent-text font-extrabold rounded-lg hover:opacity-90 transition-all flex items-center justify-center gap-1.5 cursor-pointer disabled:opacity-50"
                 >
                   <Plus size={15} />
                   <span>Tambah</span>
                 </button>
               </div>
             </div>
-            <p className="text-[10px] text-[#a392a3]">
+            <p className="text-[10px] text-secondary">
               Tip: Cukup ketik nama teknologi (Next.js, Python, AWS, Docker, dll), logo resminya akan otomatis terpasang!
             </p>
           </div>
@@ -256,10 +256,10 @@ export default function SkillsEditor({ data, onChange }: SkillsEditorProps) {
               return (
                 <div
                   key={pill.id}
-                  className="flex items-center justify-between p-2.5 rounded-lg border border-[#483145] bg-[#19131a] gap-2"
+                  className="flex items-center justify-between p-2.5 rounded-lg border border-border bg-surface-secondary gap-2"
                 >
                   <div className="flex items-center gap-2 min-w-0">
-                    <span className="text-[10px] text-[#a392a3] font-mono w-4">
+                    <span className="text-[10px] text-secondary font-mono w-4">
                       {idx + 1}.
                     </span>
                     {icon && (
@@ -269,7 +269,7 @@ export default function SkillsEditor({ data, onChange }: SkillsEditorProps) {
                         className="w-4 h-4 object-contain shrink-0"
                       />
                     )}
-                    <span className="text-slate-100 font-bold truncate">
+                    <span className="text-foreground font-bold truncate">
                       {pill.name}
                     </span>
                   </div>
@@ -279,7 +279,7 @@ export default function SkillsEditor({ data, onChange }: SkillsEditorProps) {
                       type="button"
                       onClick={() => handleMovePill(idx, "up")}
                       disabled={idx === 0}
-                      className="p-1 text-[#a392a3] hover:text-slate-100 disabled:opacity-30 cursor-pointer"
+                      className="p-1 text-secondary hover:text-foreground disabled:opacity-30 cursor-pointer"
                       title="Geser ke kiri/atas"
                     >
                       <ArrowUp size={13} />
@@ -288,7 +288,7 @@ export default function SkillsEditor({ data, onChange }: SkillsEditorProps) {
                       type="button"
                       onClick={() => handleMovePill(idx, "down")}
                       disabled={idx === pills.length - 1}
-                      className="p-1 text-[#a392a3] hover:text-slate-100 disabled:opacity-30 cursor-pointer"
+                      className="p-1 text-secondary hover:text-foreground disabled:opacity-30 cursor-pointer"
                       title="Geser ke kanan/bawah"
                     >
                       <ArrowDown size={13} />
@@ -296,7 +296,7 @@ export default function SkillsEditor({ data, onChange }: SkillsEditorProps) {
                     <button
                       type="button"
                       onClick={() => handleRemovePill(pill.id)}
-                      className="p-1 text-red-400 hover:text-red-300 hover:bg-red-500/10 rounded cursor-pointer"
+                      className="p-1 text-rose-400 hover:text-rose-300 hover:bg-rose-500/10 rounded cursor-pointer"
                       title="Hapus"
                     >
                       <Trash2 size={13} />
@@ -309,36 +309,36 @@ export default function SkillsEditor({ data, onChange }: SkillsEditorProps) {
         </div>
 
         {/* 2. CATEGORY DESCRIPTIONS (OPTIONAL MATRIX) */}
-        <div className="pt-6 border-t border-[#483145] space-y-4">
+        <div className="pt-6 border-t border-border space-y-4">
           <div className="flex items-center justify-between">
             <div>
-              <h4 className="font-extrabold uppercase tracking-wider text-slate-100 text-xs flex items-center gap-2">
-                <Layers size={14} className="text-[#48b685]" />
+              <h4 className="font-extrabold uppercase tracking-wider text-foreground text-xs flex items-center gap-2">
+                <Layers size={14} className="text-accent" />
                 <span>KATEGORI KEAHLIAN / MATRIKS TAMBAHAN ({data.items.length})</span>
               </h4>
-              <p className="text-[11px] text-[#a392a3] mt-0.5">
+              <p className="text-[11px] text-secondary mt-0.5">
                 Penjelasan detail per kategori keahlian (Backend, DevOps, dsb).
               </p>
             </div>
             <button
               onClick={handleAddCategory}
-              className="px-3 py-1.5 bg-[#483145] text-slate-200 font-bold rounded-lg hover:bg-[#48b685] hover:text-[#19131a] transition-all text-xs flex items-center gap-1.5 cursor-pointer"
+              className="px-3 py-1.5 bg-surface hover:bg-surface-secondary border border-border text-foreground font-bold rounded-lg transition-all text-xs flex items-center gap-1.5 cursor-pointer"
             >
-              <Plus size={14} />
+              <Plus size={14} className="text-accent" />
               <span>+ Tambah Kategori</span>
             </button>
           </div>
 
           <div className="space-y-3">
             {data.items.map((skill, idx) => (
-              <div key={skill.id} className="p-3.5 rounded-xl border border-[#483145] bg-[#19131a] space-y-2">
-                <div className="flex items-center justify-between border-b border-[#483145] pb-2">
-                  <span className="text-[10px] text-[#48b685] font-extrabold">
+              <div key={skill.id} className="p-3.5 rounded-xl border border-border bg-surface-secondary space-y-2">
+                <div className="flex items-center justify-between border-b border-border pb-2">
+                  <span className="text-[10px] text-accent font-extrabold">
                     KATEGORI #{idx + 1}
                   </span>
                   <button
                     onClick={() => handleRemoveCategory(skill.id)}
-                    className="text-red-400 hover:text-red-300 p-1 rounded hover:bg-red-500/10 transition-colors cursor-pointer"
+                    className="text-rose-400 hover:text-rose-300 p-1 rounded hover:bg-rose-500/10 transition-colors cursor-pointer"
                     title="Hapus Kategori"
                   >
                     <Trash2 size={14} />
@@ -348,7 +348,7 @@ export default function SkillsEditor({ data, onChange }: SkillsEditorProps) {
                 <div className="space-y-2">
                   <div className="grid grid-cols-1 md:grid-cols-12 gap-2 items-center">
                     <div className="md:col-span-2">
-                      <label className="text-[9px] text-[#a392a3] uppercase font-bold block mb-1">
+                      <label className="text-[9px] text-secondary uppercase font-bold block mb-1">
                         NOMOR
                       </label>
                       <input
@@ -356,11 +356,11 @@ export default function SkillsEditor({ data, onChange }: SkillsEditorProps) {
                         value={skill.num}
                         onChange={(e) => handleCategoryUpdate(idx, "num", e.target.value)}
                         placeholder="01"
-                        className="w-full px-3 py-1.5 bg-[#2f1e2e] border border-[#483145] focus:border-[#48b685] rounded-lg text-[#48b685] font-bold outline-none text-center"
+                        className="w-full px-3 py-1.5 bg-surface border border-border focus:border-accent rounded-lg text-accent font-bold outline-none text-center"
                       />
                     </div>
                     <div className="md:col-span-6">
-                      <label className="text-[9px] text-[#a392a3] uppercase font-bold block mb-1">
+                      <label className="text-[9px] text-secondary uppercase font-bold block mb-1">
                         JUDUL KEAHLIAN
                       </label>
                       <input
@@ -368,11 +368,11 @@ export default function SkillsEditor({ data, onChange }: SkillsEditorProps) {
                         value={skill.title}
                         onChange={(e) => handleCategoryUpdate(idx, "title", e.target.value)}
                         placeholder="Nama Kategori Keahlian"
-                        className="w-full px-3 py-1.5 bg-[#2f1e2e] border border-[#483145] focus:border-[#48b685] rounded-lg text-slate-100 font-bold outline-none"
+                        className="w-full px-3 py-1.5 bg-surface border border-border focus:border-accent rounded-lg text-foreground font-bold outline-none"
                       />
                     </div>
                     <div className="md:col-span-4">
-                      <label className="text-[9px] text-[#a392a3] uppercase font-bold block mb-1">
+                      <label className="text-[9px] text-secondary uppercase font-bold block mb-1">
                         IKON KATEGORI
                       </label>
                       <div className="flex items-center gap-1.5">
@@ -382,16 +382,16 @@ export default function SkillsEditor({ data, onChange }: SkillsEditorProps) {
                             setActiveCategoryIdx(idx);
                             setIsCategoryPickerOpen(true);
                           }}
-                          className="p-1.5 bg-[#2f1e2e] border border-[#483145] hover:border-[#48b685] rounded-lg text-[#48b685] hover:text-slate-100 flex items-center gap-1 shrink-0 transition-colors cursor-pointer"
+                          className="p-1.5 bg-surface border border-border hover:border-accent rounded-lg text-accent hover:text-foreground flex items-center gap-1 shrink-0 transition-colors cursor-pointer"
                           title="Cari Icon Kategori"
                         >
                           <CategorySkillIcon icon={skill.icon} title={skill.title} size={16} />
-                          <Search size={11} className="text-[#a392a3]" />
+                          <Search size={11} className="text-secondary" />
                         </button>
                         <select
                           value={skill.icon || ""}
                           onChange={(e) => handleCategoryUpdate(idx, "icon", e.target.value)}
-                          className="w-full px-2 py-1.5 bg-[#2f1e2e] border border-[#483145] focus:border-[#48b685] rounded-lg text-slate-100 outline-none text-xs"
+                          className="w-full px-2 py-1.5 bg-surface border border-border focus:border-accent rounded-lg text-foreground outline-none text-xs"
                         >
                           <option value="">Otomatis (Sesuai Judul)</option>
                           {CATEGORY_ICON_OPTIONS.map((opt) => (
@@ -404,7 +404,7 @@ export default function SkillsEditor({ data, onChange }: SkillsEditorProps) {
                     </div>
                   </div>
                   <div>
-                    <label className="text-[9px] text-[#a392a3] uppercase font-bold block mb-1">
+                    <label className="text-[9px] text-secondary uppercase font-bold block mb-1">
                       DESKRIPSI KEAHLIAN
                     </label>
                     <textarea
@@ -412,7 +412,7 @@ export default function SkillsEditor({ data, onChange }: SkillsEditorProps) {
                       value={skill.desc}
                       onChange={(e) => handleCategoryUpdate(idx, "desc", e.target.value)}
                       placeholder="Deskripsi keahlian..."
-                      className="w-full px-3 py-1.5 bg-[#2f1e2e] border border-[#483145] focus:border-[#48b685] rounded-lg text-[#a392a3] outline-none leading-relaxed text-xs"
+                      className="w-full px-3 py-1.5 bg-surface border border-border focus:border-accent rounded-lg text-secondary outline-none leading-relaxed text-xs"
                     />
                   </div>
                 </div>

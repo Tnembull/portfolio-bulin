@@ -100,22 +100,22 @@ export default function CategoryIconPickerModal({
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-in fade-in duration-150">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/70 backdrop-blur-sm animate-in fade-in duration-150">
       <div
-        className="relative w-full max-w-xl max-h-[85vh] flex flex-col rounded-2xl border border-[#483145] bg-[#1d141e] text-slate-100 shadow-2xl overflow-hidden font-mono"
+        className="relative w-full max-w-xl max-h-[85vh] flex flex-col rounded-2xl border border-border bg-surface text-foreground shadow-2xl overflow-hidden font-mono"
         onClick={(e) => e.stopPropagation()}
       >
         {/* Header */}
-        <div className="flex items-center justify-between px-6 py-4 border-b border-[#483145] bg-[#261826]">
+        <div className="flex items-center justify-between px-6 py-4 border-b border-border bg-surface-secondary">
           <div className="flex items-center gap-2.5">
-            <div className="p-2 rounded-lg bg-[#48b685]/10 border border-[#48b685]/20 text-[#48b685]">
+            <div className="p-2 rounded-lg bg-accent/10 border border-accent/20 text-accent">
               <Layers size={16} />
             </div>
             <div>
-              <h3 className="font-extrabold text-sm uppercase tracking-wide text-slate-100">
+              <h3 className="font-extrabold text-sm uppercase tracking-wide text-foreground">
                 PILIH IKON KATEGORI
               </h3>
-              <p className="text-[11px] text-[#a392a3]">
+              <p className="text-[11px] text-secondary">
                 Cari icon kategori engineering untuk kotak keahlian Anda.
               </p>
             </div>
@@ -123,18 +123,18 @@ export default function CategoryIconPickerModal({
           <button
             type="button"
             onClick={onClose}
-            className="p-1.5 text-[#a392a3] hover:text-slate-100 hover:bg-[#483145]/50 rounded-lg transition-colors cursor-pointer"
+            className="p-1.5 text-muted hover:text-foreground hover:bg-surface rounded-lg transition-colors cursor-pointer"
           >
             <X size={18} />
           </button>
         </div>
 
         {/* Search Input */}
-        <div className="p-4 border-b border-[#483145] bg-[#19131a]">
+        <div className="p-4 border-b border-border bg-surface-secondary/50">
           <div className="relative">
             <Search
               size={16}
-              className="absolute left-3.5 top-1/2 -translate-y-1/2 text-[#a392a3]"
+              className="absolute left-3.5 top-1/2 -translate-y-1/2 text-muted"
             />
             <input
               type="text"
@@ -142,13 +142,13 @@ export default function CategoryIconPickerModal({
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               placeholder="Cari icon (contoh: server, cloud, database, shield, lock, cpu)..."
-              className="w-full pl-10 pr-10 py-2.5 bg-[#2f1e2e] border border-[#483145] focus:border-[#48b685] rounded-xl text-slate-100 placeholder-[#a392a3]/60 outline-none text-xs"
+              className="w-full pl-10 pr-10 py-2.5 bg-surface border border-border focus:border-accent rounded-xl text-foreground placeholder-muted outline-none text-xs"
             />
             {query && (
               <button
                 type="button"
                 onClick={() => setQuery("")}
-                className="absolute right-3 top-1/2 -translate-y-1/2 text-[#a392a3] hover:text-slate-100 cursor-pointer"
+                className="absolute right-3 top-1/2 -translate-y-1/2 text-muted hover:text-foreground cursor-pointer"
               >
                 <X size={14} />
               </button>
@@ -170,16 +170,16 @@ export default function CategoryIconPickerModal({
                       onSelect(item.id);
                       onClose();
                     }}
-                    className="group flex items-center gap-2.5 p-2.5 rounded-xl border border-[#483145] bg-[#261826]/70 hover:bg-[#2f1e2e] hover:border-[#48b685] transition-all text-left cursor-pointer"
+                    className="group flex items-center gap-2.5 p-2.5 rounded-xl border border-border bg-surface hover:bg-surface-secondary hover:border-accent/60 transition-all text-left cursor-pointer shadow-2xs"
                   >
-                    <div className="p-2 rounded-lg bg-[#48b685]/10 border border-[#48b685]/20 text-[#48b685] group-hover:scale-110 transition-transform shrink-0">
+                    <div className="p-2 rounded-lg bg-accent/10 border border-accent/20 text-accent group-hover:scale-110 transition-transform shrink-0">
                       <IconComponent size={18} />
                     </div>
                     <div className="min-w-0 flex-1">
-                      <div className="text-xs font-bold text-slate-100 truncate group-hover:text-[#48b685] transition-colors">
+                      <div className="text-xs font-semibold text-foreground truncate group-hover:text-accent transition-colors">
                         {item.id}
                       </div>
-                      <div className="text-[10px] text-[#a392a3] truncate">
+                      <div className="text-[10px] text-muted truncate">
                         {item.label}
                       </div>
                     </div>
@@ -188,14 +188,14 @@ export default function CategoryIconPickerModal({
               })}
             </div>
           ) : (
-            <div className="py-8 text-center text-xs text-[#a392a3]">
+            <div className="py-8 text-center text-xs text-muted">
               Tidak ada icon yang cocok untuk &ldquo;{query}&rdquo;.
             </div>
           )}
         </div>
 
         {/* Footer */}
-        <div className="px-6 py-3 border-t border-[#483145] bg-[#261826] flex items-center justify-between text-[10px] text-[#a392a3]">
+        <div className="px-6 py-3 border-t border-border bg-surface-secondary flex items-center justify-between text-[10px] text-muted">
           <span>{ALL_CATEGORY_ICONS.length} Ikon Tersedia</span>
           <button
             type="button"
@@ -203,7 +203,7 @@ export default function CategoryIconPickerModal({
               onSelect("");
               onClose();
             }}
-            className="text-[#48b685] hover:underline cursor-pointer"
+            className="text-accent hover:underline cursor-pointer font-bold"
           >
             Set Otomatis (Default)
           </button>
