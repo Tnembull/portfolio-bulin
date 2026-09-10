@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { Wrench } from "lucide-react";
+import { resolveTechIconUrl } from "@/data/techIcons";
 
 export const TECH_ICON_MAP: Record<string, string> = {
   "next.js": "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nextjs/nextjs-original.svg",
@@ -77,7 +78,11 @@ export function resolveSkillIcon(name: string, iconOverride?: string): string | 
   }
 
   const query = (iconOverride || name).toLowerCase().trim();
-  return TECH_ICON_MAP[query] || null;
+  if (TECH_ICON_MAP[query]) {
+    return TECH_ICON_MAP[query];
+  }
+
+  return resolveTechIconUrl(name, iconOverride);
 }
 
 interface SkillBadgesProps {

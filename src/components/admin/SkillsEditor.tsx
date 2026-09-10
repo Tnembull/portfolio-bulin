@@ -4,7 +4,9 @@ import React, { useState } from "react";
 import { SkillsData, SkillPillItem } from "@/context/PortfolioContext";
 import { DEFAULT_SKILL_PILLS, resolveSkillIcon } from "@/components/SkillBadges";
 import CategorySkillIcon, { CATEGORY_ICON_OPTIONS } from "@/components/CategorySkillIcon";
-import { Wrench, Plus, Trash2, ArrowUp, ArrowDown, Sparkles, Layers } from "lucide-react";
+import TechIconPickerModal from "@/components/admin/TechIconPickerModal";
+import CategoryIconPickerModal from "@/components/admin/CategoryIconPickerModal";
+import { Wrench, Plus, Trash2, ArrowUp, ArrowDown, Sparkles, Layers, Search } from "lucide-react";
 
 interface SkillsEditorProps {
   data: SkillsData;
@@ -16,6 +18,11 @@ export default function SkillsEditor({ data, onChange }: SkillsEditorProps) {
 
   const [newPillName, setNewPillName] = useState("");
   const [newPillIcon, setNewPillIcon] = useState("");
+
+  // Modal States
+  const [isTechPickerOpen, setIsTechPickerOpen] = useState(false);
+  const [isCategoryPickerOpen, setIsCategoryPickerOpen] = useState(false);
+  const [activeCategoryIdx, setActiveCategoryIdx] = useState<number | null>(null);
 
   const handleAddPill = () => {
     if (!newPillName.trim()) return;
@@ -187,9 +194,19 @@ export default function SkillsEditor({ data, onChange }: SkillsEditorProps) {
 
           {/* Add New Pill Form */}
           <div className="p-4 rounded-xl border border-[#483145] bg-[#19131a] space-y-3">
-            <span className="text-[10px] text-[#48b685] font-extrabold uppercase block">
-              + TAMBAH PILL KEAHLIAN BARU
-            </span>
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+              <span className="text-[10px] text-[#48b685] font-extrabold uppercase block">
+                + TAMBAH PILL KEAHLIAN BARU
+              </span>
+              <button
+                type="button"
+                onClick={() => setIsTechPickerOpen(true)}
+                className="px-3 py-1.5 bg-[#483145] hover:bg-[#48b685] hover:text-[#19131a] text-slate-100 text-xs font-bold rounded-lg transition-all flex items-center gap-1.5 self-start sm:self-auto cursor-pointer shadow-xs"
+              >
+                <Search size={13} />
+                <span>🔍 Cari & Pilih Logo Tech</span>
+              </button>
+            </div>
             <div className="grid grid-cols-1 sm:grid-cols-12 gap-2">
               <div className="sm:col-span-6">
                 <input
@@ -358,14 +375,23 @@ export default function SkillsEditor({ data, onChange }: SkillsEditorProps) {
                       <label className="text-[9px] text-[#a392a3] uppercase font-bold block mb-1">
                         IKON KATEGORI
                       </label>
-                      <div className="flex items-center gap-2">
-                        <div className="p-1.5 bg-[#2f1e2e] border border-[#483145] rounded-lg text-[#48b685] shrink-0">
+                      <div className="flex items-center gap-1.5">
+                        <button
+                          type="button"
+                          onClick={() => {
+                            setActiveCategoryIdx(idx);
+                            setIsCategoryPickerOpen(true);
+                          }}
+                          className="p-1.5 bg-[#2f1e2e] border border-[#483145] hover:border-[#48b685] rounded-lg text-[#48b685] hover:text-slate-100 flex items-center gap-1 shrink-0 transition-colors cursor-pointer"
+                          title="Cari Icon Kategori"
+                        >
                           <CategorySkillIcon icon={skill.icon} title={skill.title} size={16} />
-                        </div>
+                          <Search size={11} className="text-[#a392a3]" />
+                        </button>
                         <select
                           value={skill.icon || ""}
                           onChange={(e) => handleCategoryUpdate(idx, "icon", e.target.value)}
-                          className="w-full px-2.5 py-1.5 bg-[#2f1e2e] border border-[#483145] focus:border-[#48b685] rounded-lg text-slate-100 outline-none text-xs"
+                          className="w-full px-2 py-1.5 bg-[#2f1e2e] border border-[#483145] focus:border-[#48b685] rounded-lg text-slate-100 outline-none text-xs"
                         >
                           <option value="">Otomatis (Sesuai Judul)</option>
                           {CATEGORY_ICON_OPTIONS.map((opt) => (
@@ -395,6 +421,30 @@ export default function SkillsEditor({ data, onChange }: SkillsEditorProps) {
           </div>
         </div>
       </div>
+
+      {/* 1. Tech Icon Search Modal */}
+      <TechIconPickerModal
+        isOpen={isTechPickerOpen}
+        onClose={() => setIsTechPickerOpen(false)}
+        onSelect={(tech) => {
+          setNewPillName(tech.name);
+          setNewPillIcon(tech.slug);
+        }}
+      />
+
+      {/* 2. Category Icon Search Modal */}
+      <CategoryIconPickerModal
+        isOpen={isCategoryPickerOpen}
+        onClose={() => {
+          setIsCategoryPickerOpen(false);
+          setActiveCategoryIdx(null);
+        }}
+        onSelect={(iconId) => {
+          if (activeCategoryIdx !== null) {
+            handleCategoryUpdate(activeCategoryIdx, "icon", iconId);
+          }
+        }}
+      />
     </div>
   );
 }
