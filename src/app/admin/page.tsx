@@ -94,6 +94,7 @@ export default function AdminDashboardPage() {
   const [activeTab, setActiveTab] = useState<SectionTab>("overview");
   const [sidebarOpen, setSidebarOpen] = useState(false);
   const [saveToast, setSaveToast] = useState(false);
+  const [saveErrorToast, setSaveErrorToast] = useState<string | null>(null);
 
   // Check auth session with server on mount
   useEffect(() => {
@@ -233,10 +234,15 @@ export default function AdminDashboardPage() {
       seo: seoData,
     };
 
-    await saveEntirePortfolio(completeState);
+    const success = await saveEntirePortfolio(completeState);
     setIsSaving(false);
-    setSaveToast(true);
-    setTimeout(() => setSaveToast(false), 3000);
+    if (success) {
+      setSaveToast(true);
+      setTimeout(() => setSaveToast(false), 3500);
+    } else {
+      setSaveErrorToast("Gagal menyimpan ke database Supabase. Pastikan SUPABASE_SERVICE_ROLE_KEY terpasang di Vercel atau cek RLS Supabase.");
+      setTimeout(() => setSaveErrorToast(null), 6000);
+    }
   };
 
   const navMenuItems = [
@@ -356,6 +362,14 @@ export default function AdminDashboardPage() {
         <div className="fixed top-6 right-6 z-50 bg-surface border border-accent text-accent px-5 py-3 rounded-lg font-mono text-xs font-bold flex items-center gap-2 shadow-2xl animate-in fade-in slide-in-from-top-4">
           <CheckCircle2 size={16} className="text-accent" />
           <span>All Portfolio Data Saved & Synced to Database!</span>
+        </div>
+      )}
+
+      {/* Save Error Toast */}
+      {saveErrorToast && (
+        <div className="fixed top-6 right-6 z-50 bg-rose-950 border border-rose-500 text-rose-200 px-5 py-3 rounded-lg font-mono text-xs font-bold flex items-center gap-2 shadow-2xl animate-in fade-in slide-in-from-top-4 max-w-md">
+          <X size={16} className="text-rose-400 shrink-0" />
+          <span>{saveErrorToast}</span>
         </div>
       )}
 
