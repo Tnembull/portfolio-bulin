@@ -23,7 +23,6 @@ import {
   Menu,
   X,
   LogOut,
-  RotateCcw,
   TrendingUp,
   Building2,
 } from "lucide-react";
@@ -81,7 +80,7 @@ import { Lock, Eye, EyeOff, ShieldCheck, KeyRound } from "lucide-react";
 import Recaptcha from "@/components/Recaptcha";
 
 export default function AdminDashboardPage() {
-  const { state, initialized, saveEntirePortfolio, resetAll } = usePortfolio();
+  const { state, initialized, saveEntirePortfolio } = usePortfolio();
 
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [pinInput, setPinInput] = useState("");
@@ -452,18 +451,6 @@ export default function AdminDashboardPage() {
               title="Lock Console / Logout"
             >
               <LogOut size={14} />
-            </button>
-
-            <button
-              onClick={() => {
-                if (confirm("Reset portfolio back to default data?")) {
-                  resetAll();
-                }
-              }}
-              className="p-2 border border-amber-500/30 bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 rounded-md transition-colors cursor-pointer"
-              title="Reset All Data"
-            >
-              <RotateCcw size={14} />
             </button>
           </div>
         </div>
