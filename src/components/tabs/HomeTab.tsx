@@ -22,7 +22,7 @@ export default function HomeTab({ onNavigateTab }: HomeTabProps = {}) {
   const name = hero?.name || "Muhammad Nur Ashiddiqi";
   const role = hero?.role || "DevOps & Backend Engineer";
   const bio = hero?.bio || "";
-  const avatarSrc = hero?.avatarOff || hero?.avatarOn || "/logo/logo.png";
+  const avatarSrc = hero?.avatarOff || hero?.avatarOn || "/images/profile-hero.webp";
 
   const featuredProjects: Project[] = projects?.items?.slice(0, 3) || [];
   const capabilityList = skills?.items || [];
@@ -31,9 +31,9 @@ export default function HomeTab({ onNavigateTab }: HomeTabProps = {}) {
     <div className="space-y-16 pb-12">
       {/* 1. Hero Section - Open Editorial Layout */}
       <section className="space-y-8 pt-2">
-        <div className="flex flex-col-reverse md:flex-row md:items-start justify-between gap-8">
+        <div className="flex flex-col-reverse md:flex-row md:items-center justify-between gap-8 md:gap-12">
           {/* Left: Content */}
-          <div className="space-y-5 max-w-2xl">
+          <div className="space-y-5 max-w-2xl flex-1">
             {/* Status Overline */}
             <div className="flex items-center gap-2 text-xs font-mono text-accent uppercase tracking-wider">
               <span className="size-1.5 rounded-full bg-accent" />
@@ -87,19 +87,24 @@ export default function HomeTab({ onNavigateTab }: HomeTabProps = {}) {
             </div>
           </div>
 
-          {/* Right: Clean Profile Image (Hidden on Mobile) */}
-          <div className="hidden md:block shrink-0 self-start">
-            <div className="size-24 sm:size-32 rounded-lg overflow-hidden border border-border bg-surface">
-              <Image
-                src={avatarSrc}
-                alt={name}
-                width={128}
-                height={128}
-                className="w-full h-full object-cover"
-                priority
-                sizes="(max-width: 768px) 96px, 128px"
-                unoptimized
-              />
+          {/* Right: Prominent Hero Portrait Photo */}
+          <div className="shrink-0 self-center md:self-center flex justify-center w-full md:w-auto">
+            <div className="relative group">
+              {/* Subtle ambient glow behind portrait */}
+              <div className="absolute -inset-2 bg-gradient-to-br from-accent/25 via-accent/10 to-transparent rounded-2xl blur-xl opacity-40 group-hover:opacity-75 transition duration-500" />
+
+              <div className="relative w-48 sm:w-56 md:w-64 lg:w-72 aspect-[4/5] rounded-2xl overflow-hidden border border-border/80 bg-surface shadow-2xl">
+                <Image
+                  src={avatarSrc}
+                  alt={name}
+                  width={640}
+                  height={800}
+                  className="w-full h-full object-cover object-top group-hover:scale-[1.02] transition-transform duration-500"
+                  priority
+                  sizes="(max-width: 640px) 192px, (max-width: 768px) 224px, 288px"
+                  unoptimized
+                />
+              </div>
             </div>
           </div>
         </div>

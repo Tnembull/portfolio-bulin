@@ -312,11 +312,11 @@ const DEFAULT_PORTFOLIO_STATE: PortfolioState = {
     "phone": "+62 813 7788 6296",
     "company": "Newus Technology",
     "website": "bulindev.tech",
-    "avatarOn": "https://avatars.githubusercontent.com/u/43430326?v=4",
+    "avatarOn": "/images/profile-hero.webp",
     "location": "Bandar Lampung, Indonesia",
     "pronouns": "",
     "timezone": "Asia/Jakarta",
-    "avatarOff": "https://avatars.githubusercontent.com/u/43430326?v=4",
+    "avatarOff": "/images/profile-hero.webp",
     "statusText": "Available for collaboration",
     "companyLink": "https://newus.id",
     "locationLink": ""
