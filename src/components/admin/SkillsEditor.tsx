@@ -3,6 +3,7 @@
 import React, { useState } from "react";
 import { SkillsData, SkillPillItem } from "@/context/PortfolioContext";
 import { DEFAULT_SKILL_PILLS, resolveSkillIcon } from "@/components/SkillBadges";
+import CategorySkillIcon, { CATEGORY_ICON_OPTIONS } from "@/components/CategorySkillIcon";
 import { Wrench, Plus, Trash2, ArrowUp, ArrowDown, Sparkles, Layers } from "lucide-react";
 
 interface SkillsEditorProps {
@@ -56,6 +57,7 @@ export default function SkillsEditor({ data, onChange }: SkillsEditorProps) {
       num: numStr,
       title: "Kategori Keahlian Baru",
       desc: "Node.js, Express, Docker, PostgreSQL",
+      icon: "terminal",
     };
     onChange({ ...data, items: [...data.items, newSkill] });
   };
@@ -327,29 +329,66 @@ export default function SkillsEditor({ data, onChange }: SkillsEditorProps) {
                 </div>
 
                 <div className="space-y-2">
-                  <div className="grid grid-cols-1 md:grid-cols-4 gap-2">
-                    <input
-                      type="text"
-                      value={skill.num}
-                      onChange={(e) => handleCategoryUpdate(idx, "num", e.target.value)}
-                      placeholder="01"
-                      className="w-full px-3 py-1.5 bg-[#2f1e2e] border border-[#483145] focus:border-[#48b685] rounded-lg text-[#48b685] font-bold outline-none text-center"
-                    />
-                    <input
-                      type="text"
-                      value={skill.title}
-                      onChange={(e) => handleCategoryUpdate(idx, "title", e.target.value)}
-                      placeholder="Nama Kategori Keahlian"
-                      className="md:col-span-3 w-full px-3 py-1.5 bg-[#2f1e2e] border border-[#483145] focus:border-[#48b685] rounded-lg text-slate-100 font-bold outline-none"
+                  <div className="grid grid-cols-1 md:grid-cols-12 gap-2 items-center">
+                    <div className="md:col-span-2">
+                      <label className="text-[9px] text-[#a392a3] uppercase font-bold block mb-1">
+                        NOMOR
+                      </label>
+                      <input
+                        type="text"
+                        value={skill.num}
+                        onChange={(e) => handleCategoryUpdate(idx, "num", e.target.value)}
+                        placeholder="01"
+                        className="w-full px-3 py-1.5 bg-[#2f1e2e] border border-[#483145] focus:border-[#48b685] rounded-lg text-[#48b685] font-bold outline-none text-center"
+                      />
+                    </div>
+                    <div className="md:col-span-6">
+                      <label className="text-[9px] text-[#a392a3] uppercase font-bold block mb-1">
+                        JUDUL KEAHLIAN
+                      </label>
+                      <input
+                        type="text"
+                        value={skill.title}
+                        onChange={(e) => handleCategoryUpdate(idx, "title", e.target.value)}
+                        placeholder="Nama Kategori Keahlian"
+                        className="w-full px-3 py-1.5 bg-[#2f1e2e] border border-[#483145] focus:border-[#48b685] rounded-lg text-slate-100 font-bold outline-none"
+                      />
+                    </div>
+                    <div className="md:col-span-4">
+                      <label className="text-[9px] text-[#a392a3] uppercase font-bold block mb-1">
+                        IKON KATEGORI
+                      </label>
+                      <div className="flex items-center gap-2">
+                        <div className="p-1.5 bg-[#2f1e2e] border border-[#483145] rounded-lg text-[#48b685] shrink-0">
+                          <CategorySkillIcon icon={skill.icon} title={skill.title} size={16} />
+                        </div>
+                        <select
+                          value={skill.icon || ""}
+                          onChange={(e) => handleCategoryUpdate(idx, "icon", e.target.value)}
+                          className="w-full px-2.5 py-1.5 bg-[#2f1e2e] border border-[#483145] focus:border-[#48b685] rounded-lg text-slate-100 outline-none text-xs"
+                        >
+                          <option value="">Otomatis (Sesuai Judul)</option>
+                          {CATEGORY_ICON_OPTIONS.map((opt) => (
+                            <option key={opt.id} value={opt.id}>
+                              {opt.label}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                    </div>
+                  </div>
+                  <div>
+                    <label className="text-[9px] text-[#a392a3] uppercase font-bold block mb-1">
+                      DESKRIPSI KEAHLIAN
+                    </label>
+                    <textarea
+                      rows={2}
+                      value={skill.desc}
+                      onChange={(e) => handleCategoryUpdate(idx, "desc", e.target.value)}
+                      placeholder="Deskripsi keahlian..."
+                      className="w-full px-3 py-1.5 bg-[#2f1e2e] border border-[#483145] focus:border-[#48b685] rounded-lg text-[#a392a3] outline-none leading-relaxed text-xs"
                     />
                   </div>
-                  <textarea
-                    rows={2}
-                    value={skill.desc}
-                    onChange={(e) => handleCategoryUpdate(idx, "desc", e.target.value)}
-                    placeholder="Deskripsi keahlian..."
-                    className="w-full px-3 py-1.5 bg-[#2f1e2e] border border-[#483145] focus:border-[#48b685] rounded-lg text-[#a392a3] outline-none leading-relaxed text-xs"
-                  />
                 </div>
               </div>
             ))}

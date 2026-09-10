@@ -73,6 +73,7 @@ export interface SkillItem {
   num: string;
   title: string;
   desc: string;
+  icon?: string;
 }
 
 export interface SkillPillItem {
@@ -361,31 +362,36 @@ const DEFAULT_PORTFOLIO_STATE: PortfolioState = {
         "id": "s-1788356187230",
         "num": "01",
         "desc": "Building and maintaining REST APIs with Node.js, Express, Prisma, and Django, focusing on authentication, integrations, and reliable backend services.",
-        "title": "Backend Engineering & API Development"
+        "title": "Backend Engineering & API Development",
+        "icon": "server"
       },
       {
         "id": "s-1788356328026",
         "num": "02",
         "desc": "Containerizing applications with Docker and building CI/CD pipelines for automated testing, builds, and deployments across staging and production environments.",
-        "title": "Docker, CI/CD & Deployment"
+        "title": "Docker, CI/CD & Deployment",
+        "icon": "workflow"
       },
       {
         "id": "s-1788356328515",
         "num": "03",
         "desc": "Optimizing Database queries, managing database schemas and migrations, and improving application performance, reliability, and resource usage.",
-        "title": "Database & Performance Optimization"
+        "title": "Database & Performance Optimization",
+        "icon": "database"
       },
       {
         "id": "s-1788356328940",
         "num": "04",
         "desc": "Applying security practices such as authentication, authorization, secure API configuration, environment management, access control, and basic application hardening.",
-        "title": "Application Security"
+        "title": "Application Security",
+        "icon": "shield-check"
       },
       {
         "id": "s-1788356329663",
         "num": "05",
         "desc": "Monitoring application and server health, analyzing logs and resource usage, troubleshooting production issues, and maintaining system reliability.",
-        "title": "Monitoring & System Reliability"
+        "title": "Monitoring & System Reliability",
+        "icon": "activity"
       }
     ],
     "pills": [

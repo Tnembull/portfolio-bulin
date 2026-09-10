@@ -4,6 +4,7 @@ import React from "react";
 import { usePortfolio } from "@/context/PortfolioContext";
 import { ArrowUpRight } from "lucide-react";
 import SkillBadges from "@/components/SkillBadges";
+import CategorySkillIcon from "@/components/CategorySkillIcon";
 
 export default function SkillsTab() {
   const { state } = usePortfolio();
@@ -31,6 +32,41 @@ export default function SkillsTab() {
           items={skills?.pills}
         />
       </section>
+
+      {/* 2. Core Technical Capabilities */}
+      {skills?.items && skills.items.length > 0 && (
+        <>
+          <hr className="border-border" />
+          <section className="space-y-6">
+            <div className="flex items-center justify-between">
+              <h2 className="text-xs font-mono uppercase tracking-wider text-muted">
+                {skills?.sectionBadge || "Technical Capabilities"} ({skills.items.length})
+              </h2>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 text-xs">
+              {skills.items.map((skill, idx) => (
+                <div
+                  key={skill.id || idx}
+                  className="space-y-2 group p-4 rounded-xl border border-border/60 bg-surface/30 hover:border-accent/40 transition-colors"
+                >
+                  <div className="flex items-center gap-2.5">
+                    <div className="p-1.5 rounded-md bg-accent/10 border border-accent/20 text-accent group-hover:scale-110 transition-transform shrink-0">
+                      <CategorySkillIcon icon={skill.icon} title={skill.title} size={16} />
+                    </div>
+                    <h3 className="font-mono font-semibold text-foreground uppercase tracking-tight text-xs leading-snug">
+                      {skill.title}
+                    </h3>
+                  </div>
+                  <p className="text-secondary leading-relaxed">
+                    {skill.desc}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </section>
+        </>
+      )}
 
       {/* 2. Verified Digital Badges (Credly) - Only rendered if real badges exist */}
       {displayBadges.length > 0 && (

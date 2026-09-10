@@ -8,6 +8,8 @@ import { Project } from "@/data/projects";
 import { TabType } from "@/components/app-layout/types";
 import { ArrowUpRight } from "lucide-react";
 import ClientsMarquee from "@/components/ClientsMarquee";
+import SkillBadges from "@/components/SkillBadges";
+import CategorySkillIcon from "@/components/CategorySkillIcon";
 
 interface HomeTabProps {
   onNavigateTab?: (tab: TabType) => void;
@@ -179,14 +181,14 @@ export default function HomeTab({ onNavigateTab }: HomeTabProps = {}) {
         </>
       )}
 
-      {/* 3. Core Capabilities Summary (Dynamic from state.skills.items) */}
-      {capabilityList.length > 0 && (
+      {/* 3. Core Capabilities Summary (Dynamic from state.skills.items & pills) */}
+      {(capabilityList.length > 0 || (skills?.pills && skills.pills.length > 0)) && (
         <>
           <hr className="border-border" />
-          <section className="space-y-6">
+          <section className="space-y-8">
             <div className="flex items-center justify-between">
               <h2 className="text-xs font-mono uppercase tracking-wider text-muted">
-                {skills?.sectionBadge || "Technical Capabilities"}
+                {skills?.sectionBadge || "SKILLS"}
               </h2>
               <Link
                 href="/skills"
@@ -196,18 +198,33 @@ export default function HomeTab({ onNavigateTab }: HomeTabProps = {}) {
               </Link>
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 text-xs">
-              {capabilityList.map((skill, idx) => (
-                <div key={skill.id || idx} className="space-y-1.5">
-                  <h3 className="font-mono font-semibold text-foreground uppercase">
-                    {skill.title}
-                  </h3>
-                  <p className="text-secondary leading-relaxed">
-                    {skill.desc}
-                  </p>
-                </div>
-              ))}
-            </div>
+            {/* A. Tech Badges Pills ("Keahlian" Logos) */}
+            {skills?.pills && skills.pills.length > 0 && (
+              <div className="pb-1">
+                <SkillBadges title="" items={skills.pills} />
+              </div>
+            )}
+
+            {/* B. Core Capabilities Grid with Category Icons */}
+            {capabilityList.length > 0 && (
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 text-xs pt-2">
+                {capabilityList.map((skill, idx) => (
+                  <div key={skill.id || idx} className="space-y-2 group">
+                    <div className="flex items-center gap-2.5">
+                      <div className="p-1.5 rounded-md bg-accent/10 border border-accent/20 text-accent group-hover:scale-110 transition-transform shrink-0">
+                        <CategorySkillIcon icon={skill.icon} title={skill.title} size={15} />
+                      </div>
+                      <h3 className="font-mono font-semibold text-foreground uppercase tracking-tight text-xs leading-snug">
+                        {skill.title}
+                      </h3>
+                    </div>
+                    <p className="text-secondary leading-relaxed">
+                      {skill.desc}
+                    </p>
+                  </div>
+                ))}
+              </div>
+            )}
           </section>
         </>
       )}
