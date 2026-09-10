@@ -87,23 +87,51 @@ export default function HomeTab({ onNavigateTab }: HomeTabProps = {}) {
             </div>
           </div>
 
-          {/* Right: Seamless Transparent Portrait */}
-          <div className="shrink-0 self-center md:self-end flex justify-center w-full md:w-auto">
-            <div className="relative group">
-              {/* Subtle ambient accent aura behind portrait */}
-              <div className="absolute -inset-4 bg-gradient-to-tr from-accent/20 to-transparent rounded-full blur-2xl opacity-40 group-hover:opacity-75 transition duration-500 pointer-events-none" />
+          {/* Right: Anchored Architectural Portrait Showcase */}
+          <div className="shrink-0 self-center md:self-end flex justify-center w-full md:w-auto pt-4 md:pt-0">
+            <div className="relative group w-64 sm:w-72 md:w-80">
+              {/* Subtle ambient accent aura */}
+              <div className="absolute -inset-2 bg-gradient-to-tr from-accent/20 via-accent/5 to-transparent rounded-3xl blur-2xl opacity-40 group-hover:opacity-70 transition duration-500 pointer-events-none" />
 
-              <div className="relative w-52 sm:w-60 md:w-72 lg:w-80 h-auto">
-                <Image
-                  src={avatarSrc}
-                  alt={name}
-                  width={720}
-                  height={720}
-                  className="w-full h-auto object-contain drop-shadow-[0_15px_30px_rgba(0,0,0,0.18)] dark:drop-shadow-[0_15px_30px_rgba(0,0,0,0.5)] group-hover:scale-[1.02] transition-transform duration-500"
-                  priority
-                  sizes="(max-width: 640px) 208px, (max-width: 768px) 240px, 320px"
-                  unoptimized
-                />
+              {/* Architectural Backdrop Card */}
+              <div className="relative rounded-3xl border border-border/80 bg-gradient-to-b from-surface/70 via-surface-secondary/50 to-surface/90 p-3 pb-0 shadow-2xl backdrop-blur-xs overflow-hidden">
+                {/* Tech grid dots texture */}
+                <div className="absolute inset-0 bg-[radial-gradient(var(--border)_1px,transparent_1px)] [background-size:16px_16px] opacity-40 pointer-events-none" />
+
+                {/* Top Corner Technical Indicators */}
+                <div className="relative z-10 flex items-center justify-between px-2 pt-1">
+                  <span className="text-[9px] font-mono text-accent uppercase tracking-wider flex items-center gap-1.5">
+                    <span className="size-1.5 rounded-full bg-accent animate-pulse" />
+                    DEVOPS // CLOUD
+                  </span>
+                  <span className="text-[9px] font-mono text-muted tracking-widest uppercase">
+                    [SYS_ONLINE]
+                  </span>
+                </div>
+
+                {/* Portrait Image (Grounded & Anchored flush to bottom) */}
+                <div className="relative z-10 -mb-1 mt-3 flex justify-center">
+                  <Image
+                    src={avatarSrc}
+                    alt={name}
+                    width={720}
+                    height={720}
+                    className="w-full h-auto object-contain object-bottom drop-shadow-[0_12px_24px_rgba(0,0,0,0.3)] group-hover:scale-[1.02] transition-transform duration-500"
+                    priority
+                    sizes="(max-width: 640px) 240px, (max-width: 768px) 280px, 320px"
+                    unoptimized
+                  />
+                  {/* Subtle gradient blend at bottom edge */}
+                  <div className="absolute inset-x-0 bottom-0 h-8 bg-gradient-to-t from-surface via-surface/40 to-transparent pointer-events-none" />
+                </div>
+              </div>
+
+              {/* Floating Bottom Status Pill Badge */}
+              <div className="absolute -bottom-3 left-1/2 -translate-x-1/2 z-20 whitespace-nowrap">
+                <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-surface border border-border shadow-lg text-[11px] font-mono font-medium text-foreground">
+                  <span className="size-2 rounded-full bg-accent" />
+                  <span>{role}</span>
+                </div>
               </div>
             </div>
           </div>
