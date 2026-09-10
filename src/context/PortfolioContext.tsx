@@ -75,11 +75,18 @@ export interface SkillItem {
   desc: string;
 }
 
+export interface SkillPillItem {
+  id: string;
+  name: string;
+  icon?: string;
+}
+
 export interface SkillsData {
   sectionBadge: string;
   titleMain: string;
   titleHighlight: string;
   items: SkillItem[];
+  pills?: SkillPillItem[];
 }
 
 export interface ToolItem {
@@ -380,6 +387,25 @@ const DEFAULT_PORTFOLIO_STATE: PortfolioState = {
         "desc": "Monitoring application and server health, analyzing logs and resource usage, troubleshooting production issues, and maintaining system reliability.",
         "title": "Monitoring & System Reliability"
       }
+    ],
+    "pills": [
+      { "id": "p-1", "name": "Next.js", "icon": "nextjs" },
+      { "id": "p-2", "name": "Typescript", "icon": "typescript" },
+      { "id": "p-3", "name": "Node.js", "icon": "nodejs" },
+      { "id": "p-4", "name": "Python", "icon": "python" },
+      { "id": "p-5", "name": "Anaconda", "icon": "anaconda" },
+      { "id": "p-6", "name": "Jupyter", "icon": "jupyter" },
+      { "id": "p-7", "name": "PHP", "icon": "php" },
+      { "id": "p-8", "name": "MySQL", "icon": "mysql" },
+      { "id": "p-9", "name": "AWS", "icon": "aws" },
+      { "id": "p-10", "name": "Laravel", "icon": "laravel" },
+      { "id": "p-11", "name": "Codeigniter", "icon": "codeigniter" },
+      { "id": "p-12", "name": "Postgres", "icon": "postgresql" },
+      { "id": "p-13", "name": "Docker", "icon": "docker" },
+      { "id": "p-14", "name": "Kubernetes", "icon": "kubernetes" },
+      { "id": "p-15", "name": "Golang", "icon": "go" },
+      { "id": "p-16", "name": "Parrot", "icon": "parrot" },
+      { "id": "p-17", "name": "Redis", "icon": "redis" }
     ],
     "titleMain": "Technical",
     "sectionBadge": "SKILLS",

@@ -2,6 +2,7 @@
 
 import { usePortfolio } from "@/context/PortfolioContext";
 import CredlyBadges from "@/components/CredlyBadges";
+import SkillBadges from "@/components/SkillBadges";
 
 export default function Skills() {
   const { state } = usePortfolio();
@@ -26,32 +27,12 @@ export default function Skills() {
           </h2>
         </div>
 
-        {/* Skills Hairline Grid - Clean plain text tags, no SYS.01 prefixes */}
-        <div className="divide-y divide-[#303235] border-b border-[#303235]">
-          {skillItems.map((item, idx) => (
-            <div
-              key={item.id || idx}
-              className="py-6 sm:py-8 grid grid-cols-1 md:grid-cols-[260px_1fr] gap-4 items-start hover:bg-[#181a1d]/50 px-3 -mx-3 rounded-[1px] transition-colors"
-            >
-              {/* Category Title */}
-              <div>
-                <span className="font-mono text-xs text-[#dedede] uppercase tracking-[0.058em]">
-                  {item.title}
-                </span>
-              </div>
-
-              {/* Plain text tech tags */}
-              <div className="flex flex-wrap gap-x-4 gap-y-2 font-mono text-xs text-[#bababb] tracking-[0.053em]">
-                {item.desc ? (
-                  item.desc.split(",").map((tech, tIdx) => (
-                    <span key={tIdx} className="hover:text-[#dedede] transition-colors">
-                      {tech.trim()}
-                    </span>
-                  ))
-                ) : null}
-              </div>
-            </div>
-          ))}
+        {/* Tech Badges Pills ("Keahlian") */}
+        <div className="py-4">
+          <SkillBadges
+            title=""
+            items={skills?.pills}
+          />
         </div>
 
         {/* Digital Certification Badges */}

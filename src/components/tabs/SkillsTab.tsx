@@ -3,13 +3,13 @@
 import React from "react";
 import { usePortfolio } from "@/context/PortfolioContext";
 import { ArrowUpRight } from "lucide-react";
+import SkillBadges from "@/components/SkillBadges";
 
 export default function SkillsTab() {
   const { state } = usePortfolio();
   const { skills, badges, progress } = state;
 
   const displayBadges = badges || [];
-  const skillList = skills?.items || [];
   const progressList = progress || [];
 
   return (
@@ -24,36 +24,13 @@ export default function SkillsTab() {
         </p>
       </div>
 
-      {/* 1. Grouped Technical Lists */}
-      {skillList.length > 0 && (
-        <section className="space-y-6">
-          <h2 className="text-xs font-mono uppercase tracking-wider text-muted">
-            Core Capabilities
-          </h2>
-
-          <div className="divide-y divide-border">
-            {skillList.map((skill, idx) => {
-              const tags = skill.desc
-                ? skill.desc.split(",").map((s) => s.trim())
-                : [];
-
-              return (
-                <div
-                  key={skill.id || idx}
-                  className="py-5 first:pt-0 last:pb-0 grid grid-cols-1 md:grid-cols-[200px_1fr] gap-3 items-baseline"
-                >
-                  <div className="font-mono text-xs font-semibold uppercase text-foreground">
-                    {skill.title}
-                  </div>
-                  <div className="text-sm text-secondary leading-relaxed">
-                    {tags.join(" · ")}
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </section>
-      )}
+      {/* 1. Keahlian (Tech Badges Pills) */}
+      <section className="space-y-4 pt-2">
+        <SkillBadges
+          title="Keahlian"
+          items={skills?.pills}
+        />
+      </section>
 
       {/* 2. Verified Digital Badges (Credly) - Only rendered if real badges exist */}
       {displayBadges.length > 0 && (
