@@ -15,7 +15,7 @@ export default function PageLayout({ children }: PageLayoutProps) {
       {/* 2. Main Content Viewport */}
       <main
         id="main-content"
-        className="flex-1 w-full max-w-5xl mx-auto px-4 sm:px-8 lg:px-12 py-8 sm:py-12 pb-24 md:pb-16"
+        className="flex-1 w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 pb-24 md:pb-16"
       >
         {children}
       </main>

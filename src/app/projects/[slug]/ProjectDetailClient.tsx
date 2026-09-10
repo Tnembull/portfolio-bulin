@@ -11,6 +11,8 @@ import {
   Maximize2,
   CheckCircle2,
   Sparkles,
+  AlertCircle,
+  TrendingUp,
 } from "lucide-react";
 import { useState } from "react";
 import { Project } from "@/data/projects";
@@ -205,16 +207,21 @@ export default function ProjectDetailClient({ project }: ProjectDetailClientProp
               <h2 className="text-xs font-mono uppercase tracking-wider text-muted">
                 Key Engineering Challenges
               </h2>
-              <ul className="space-y-2.5 text-sm text-secondary">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {project.challenges.map((challenge, idx) => (
-                  <li key={idx} className="flex items-start gap-3">
-                    <span className="font-mono text-accent font-semibold shrink-0">
-                      {String(idx + 1).padStart(2, "0")}.
-                    </span>
-                    <span className="leading-relaxed">{challenge}</span>
-                  </li>
+                  <div
+                    key={idx}
+                    className="p-4 rounded-xl border border-border bg-surface hover:border-amber-500/30 transition-colors flex items-start gap-3.5"
+                  >
+                    <div className="p-1.5 rounded-md bg-amber-500/10 text-amber-500 shrink-0 mt-0.5">
+                      <AlertCircle size={15} />
+                    </div>
+                    <p className="text-sm text-secondary leading-relaxed">
+                      {challenge}
+                    </p>
+                  </div>
                 ))}
-              </ul>
+              </div>
             </section>
           )}
 
@@ -224,16 +231,21 @@ export default function ProjectDetailClient({ project }: ProjectDetailClientProp
               <h2 className="text-xs font-mono uppercase tracking-wider text-accent">
                 Implemented Technical Solutions
               </h2>
-              <ul className="space-y-2.5 text-sm text-secondary">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {project.solutions.map((solution, idx) => (
-                  <li key={idx} className="flex items-start gap-3">
-                    <span className="font-mono text-accent font-semibold shrink-0">
-                      {String(idx + 1).padStart(2, "0")}.
-                    </span>
-                    <span className="leading-relaxed">{solution}</span>
-                  </li>
+                  <div
+                    key={idx}
+                    className="p-4 rounded-xl border border-border bg-surface hover:border-accent/40 transition-colors flex items-start gap-3.5"
+                  >
+                    <div className="p-1.5 rounded-md bg-accent/10 text-accent shrink-0 mt-0.5">
+                      <CheckCircle2 size={15} />
+                    </div>
+                    <p className="text-sm text-secondary leading-relaxed">
+                      {solution}
+                    </p>
+                  </div>
                 ))}
-              </ul>
+              </div>
             </section>
           )}
 
@@ -243,14 +255,21 @@ export default function ProjectDetailClient({ project }: ProjectDetailClientProp
               <h2 className="text-xs font-mono uppercase tracking-wider text-muted">
                 Measurable Impact & Outcomes
               </h2>
-              <ul className="space-y-2.5 text-sm text-secondary">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 {project.impact.map((item, idx) => (
-                  <li key={idx} className="flex items-start gap-3">
-                    <CheckCircle2 size={16} className="text-accent shrink-0 mt-0.5" />
-                    <span className="leading-relaxed">{item}</span>
-                  </li>
+                  <div
+                    key={idx}
+                    className="p-4 rounded-xl border border-border bg-surface hover:border-accent/40 transition-colors flex items-start gap-3.5"
+                  >
+                    <div className="p-1.5 rounded-md bg-accent/10 text-accent shrink-0 mt-0.5">
+                      <TrendingUp size={15} />
+                    </div>
+                    <p className="text-sm text-secondary leading-relaxed">
+                      {item}
+                    </p>
+                  </div>
                 ))}
-              </ul>
+              </div>
             </section>
           )}
 
