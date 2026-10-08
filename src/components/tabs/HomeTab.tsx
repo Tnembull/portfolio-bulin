@@ -10,6 +10,7 @@ import { ArrowUpRight, Github, LayoutGrid, List } from "lucide-react";
 import ClientsMarquee from "@/components/ClientsMarquee";
 import SkillBadges from "@/components/SkillBadges";
 import CategorySkillIcon from "@/components/CategorySkillIcon";
+import SocialFeedSection from "@/components/SocialFeedSection";
 
 interface HomeTabProps {
   onNavigateTab?: (tab: TabType) => void;
@@ -96,7 +97,7 @@ export default function HomeTab({ onNavigateTab }: HomeTabProps = {}) {
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-64 sm:w-80 h-64 sm:h-80 bg-[radial-gradient(circle_at_center,var(--accent)_0%,transparent_70%)] opacity-15 dark:opacity-25 blur-3xl pointer-events-none -z-10 group-hover:opacity-35 transition-opacity duration-500" />
 
               {/* Portrait Image with Pure Smooth Bottom Gradient Fade */}
-              <div className="relative w-52 sm:w-64 md:w-72 lg:w-80 [mask-image:linear-gradient(to_bottom,black_50%,transparent_96%)] [-webkit-mask-image:linear-gradient(to_bottom,black_50%,transparent_96%)]">
+              <div className="relative w-52 sm:w-64 md:w-72 lg:w-80">
                 <Image
                   src={avatarSrc}
                   alt={name}
@@ -104,9 +105,10 @@ export default function HomeTab({ onNavigateTab }: HomeTabProps = {}) {
                   height={720}
                   className="w-full h-auto object-contain object-bottom group-hover:scale-[1.02] transition-transform duration-500"
                   priority
+                  fetchPriority="high"
                   sizes="(max-width: 640px) 208px, (max-width: 768px) 256px, 320px"
-                  unoptimized
                 />
+                <div className="absolute inset-x-0 bottom-0 h-16 sm:h-20 bg-gradient-to-t from-background via-background/60 to-transparent pointer-events-none" />
               </div>
             </div>
           </div>
@@ -196,7 +198,6 @@ export default function HomeTab({ onNavigateTab }: HomeTabProps = {}) {
                             fill
                             className="object-cover group-hover:scale-105 transition-transform duration-500"
                             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                            unoptimized
                           />
                         ) : (
                           <div className="w-full h-full flex items-center justify-center text-muted text-xs font-mono">
@@ -307,7 +308,6 @@ export default function HomeTab({ onNavigateTab }: HomeTabProps = {}) {
                             fill
                             className="object-cover group-hover:scale-105 transition-transform duration-500"
                             sizes="(max-width: 640px) 100vw, 176px"
-                            unoptimized
                           />
                         </Link>
                       )}
@@ -429,6 +429,10 @@ export default function HomeTab({ onNavigateTab }: HomeTabProps = {}) {
           </section>
         </>
       )}
+
+      {/* 4. Live Social Feed (Instagram & TikTok) */}
+      <hr className="border-border" />
+      <SocialFeedSection />
     </div>
   );
 }
